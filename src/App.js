@@ -1,4 +1,10 @@
+import { Checkboxes } from './components/UI/Checkbox'
+
 function App() {
-   return <div>Peaksoft LMS</div>
+   return (
+      <div>
+         <Checkboxes />
+      </div>
+   )
 }
 export default App
