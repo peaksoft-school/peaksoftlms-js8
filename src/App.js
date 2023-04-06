@@ -1,11 +1,5 @@
-import Button from './components/UI/Button'
-
 function App() {
-   return (
-      <div>
-         <Button />
-      </div>
-   )
+   return <div>PeakSoftLMS</div>
 }
 
 export default App
