@@ -19,5 +19,6 @@ const Input = forwardRef(
 export default Input
 
 const StyledInput = styled(TextField)({
-   height: 42,
+   width: '30%',
+   borderRadius: 120,
 })
