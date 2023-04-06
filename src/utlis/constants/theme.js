@@ -30,7 +30,7 @@ export const theme = createTheme({
    },
    typography: {
       allVariants: {
-         fontFamily: 'Regular, SemiBold',
+         fontFamily: 'Open Sans',
          textTransform: 'none',
       },
       button: {
