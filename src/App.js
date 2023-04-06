@@ -1,10 +1,5 @@
-
 function App() {
-   return (
-      <div>
-         PeaksoftLMS
-      </div>
-   )
+   return <div>PeaksoftLMS</div>
 }
 
 export default App
