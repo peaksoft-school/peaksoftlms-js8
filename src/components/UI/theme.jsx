@@ -4,8 +4,8 @@ export const Theme = createTheme({
    palette: {
       primary: {
          main: '#1F6ED4',
-         light: '#4f81cc',
-         dark: '#21115e',
+         light: '#6190FF',
+         dark: '#1D60FF',
       },
       secondary: {
          main: '#D4D4D4',
@@ -14,13 +14,18 @@ export const Theme = createTheme({
       },
       error: {
          main: '#C91E1E',
-         light: '#d13333',
-         dark: '#8d1919',
+         light: '#E13A3A',
+         dark: '#B62727',
       },
       success: {
          main: '#36AC0C',
          light: '#5ce457',
          dark: '#1b580f',
+      },
+      info: {
+         main: '#FA2B56',
+         light: 'rgba(235, 67, 102, 1)',
+         dark: 'rgba(239, 11, 59, 1)',
       },
    },
    typography: {
