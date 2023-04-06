@@ -1,4 +1,7 @@
+import { ThemeProvider } from '@mui/material'
+import { theme } from './components/UI/theme'
+
 function App() {
-   return <div>Peaksoft LMS</div>
+   return <ThemeProvider theme={theme}>Peaksoft LMS</ThemeProvider>
 }
 export default App
