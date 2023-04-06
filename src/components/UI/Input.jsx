@@ -1,21 +1,21 @@
 import styled from '@emotion/styled'
 import TextField from '@mui/material/TextField'
-import { useRef } from 'react'
+import { forwardRef } from 'react'
 
-function Input({ variant, placeholder, value, onChange, ...rest }) {
-   const inputRef = useRef(null)
-
-   return (
-      <StyledInput
-         ref={inputRef}
-         variant={variant}
-         onChange={onChange}
-         placeholder={placeholder}
-         value={value}
-         {...rest}
-      />
-   )
-}
+const Input = forwardRef(
+   ({ variant, placeholder, value, onChange, ...rest }, ref) => {
+      return (
+         <StyledInput
+            ref={ref}
+            variant={variant}
+            onChange={onChange}
+            placeholder={placeholder}
+            value={value}
+            {...rest}
+         />
+      )
+   }
+)
 export default Input
 
 const StyledInput = styled(TextField)({
