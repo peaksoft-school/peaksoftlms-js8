@@ -1,9 +1,9 @@
 import Modal from '@mui/material/Modal'
 import { styled } from '@mui/material'
 
-const ModalWindow = ({ children, onClose, open }) => {
+const ModalWindow = ({ children, onClose, open, ...rest }) => {
    return (
-      <Modal open={open} onClose={onClose}>
+      <Modal open={open} onClose={onClose} {...rest}>
          <StyledBox>{children}</StyledBox>
       </Modal>
    )
