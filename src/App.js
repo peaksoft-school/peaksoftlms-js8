@@ -1,4 +1,7 @@
+import Input from './components/UI/Input'
+
 function App() {
-   return <div>Peaksoft Lms</div>
+   return <div>PeaksoftLMS </div>
 }
+
 export default App
