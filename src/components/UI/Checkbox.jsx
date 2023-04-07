@@ -20,6 +20,9 @@ const CheckboxIcon = styled('span')(() => ({
    border: '1px solid black',
    width: 18,
    height: 18,
+   '&:focus': {
+      borderColor: 'blue',
+   },
    '&:before': {
       display: 'block',
       width: 18,
