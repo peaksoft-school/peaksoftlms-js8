@@ -1,11 +1,5 @@
-import { Meatballs } from './components/UI/Meatballs'
-
 function App() {
-   return (
-      <div>
-         <Meatballs />
-      </div>
-   )
+   return <div>PeaksoftLMS</div>
 }
 
 export default App
