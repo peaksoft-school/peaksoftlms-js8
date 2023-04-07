@@ -12,19 +12,19 @@ import {
 export const AppTable = ({ columns, rows }) => {
    return (
       <TableContainerStyled component={Paper}>
-         <Table sx={{ minWidth: 650 }} aria-label="simple table">
+         <Table aria-label="simple table">
             <TableHead>
                <TableRow>
-                  {columns.map((column) => (
+                  {columns?.map((column) => (
                      <TableCell key={column.id}>{column.header}</TableCell>
                   ))}
                </TableRow>
             </TableHead>
             <TableBody>
-               {rows.map((row, index) => {
+               {rows?.map((row, index) => {
                   return (
                      <TableRowStyled key={row.id}>
-                        {columns.map((column) => {
+                        {columns?.map((column) => {
                            if (column.render) {
                               return column.render(row)
                            }
@@ -46,6 +46,8 @@ export const AppTable = ({ columns, rows }) => {
 const TableContainerStyled = styled(TableContainer)`
    width: 71.25rem;
    border-radius: 10px;
+   margin-top: 5.25rem;
+   margin-left: 1.25rem;
 `
 const TableRowStyled = styled(TableRow)(({ theme }) => ({
    '&:nth-of-type(even)': {
