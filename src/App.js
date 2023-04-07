@@ -1,7 +1,12 @@
-import Input from './components/UI/Input'
+import Modal from './components/UI/Modal'
 
 function App() {
-   return <div>PeaksoftLMS </div>
+   return (
+      <div>
+         PeaksoftLMS
+         <Modal />
+      </div>
+   )
 }
 
 export default App
