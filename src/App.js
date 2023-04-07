@@ -1,12 +1,5 @@
-import Modal from './components/UI/Modal'
-
 function App() {
-   return (
-      <div>
-         PeaksoftLMS
-         <Modal />
-      </div>
-   )
+   return <div>PeaksoftLMS</div>
 }
 
 export default App
