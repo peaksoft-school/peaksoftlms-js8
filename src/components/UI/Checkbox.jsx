@@ -1,22 +1,15 @@
 import Checkbox from '@mui/material/Checkbox'
 import styled from '@emotion/styled'
-import { useState } from 'react'
 
-export const Checkboxes = ({ disabled, ...restProps }) => {
-   const [isCheked, setIsChecked] = useState(false)
-
-   const handleCheckboxChecked = (event) => {
-      setIsChecked(Boolean(event.target.checked))
-   }
+export const Checkboxes = ({ disabled, onChange, ...restProps }) => {
    return (
       <Checkbox
          typeof="checkbox"
          aria-label="primary"
-         checked={isCheked}
          disabled={disabled}
          checkedIcon={<CheckedIcon />}
          icon={<CheckboxIcon />}
-         onChange={handleCheckboxChecked}
+         onChange={onChange}
          {...restProps}
       />
    )
@@ -25,12 +18,12 @@ export const Checkboxes = ({ disabled, ...restProps }) => {
 const CheckboxIcon = styled('span')(() => ({
    borderRadius: '1.5px',
    border: '1px solid black',
-   width: 16,
-   height: 16,
+   width: 18,
+   height: 18,
    '&:before': {
       display: 'block',
-      width: 16,
-      height: 16,
+      width: 18,
+      height: 18,
       backgroundImage:
          "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath" +
          " fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 " +
