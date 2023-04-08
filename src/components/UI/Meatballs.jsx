@@ -1,6 +1,5 @@
 import { Button, Menu, MenuItem } from '@mui/material'
 import styled from '@emotion/styled'
-import { useState } from 'react'
 import { ReactComponent as MenuIcon } from '../../assets/icons/menu.svg'
 import EditIcon from '../../assets/icons/edit.svg'
 import DeleteIcon from '../../assets/icons/delete.svg'
@@ -21,16 +20,25 @@ const arrayIcon = [
    },
 ]
 
-export const Meatballs = ({ ...restProps }) => {
-   const [anchorEl, setAnchorEl] = useState(null)
-   const open = Boolean(anchorEl)
+export const Meatballs = ({
+   open,
+   anchorEl,
+   onClick,
+   onClose,
+   arrayIcon: propsIcons,
+   ...restProps
+}) => {
+   const finallyArrayIcons = propsIcons || arrayIcon
+   // const [anchorEl, setAnchorEl] = useState(null)
+   // const open = Boolean(anchorEl)
 
-   const handleClick = (e) => {
-      setAnchorEl(e.currentTarget)
-   }
-   const handleClose = () => {
-      setAnchorEl(null)
-   }
+   // const handleClick = (e) => {
+   //    setAnchorEl(e.currentTarget)
+   // }
+   // const handleClose = () => {
+   //    setAnchorEl(null)
+   // }
+
    return (
       <div>
          <Button
@@ -38,7 +46,7 @@ export const Meatballs = ({ ...restProps }) => {
             aria-controls={open ? 'demo-positioned-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
+            onClick={onClick}
             {...restProps}
          >
             <MenuIcon />
@@ -47,11 +55,11 @@ export const Meatballs = ({ ...restProps }) => {
             id="demo-positioned-menu"
             aria-labelledby="demo-positioned-button"
             open={open}
-            onClose={handleClose}
+            onClose={onClose}
             {...restProps}
          >
-            {arrayIcon.map((item) => (
-               <StyledMenuItem onClick={handleClose} key={item.title}>
+            {finallyArrayIcons.map((item) => (
+               <StyledMenuItem onClick={onClose} key={item.title}>
                   <img src={item.icon} alt="" />
                   {item.title}
                </StyledMenuItem>
