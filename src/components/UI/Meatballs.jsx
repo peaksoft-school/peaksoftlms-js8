@@ -1,26 +1,36 @@
 import { Button, Menu, MenuItem } from '@mui/material'
 import styled from '@emotion/styled'
+import { useState } from 'react'
 import { ReactComponent as MenuIcon } from '../../assets/icons/menu.svg'
-import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg'
-import { ReactComponent as Delete } from '../../assets/icons/delete.svg'
-import { ReactComponent as Fixed } from '../../assets/icons/fixed.svg'
+import EditIcon from '../../assets/icons/edit.svg'
+import DeleteIcon from '../../assets/icons/delete.svg'
+import FixedIcon from '../../assets/icons/fixed.svg'
 
 const arrayIcon = [
    {
-      icon: <Fixed />,
+      icon: FixedIcon,
       title: 'Назначить учителя',
    },
    {
-      icon: <EditIcon />,
+      icon: EditIcon,
       title: 'Редактировать',
    },
    {
-      icon: <Delete />,
+      icon: DeleteIcon,
       title: 'Удалить',
    },
 ]
 
-export const Meatballs = ({ open, onClick, onClose, ...restProps }) => {
+export const Meatballs = ({ ...restProps }) => {
+   const [anchorEl, setAnchorEl] = useState(null)
+   const open = Boolean(anchorEl)
+
+   const handleClick = (e) => {
+      setAnchorEl(e.currentTarget)
+   }
+   const handleClose = () => {
+      setAnchorEl(null)
+   }
    return (
       <div>
          <Button
@@ -28,7 +38,7 @@ export const Meatballs = ({ open, onClick, onClose, ...restProps }) => {
             aria-controls={open ? 'demo-positioned-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
-            onClick={onClick}
+            onClick={handleClick}
             {...restProps}
          >
             <MenuIcon />
@@ -37,13 +47,12 @@ export const Meatballs = ({ open, onClick, onClose, ...restProps }) => {
             id="demo-positioned-menu"
             aria-labelledby="demo-positioned-button"
             open={open}
-            onClose={onClose}
+            onClose={handleClose}
             {...restProps}
          >
             {arrayIcon.map((item) => (
-               <StyledMenuItem onClick={onClose}>
-                  {item.icon}
-
+               <StyledMenuItem onClick={handleClose} key={item.title}>
+                  <img src={item.icon} alt="" />
                   {item.title}
                </StyledMenuItem>
             ))}
@@ -56,8 +65,9 @@ const StyledMenuItem = styled(MenuItem)(() => ({
    gap: '15px',
    '&:hover': {
       color: 'blue',
-      path: {
-         fill: 'blue',
-      },
+      // '& path': {
+      //    stroke: 'blue',
+      //    fill: 'blue',
+      // },
    },
 }))
