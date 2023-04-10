@@ -46,8 +46,6 @@ export const AppTable = ({ columns, rows }) => {
 const TableContainerStyled = styled(TableContainer)`
    width: 71.25rem;
    border-radius: 10px;
-   margin-top: 5.25rem;
-   margin-left: 1.25rem;
 `
 const TableRowStyled = styled(TableRow)(({ theme }) => ({
    '&:nth-of-type(even)': {
