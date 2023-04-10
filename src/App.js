@@ -1,4 +1,5 @@
 function App() {
-   return <div>Peaksoft LMS</div>
+   return <div>PeaksoftLMS</div>
 }
+
 export default App
