@@ -1,5 +1,13 @@
+import { BrowserRouter } from 'react-router-dom'
+import { SideBar } from './components/main/SideBar'
+
 function App() {
-   return <div>PeaksoftLMS</div>
+   return (
+      <BrowserRouter>
+         <SideBar />
+         PeaksoftLMS
+      </BrowserRouter>
+   )
 }
 
 export default App
