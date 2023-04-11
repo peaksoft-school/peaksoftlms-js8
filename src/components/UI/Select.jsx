@@ -5,17 +5,6 @@ import Select from '@mui/material/Select'
 import Checkbox from '@mui/material/Checkbox'
 import styled from '@emotion/styled'
 
-const names = [
-   'Азамат Мусагалиев',
-   'Айсулуу Мырзабекова',
-   'Мырза  Алымкулов',
-   'Айдай Махматова',
-   'Аскар Оморов',
-   'Анджелина Джоли',
-   'Каныбек Токторбаев',
-   'Бекболот Осмонов',
-]
-
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
 const MenuProps = {
@@ -27,26 +16,27 @@ const MenuProps = {
    },
 }
 
-const MultiSelect = ({ value, onChange }) => {
+const MultiSelect = ({ array, value, onChange, ...rest }) => {
+   console.log(array)
+
    return (
-      <div>
-         <FormControl sx={{ m: 1, width: 300 }}>
-            <Select
-               multiple
-               value={value}
-               onChange={onChange}
-               renderValue={(selected) => selected.join(', ')}
-               MenuProps={MenuProps}
-            >
-               {names.map((name) => (
-                  <MenuItem key={name} value={name}>
-                     <StyledListItem primary={name} />
-                     <Checkbox checked={value.indexOf(name) > -1} />
-                  </MenuItem>
-               ))}
-            </Select>
-         </FormControl>
-      </div>
+      <FormControl sx={{ m: 1, width: 300 }}>
+         <Select
+            multiple
+            value={value}
+            onChange={onChange}
+            renderValue={(selected) => selected.join(', ')}
+            MenuProps={MenuProps}
+            {...rest}
+         >
+            {array.map((item) => (
+               <MenuItem key={item.name} value={item.name}>
+                  <StyledListItem primary={item.name} />
+                  <Checkbox checked={value.indexOf(item.name) > -1} />
+               </MenuItem>
+            ))}
+         </Select>
+      </FormControl>
    )
 }
 
