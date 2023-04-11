@@ -1,5 +1,12 @@
+import { BrowserRouter } from 'react-router-dom'
+import Tabs from './components/UI/Tabs'
+
 function App() {
-   return <div>PeaksoftLMS</div>
+   return (
+      <BrowserRouter>
+         <Tabs />
+      </BrowserRouter>
+   )
 }
 
 export default App

@@ -1,11 +1,10 @@
 import styled from '@emotion/styled'
 import { NavLink } from 'react-router-dom'
-import { ROLES } from '../../utlis/constants/commons'
 
-const Tabs = () => {
+const Tabs = ({ role = 'ADMIN' }) => {
    return (
       <Container>
-         {ROLES.ADMIN ? (
+         {role === 'ADMIN' ? (
             <>
                <StyledLink to="/">Учителя</StyledLink>
                <StyledLink to="/">Студенты</StyledLink>
