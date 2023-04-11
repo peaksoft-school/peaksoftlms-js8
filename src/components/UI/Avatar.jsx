@@ -1,21 +1,10 @@
-import React, { useState } from 'react'
-import { Avatar, IconButton, Stack } from '@mui/material'
 import styled from '@emotion/styled'
-import defaultImage from '../../assets/icons/avatar.svg'
+import { Avatar, IconButton, Stack } from '@mui/material'
+import { useUploadAvatar } from '../../hooks/uploadAvatar'
+import { ReactComponent as AvatarIcon } from '../../assets/icons/avatar.svg'
 
 const AvatarUpload = () => {
-   const [avatarUrl, setAvatarUrl] = useState(defaultImage)
-
-   console.log(avatarUrl)
-
-   const handleAvatarChange = (event) => {
-      const file = event.target.files[0]
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onloadend = () => {
-         setAvatarUrl(reader.result)
-      }
-   }
+   const [avatarUrl, handleAvatarChange] = useUploadAvatar()
 
    return (
       <IconButton color="primary" aria-label="upload picture" component="label">
@@ -28,6 +17,7 @@ const AvatarUpload = () => {
          <Stack direction="row" spacing={2}>
             <AvatarGroupStyle sx={{ bgcolor: '#E2E4E8' }} variant="rounded">
                <img src={avatarUrl} alt="" />
+               <AvatarIcon />
             </AvatarGroupStyle>
          </Stack>
       </IconButton>
