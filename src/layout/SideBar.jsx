@@ -1,14 +1,13 @@
 /* eslint-disable react/self-closing-comp */
 import styled from '@emotion/styled'
-import { NavLink } from 'react-router-dom'
-import { ReactComponent as PeaksoftIcon } from '../../assets/icons/PEAKSOFT.svg'
-import { ReactComponent as Groups } from '../../assets/icons/groups.svg'
-import { ReactComponent as Students } from '../../assets/icons/students.svg'
-import { ReactComponent as Courses } from '../../assets/icons/courses.svg'
-import { ReactComponent as InstructorCourses } from '../../assets/icons/InstrCourses.svg'
-import { ReactComponent as Teachers } from '../../assets/icons/teachers.svg'
+import { ReactComponent as PeaksoftIcon } from '../assets/icons/PEAKSOFT.svg'
+import { ReactComponent as Groups } from '../assets/icons/groups.svg'
+import { ReactComponent as Students } from '../assets/icons/students.svg'
+import { ReactComponent as Courses } from '../assets/icons/courses.svg'
+import { ReactComponent as InstructorCourses } from '../assets/icons/InstrCourses.svg'
+import { ReactComponent as Teachers } from '../assets/icons/teachers.svg'
 
-export const SideBar = ({ role }) => {
+export const SideBar = ({ role = 'ADMIN' }) => {
    return (
       <Sidebar>
          {role === 'ADMIN' ? (
@@ -78,7 +77,7 @@ const InfoBox = styled.div({
    gap: 14,
 })
 
-const Link = styled(NavLink)`
+const Link = styled.a`
    width: 224;
    padding-left: 34px;
    height: 50px;
