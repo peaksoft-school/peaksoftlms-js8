@@ -22,7 +22,13 @@
       "start": "react-scripts start",
       "build": "react-scripts build",
       "test": "react-scripts test",
+<<<<<<< HEAD
+      "eject": "react-scripts eject",
+      "lint:check": "npx eslint . --ext .js,.jsx",
+      "lint:fix": "npx eslint . --ext .js,.jsx --fix"
+=======
       "eject": "react-scripts eject"
+>>>>>>> acd7691286d1ee049a32276a02e37068b873e88c
    },
    "eslintConfig": {
       "extends": [
