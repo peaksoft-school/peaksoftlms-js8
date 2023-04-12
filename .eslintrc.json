@@ -23,7 +23,11 @@
       "react-hooks/exhaustive-deps": "off",
       "react-hooks/rules-of-hooks": "error",
       "react/function-component-definition": "off",
+<<<<<<< HEAD
       "react/prop-types":"off",
+=======
+       "react/prop-types": "off",
+>>>>>>> acd7691286d1ee049a32276a02e37068b873e88c
       "max-len": [
          "error",
          {
