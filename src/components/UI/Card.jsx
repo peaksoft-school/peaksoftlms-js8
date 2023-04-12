@@ -3,7 +3,7 @@ import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
-import { ReactComponent as Icons } from '../../assets/icons/Frame.svg'
+import { ReactComponent as Icons } from '../../assets/icons/frames.svg'
 
 const Cards = ({ title, content, image, date }) => {
    return (
