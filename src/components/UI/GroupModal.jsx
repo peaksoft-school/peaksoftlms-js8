@@ -1,8 +1,9 @@
 import { Typography, styled } from '@mui/material'
+import { useState } from 'react'
 import ModalWindow from './Modal'
 import Input from './Input'
 import Button from './Button'
-import { ReactComponent as Avatar } from '../../assets/icons/avatar.svg'
+import AvatarUpload from './Avatar'
 
 const GroupModal = ({
    children,
@@ -10,31 +11,71 @@ const GroupModal = ({
    open,
    onClose,
    placeholder,
+   data,
    ...rest
 }) => {
+   const [img, setImg] = useState()
+   const [inputName, setInputName] = useState('')
+   const [inputDate, setInputDate] = useState('')
+   const [inputDescrip, setInputDescrip] = useState('')
+
+   const nameChangeHandler = (e) => {
+      setInputName(e.target.value)
+   }
+   const dateChangeHandler = (e) => {
+      setInputDate(e.target.value)
+   }
+   const descripChangeHandler = (e) => {
+      setInputDescrip(e.target.value)
+   }
+
+   const setImageHandler = (e) => {
+      setImg(e.target.files[0])
+   }
+
+   const addNewData = () => {
+      const newData = {
+         name: inputName,
+         date: inputDate,
+         description: inputDescrip,
+         avatar: img,
+      }
+      data(newData)
+   }
+
    return (
       <ModalWindow open={open} onClose={onClose} {...rest}>
          <StyledModalHeader>
             <Typography>{title}</Typography>
          </StyledModalHeader>
          <AvatarContainer>
-            <AvatarStyled />
+            <AvatarStyled onChange={setImageHandler} />
             <p>Нажмите на иконку чтобы загрузить или перетащите фото</p>
          </AvatarContainer>
          <ContainerInput>
-            <InputStyled placeholder={`название ${placeholder}`} />
-            <InputDataStyle type="date" />
+            <InputStyled
+               value={inputName}
+               onChange={nameChangeHandler}
+               placeholder={`название ${placeholder}`}
+            />
+            <InputDataStyle
+               type="date"
+               value={inputDate}
+               onChange={dateChangeHandler}
+            />
          </ContainerInput>
          <StyledInput
+            value={inputDescrip}
+            onChange={descripChangeHandler}
             multiline
             rows={4}
             placeholder={`описание ${placeholder}`}
          />
          <ContainerButton>
-            <ButtonStyledСancellation variant="outlined">
+            <ButtonStyledСancellation variant="outlined" onClick={onClose}>
                Отмена
             </ButtonStyledСancellation>
-            <StyledButtonAdd>Добавить</StyledButtonAdd>
+            <StyledButtonAdd onClick={addNewData}>Добавить</StyledButtonAdd>
          </ContainerButton>
       </ModalWindow>
    )
@@ -73,21 +114,20 @@ const StyledInput = styled(Input)({
    margin: '12px 24px',
 })
 
-const AvatarStyled = styled(Avatar)({
+const AvatarStyled = styled(AvatarUpload)({
    marginTop: '20%',
 })
 
 const AvatarContainer = styled('div')({
-   margin: '16px 189px 70px',
+   margin: '0 189px 100px',
    width: '173px',
    height: '145px',
    textAlign: 'center',
-   background: '#E2E4E8',
    borderRadius: '10px',
    p: {
       inlineSize: '220px',
-      marginLeft: '-13%',
-      marginTop: '14%',
+      marginLeft: '-10%',
+      marginTop: '-1%',
       color: '#8D949E',
       fontFamily: 'Nunito',
       fontStyle: 'normal',
