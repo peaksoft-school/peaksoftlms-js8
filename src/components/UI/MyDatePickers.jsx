@@ -5,7 +5,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import useDatePicker from '../../hooks/datePickers'
 
-function MyDatePickers() {
+function MyDatePickers({ value, onChange }) {
    const { date, handleDateChange } = useDatePicker()
 
    return (
