@@ -3,12 +3,14 @@ import Switch from '@mui/material/Switch'
 import { FormControlLabel, Grid } from '@mui/material'
 import styled from '@emotion/styled'
 
-export const SwitchesSize = ({ checked, onChange, ...rest }) => {
+export const Switcher = ({ checked, onChange, countOfAnswers, ...rest }) => {
    return (
       <StyledContainer checked={checked}>
-         <p>ответов</p>
+         <StyledAnswerCount checked={checked}>
+            {countOfAnswers} ответов{' '}
+         </StyledAnswerCount>
          <StyledGrid>
-            <StyledAnswer>
+            <StyledAnswer checked={checked}>
                {' '}
                {checked ? 'Ответы принимаются' : 'Ответы не принимаются'}
             </StyledAnswer>
@@ -34,7 +36,7 @@ const StyledContainer = styled('div')`
    box-sizing: border-box;
    padding-left: 20px;
    padding-right: 18px;
-   width: 1140px;
+   /* width: 1140px; */
    height: 68px;
 
    background: ${(props) =>
@@ -60,5 +62,9 @@ const StyledSwitch = styled(Switch)`
    }
 `
 const StyledAnswer = styled('p')`
+   color: ${(props) => (props.checked ? ' #36AC0C' : '#C91E1E')};
    padding-right: 18px;
+`
+const StyledAnswerCount = styled('p')`
+   color: ${(props) => (props.checked ? ' #36AC0C' : '#C91E1E')};
 `
