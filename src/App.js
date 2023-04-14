@@ -1,20 +1,10 @@
-import { useState } from 'react'
-import { Switcher } from './components/UI/Switcher'
+import TextArea from './components/UI/TextArea'
 
 function App() {
-   const [isChecked, setChecked] = useState(true)
-
-   const CheckHandled = () => {
-      setChecked(!isChecked)
-   }
    return (
       <div>
          PeaksoftLMS
-         <Switcher
-            onChange={CheckHandled}
-            checked={isChecked}
-            countOfAnswers="0"
-         />
+         <TextArea />
       </div>
    )
 }
