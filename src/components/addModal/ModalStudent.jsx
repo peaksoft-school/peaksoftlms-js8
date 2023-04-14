@@ -42,7 +42,6 @@ export const AddModalStudent = ({ addNewData, open, onClose }) => {
       }
       addNewData(newData)
    }
-   const submitHandler = () => {}
    const formik = useFormik({
       initialValues: {
          name: '',
@@ -51,7 +50,7 @@ export const AddModalStudent = ({ addNewData, open, onClose }) => {
          email: '',
          password: '',
       },
-      onSubmit: submitHandler,
+      onSubmit: onSubmitHandler,
    })
    const { handleChange, handleSubmit, values } = formik
    const isEmailValid = () => {
