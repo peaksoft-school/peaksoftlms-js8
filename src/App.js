@@ -1,11 +1,5 @@
-import CardLesson from './components/UI/CardLesson'
-
 function App() {
-   return (
-      <div>
-         <CardLesson />
-      </div>
-   )
+   return <div>PeaksoftLMS</div>
 }
 
 export default App
