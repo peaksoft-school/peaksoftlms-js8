@@ -13,7 +13,7 @@ const TextArea = ({ value, onChange, ...rest }) => {
          {...rest}
       />
    )
-}  
+}
 
 export default TextArea
 

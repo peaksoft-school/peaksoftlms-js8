@@ -4,6 +4,8 @@ import ModalWindow from './Modal'
 import Input from './Input'
 import Button from './Button'
 import AvatarUpload from './Avatar'
+import MyDatePickers from './MyDatePickers'
+import TextArea from './TextArea'
 
 const GroupModal = ({
    children,
@@ -58,11 +60,7 @@ const GroupModal = ({
                onChange={nameChangeHandler}
                placeholder={`название ${placeholder}`}
             />
-            <InputDataStyle
-               type="date"
-               value={inputDate}
-               onChange={dateChangeHandler}
-            />
+            <MyDatePickers value={inputDate} onChange={dateChangeHandler} />
          </ContainerInput>
          <StyledInput
             value={inputDescrip}
@@ -104,11 +102,11 @@ const InputStyled = styled(Input)({
    background: '#FFFFFF',
    border: '1 solid #D4D4D4',
 })
-const InputDataStyle = styled(Input)({
-   borderRadius: '10px',
-   width: '149px',
-})
-const StyledInput = styled(Input)({
+// const InputDataStyle = styled(Input)({
+//    borderRadius: '10px',
+//    width: '149px',
+// })
+const StyledInput = styled(TextArea)({
    width: '491px',
    borderRadius: '10px',
    margin: '12px 24px',

@@ -1,12 +1,5 @@
-import TextArea from './components/UI/TextArea'
-
 function App() {
-   return (
-      <div>
-         PeaksoftLMS
-         <TextArea />
-      </div>
-   )
+   return <div>Peaksoft LMS</div>
 }
 
 export default App
