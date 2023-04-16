@@ -1,14 +1,15 @@
 import styled from '@emotion/styled'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import Button from './Button'
 
 export const Snackbar = ({ type = 'success', message, text }) => {
    const notify = () => toast[type](message)
    return (
       <>
-         <button type="submit" onClick={notify}>
+         <Button type="submit" onClick={notify}>
             {text}
-         </button>
+         </Button>
          <SnackBox
             position="top-right"
             pauseOnHover

@@ -1,12 +1,11 @@
 /* eslint-disable react/self-closing-comp */
 import styled from '@emotion/styled'
-import { NavLink } from 'react-router-dom'
-import { ReactComponent as PeaksoftIcon } from '../../assets/icons/PEAKSOFT.svg'
-import { ReactComponent as Groups } from '../../assets/icons/groups.svg'
-import { ReactComponent as Students } from '../../assets/icons/students.svg'
-import { ReactComponent as Courses } from '../../assets/icons/courses.svg'
-import { ReactComponent as InstructorCourses } from '../../assets/icons/InstrCourses.svg'
-import { ReactComponent as Teachers } from '../../assets/icons/teachers.svg'
+import { ReactComponent as PeaksoftIcon } from '../assets/icons/PEAKSOFT.svg'
+import { ReactComponent as Groups } from '../assets/icons/groups.svg'
+import { ReactComponent as Students } from '../assets/icons/students.svg'
+import { ReactComponent as Courses } from '../assets/icons/courses.svg'
+import { ReactComponent as InstructorCourses } from '../assets/icons/InstrCourses.svg'
+import { ReactComponent as Teachers } from '../assets/icons/teachers.svg'
 
 export const SideBar = ({ role = 'ADMIN' }) => {
    return (
@@ -16,28 +15,24 @@ export const SideBar = ({ role = 'ADMIN' }) => {
                <PeaksoftIcon style={{ margin: '38px 59px 80 49px' }} />
                <InfoBox>
                   <Link to="/">
-                     <span></span>
                      <span>
                         <Groups />
                      </span>
                      Группы
                   </Link>
                   <Link to="/">
-                     <span></span>
                      <span>
                         <Courses />
                      </span>
                      Курсы
                   </Link>
                   <Link to="/">
-                     <span></span>
                      <span>
                         <Teachers />
                      </span>
                      Учителя
                   </Link>
                   <Link to="/">
-                     <span></span>
                      <span>
                         <Students />
                      </span>
@@ -82,8 +77,9 @@ const InfoBox = styled.div({
    gap: 14,
 })
 
-const Link = styled(NavLink)`
+const Link = styled.a`
    width: 224;
+   padding-left: 34px;
    height: 50px;
    display: flex;
    align-items: center;
@@ -95,15 +91,8 @@ const Link = styled(NavLink)`
    font-size: 16px;
    line-height: 22px;
    color: #1f6ed4;
-   & > :nth-of-type(2) {
-      margin-left: 34px;
-   }
    :active {
+      border-left: 5px solid #1f6ed4;
       background-color: #dde9f9;
-      & > :first-of-type {
-         background-color: #1f6ed4;
-         width: 8px;
-         height: 50px;
-      }
    }
 `
