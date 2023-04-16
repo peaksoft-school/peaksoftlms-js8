@@ -1,10 +1,10 @@
-import { SnackBar } from './components/UI/Snackbar'
 import 'react-toastify/dist/ReactToastify.css'
+import { Snackbar } from './components/UI/Snackbar'
 
 function App() {
    return (
       <div>
-         <SnackBar text="Something went wrong" type="error  " />
+         <Snackbar message="Something went wrong" type="success" text="" />
       </div>
    )
 }

@@ -1,30 +1,50 @@
 import styled from '@emotion/styled'
-import React from 'react'
 import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-export const SnackBar = ({ text, type }) => {
-   const notify = () => toast[type](text)
-
+export const Snackbar = ({ type = 'success', message, text }) => {
+   const notify = () => toast[type](message)
    return (
-      <div>
+      <>
          <button type="submit" onClick={notify}>
-            Notify!
+            {text}
          </button>
-         <Snackbar autoClose={false} type={type} />
-      </div>
+         <SnackBox
+            position="top-right"
+            pauseOnHover
+            type={type}
+            autoClose={3000}
+         />
+      </>
    )
 }
 
-const Snackbar = styled(ToastContainer)`
+const SnackBox = styled(ToastContainer)`
+   width: fit-content;
+   margin: 0;
+   :root {
+   }
    .Toastify__toast {
+      width: fit-content;
+      padding: 0;
+      background-color: ${(props) =>
+         props.type === 'success' ? '#36AC0C' : '#C91E1E'};
       color: white;
-      background-color: ${({ type }) => (type === 'success' ? 'green' : 'red')};
       border-radius: 10px;
    }
    .Toastify__toast-body {
-      display: flex;
       flex-direction: row-reverse;
+      gap: 10px;
+      padding: 0 24px;
    }
-   .Toastify__toast-icon {
+   .Toastify__toast-icon > svg {
+      fill: white;
+   }
+   .Toastify__close-button {
+      display: none;
+   }
+   .Toastify__progress-bar {
+      background-color: ${(props) =>
+         props.type === 'success' ? '#36AC0C' : '#C91E1E'};
    }
 `
