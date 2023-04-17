@@ -1,14 +1,5 @@
-// import LessonCard from './components/UI/CardLesson'
-
-import { SelectInput } from './components/UI/SelectInput'
-
 function App() {
-   return (
-      <div>
-         <SelectInput />
-         {/* <LessonCard /> */}
-      </div>
-   )
+   return <div>PeaksoftLMS</div>
 }
 
 export default App
