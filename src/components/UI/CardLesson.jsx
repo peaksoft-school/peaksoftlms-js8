@@ -1,53 +1,61 @@
-import React from 'react'
 import styled from '@emotion/styled'
+import { MenuItem, Select } from '@mui/material'
 import { ReactComponent as EditIcon } from '../../assets/icons/editIcon.svg'
 import { ReactComponent as DeleteIcon } from '../../assets/icons/deleteIcon.svg'
-import { ReactComponent as VideoIcon } from '../../assets/icons/videoIcon.svg'
-import { ReactComponent as PresentationIcon } from '../../assets/icons/presentationIcon.svg'
-import { ReactComponent as TaskIcon } from '../../assets/icons/taskIcon.svg'
-import { ReactComponent as LinkIcon } from '../../assets/icons/linkIcon.svg'
-import { ReactComponent as TestIcon } from '../../assets/icons/testIcon.svg'
-import { ReactComponent as LabelIcon } from '../../assets/icons/labelIcon.svg'
-import Button from './Button'
+import VideoIcon from '../../assets/icons/videoIcon.svg'
+import PresentationIcon from '../../assets/icons/presentationIcon.svg'
+import TaskIcon from '../../assets/icons/taskIcon.svg'
+import LinkIcon from '../../assets/icons/linkIcon.svg'
+import TestIcon from '../../assets/icons/testIcon.svg'
 
+const lessonTitle = [
+   {
+      icon: VideoIcon,
+      title: 'Видеоурок',
+   },
+   {
+      icon: PresentationIcon,
+      title: 'Презентация',
+   },
+   {
+      icon: TaskIcon,
+      title: 'Задание',
+   },
+   {
+      icon: LinkIcon,
+      title: 'Ссылка',
+   },
+   {
+      icon: TestIcon,
+      title: 'Тест',
+   },
+]
 const LessonCard = ({ title }) => {
    return (
       <Container>
          <StyledHeader>
             <EditIcon />
             <h2>{title}</h2>
-            <StyledButton>
-               Добавить
-               <LabelIcon />
-            </StyledButton>
+            <StyledSelect value="">{title}</StyledSelect>
             <StyledDeleteIcon />
          </StyledHeader>
-         <StyledCard>
-            <StyledLessonCard>
-               <VideoIcon />
-               <StyledText>Видеоурок</StyledText>
-            </StyledLessonCard>
-            <StyledLessonCard>
-               <PresentationIcon />
-               <StyledText>Презентация</StyledText>
-            </StyledLessonCard>
-            <StyledLessonCard>
-               <TaskIcon />
-               <StyledText>Задание</StyledText>
-            </StyledLessonCard>
-            <StyledLessonCard>
-               <LinkIcon />
-               <StyledText>Ссылка</StyledText>
-            </StyledLessonCard>
-            <StyledLessonCard>
-               <TestIcon />
-               <StyledText>Тест</StyledText>
-            </StyledLessonCard>
-         </StyledCard>
+         {lessonTitle.map((item) => (
+            <StyledMenuItem key={item.title}>
+               <img src={item.icon} alt="" />
+               {item.title}
+            </StyledMenuItem>
+         ))}
       </Container>
    )
 }
 export default LessonCard
+
+const StyledMenuItem = styled(MenuItem)(() => ({
+   gap: '25px',
+   '&:hover': {
+      color: 'blue',
+   },
+}))
 const Container = styled.div`
    background-color: #ffffff;
    width: 367px;
@@ -65,28 +73,8 @@ const StyledHeader = styled.div`
       padding-right: 6.7rem;
    }
 `
-const StyledCard = styled.div`
-   margin: 10px 0px;
-`
-const StyledLessonCard = styled.div`
-   display: flex;
-   padding: 12px 22px;
-   :hover {
-      cursor: pointer;
-      background: rgba(26, 35, 126, 0.07);
-   }
-`
-const StyledText = styled.p`
-   margin: 0px 0px 0px 18px;
-   font-weight: 400;
-   font-size: 16px;
-   line-height: 22px;
-   color: #000000;
-   :active {
-      color: #3772ff;
-   }
-`
-const StyledButton = styled(Button)`
+
+const StyledSelect = styled(Select)`
    background-color: #ffff;
    gap: 8px;
    color: #000;
