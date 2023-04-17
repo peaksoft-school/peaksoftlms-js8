@@ -1,5 +1,11 @@
+import SelectInput from './components/UI/SelectInput'
+
 function App() {
-   return <div>PeaksoftLMS</div>
+   return (
+      <div>
+         <SelectInput />
+      </div>
+   )
 }
 
 export default App
