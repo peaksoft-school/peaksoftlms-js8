@@ -1,30 +1,20 @@
 import styled from '@emotion/styled'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import Button from './Button'
 
-export const Snackbar = ({ type = 'success', message, text }) => {
-   const notify = () => toast[type](message)
-   return (
-      <>
-         <Button type="submit" onClick={notify}>
-            {text}
-         </Button>
-         <SnackBox
-            position="top-right"
-            pauseOnHover
-            type={type}
-            autoClose={3000}
-         />
-      </>
-   )
+export const useSnackbar = (type, message) => {
+   const notify = () => {
+      return toast[type](<div>{message}</div>)
+   }
+   return {
+      notify,
+      Snackbar: <SnackBox type={type} />,
+   }
 }
 
 const SnackBox = styled(ToastContainer)`
    width: fit-content;
    margin: 0;
-   :root {
-   }
    .Toastify__toast {
       width: fit-content;
       padding: 0;
@@ -32,6 +22,10 @@ const SnackBox = styled(ToastContainer)`
          props.type === 'success' ? '#36AC0C' : '#C91E1E'};
       color: white;
       border-radius: 10px;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 22px;
+      color: #ffffff;
    }
    .Toastify__toast-body {
       flex-direction: row-reverse;
