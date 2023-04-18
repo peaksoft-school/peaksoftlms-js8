@@ -6,7 +6,7 @@ import Input from '../UI/Input'
 import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
 
-export const AddModalInstructor = ({ addNewData, open, onClose }) => {
+export const ModalInstructor = ({ addNewData, open, onClose }) => {
    const onSubmitHandler = ({
       name,
       lastName,
@@ -37,6 +37,7 @@ export const AddModalInstructor = ({ addNewData, open, onClose }) => {
       onSubmit: onSubmitHandler,
    })
    const { handleChange, handleSubmit, values } = formik
+   const onlyCountries = ['kg', 'ru', 'kz']
    const isEmailValid = () => {
       return (
          values.email.length === 0 ||
@@ -69,8 +70,7 @@ export const AddModalInstructor = ({ addNewData, open, onClose }) => {
                   name="lastName"
                />
                <PhoneInput
-                  country="kg"
-                  placeholder="+996 _ _ _ _ _ _"
+                  onlyCountries={onlyCountries}
                   value={values.phoneNumber}
                   onChange={handleChange}
                   name="phoneNumber"

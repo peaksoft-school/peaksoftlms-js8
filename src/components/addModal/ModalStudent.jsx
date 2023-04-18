@@ -8,7 +8,7 @@ import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
 
-export const AddModalStudent = ({ addNewData, open, onClose }) => {
+export const ModalStudent = ({ addNewData, open, onClose }) => {
    const [selectedValue, setSelectedValue] = useState([])
    const [selectedValue2, setSelectedValue2] = useState([])
    const onChangeSelect = (newValue) => {
@@ -53,6 +53,7 @@ export const AddModalStudent = ({ addNewData, open, onClose }) => {
       onSubmit: onSubmitHandler,
    })
    const { handleChange, handleSubmit, values } = formik
+   const onlyCountries = ['kg', 'ru', 'kz']
    const isEmailValid = () => {
       return (
          values.email.length === 0 ||
@@ -85,8 +86,7 @@ export const AddModalStudent = ({ addNewData, open, onClose }) => {
                   name="lastName"
                />
                <PhoneInput
-                  country="kg"
-                  placeholder="+996 _ _ _ _ _ _"
+                  onlyCountries={onlyCountries}
                   value={values.phoneNumber}
                   onChange={handleChange}
                   name="phoneNumber"

@@ -32,6 +32,7 @@ const StyledInput = styled(TextField)`
       border: 2px solid #1f6ed4;
    }
    input:invalid {
-      border: 1px solid #c91e1e;
+      border-radius: 10px;
+      border: 2px solid #c91e1e;
    }
 `
