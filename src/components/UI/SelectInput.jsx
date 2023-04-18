@@ -5,7 +5,7 @@ import styled from '@emotion/styled'
 
 const data = ['Видеоурок', 'Презентация', 'Задание', 'Ссылка', 'Тест']
 
-const SelectInput = ({ onChange, onClick, value, ...restProps }) => {
+const SelectInput = ({ onChange, value, ...restProps }) => {
    return (
       <div>
          <StyledFormControl sx={{ m: 1, minWidth: 120 }}>
@@ -18,7 +18,7 @@ const SelectInput = ({ onChange, onClick, value, ...restProps }) => {
                {...restProps}
             >
                {data.map((item) => (
-                  <StyledMenuItem value={item} key={item} onClick={onClick}>
+                  <StyledMenuItem value={item} key={item}>
                      {item}
                   </StyledMenuItem>
                ))}
