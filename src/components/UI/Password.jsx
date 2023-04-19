@@ -1,51 +1,53 @@
 import styled from '@emotion/styled'
-import { useState } from 'react'
 import {
    IconButton,
    InputAdornment,
-   OutlinedInput,
    InputLabel,
+   TextField,
 } from '@mui/material'
+import { forwardRef } from 'react'
 import { ReactComponent as Visibility } from '../../assets/icons/visibility.svg'
 import { ReactComponent as VisibilityOff } from '../../assets/icons/visibilityOff.svg'
+import { usePasswordShow } from '../../hooks/passwordShow'
 
-const Password = ({ title, placeholder }) => {
-   const [showPassword, setShowPassword] = useState(true)
-
-   const handleClickShowPassword = () => setShowPassword((show) => !show)
-
-   const handleMouseDownPassword = (event) => {
-      event.preventDefault()
+const Password = forwardRef(
+   ({ title, placeholder, password, error, ...rest }, ref) => {
+      console.log(rest)
+      const [showPassword, handleClickShowPassword, handleMouseDownPassword] =
+         usePasswordShow()
+      return (
+         <>
+            <PasswordInputLabelStyle htmlFor="outlined-adornment-password">
+               {title}
+            </PasswordInputLabelStyle>
+            <TextFieldStyle
+               error={Boolean(error)}
+               ref={ref}
+               value={password}
+               placeholder={placeholder}
+               type={showPassword ? 'text' : 'password'}
+               {...rest}
+               InputProps={{
+                  endAdornment: (
+                     <InputAdornment position="end">
+                        <IconButton
+                           onClick={handleClickShowPassword}
+                           onMouseDown={handleMouseDownPassword}
+                        >
+                           {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                     </InputAdornment>
+                  ),
+               }}
+            />
+         </>
+      )
    }
-   return (
-      <>
-         <PasswordInputLabelStyle htmlFor="outlined-adornment-password">
-            {title}
-         </PasswordInputLabelStyle>
-         <OutlinedInputStyle
-            id="outlined-adornment-password"
-            placeholder={placeholder}
-            type={showPassword ? 'password' : 'text'}
-            endAdornment={
-               <InputAdornment position="end">
-                  <IconButton
-                     aria-label="toggle password visibility"
-                     onClick={handleClickShowPassword}
-                     onMouseDown={handleMouseDownPassword}
-                     edge="end"
-                  >
-                     {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-               </InputAdornment>
-            }
-         />
-      </>
-   )
-}
+)
 
 export default Password
 
-const OutlinedInputStyle = styled(OutlinedInput)`
+const TextFieldStyle = styled(TextField)`
    margin-left: 20%;
    margin-top: 10px;
    width: 440px;

@@ -5,7 +5,7 @@ import Input from './Input'
 import Button from './Button'
 import AvatarUpload from './Avatar'
 
-const GroupModal = ({
+export const GroupModal = ({
    children,
    title,
    open,

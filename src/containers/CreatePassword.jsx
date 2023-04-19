@@ -4,8 +4,18 @@ import Grid from '@mui/material/Grid'
 import Button from '../components/UI/Button'
 import Img from '../assets/images/signIn.png'
 import Password from '../components/UI/Password'
+import { useConfirmPassword } from '../hooks/confirmPassword'
 
 const CreatePassword = () => {
+   const [
+      password,
+      confirmPassword,
+      error,
+      handlePasswordChange,
+      handleConfirmPasswordChange,
+      handleSubmit,
+   ] = useConfirmPassword()
+
    return (
       <GridContainerStyle container>
          <GridStyle1>
@@ -16,22 +26,30 @@ const CreatePassword = () => {
          <GridStyle2>
             <Box container>
                <TypographyStyle align="center">Создать пароль</TypographyStyle>
-               <Box component="form" type="submit">
+               <Box component="form" onSubmit={handleSubmit}>
                   <Box>
                      <Password
                         title="Новый пароль:"
                         placeholder="Введите новый пароль"
+                        value={password}
+                        onChange={handlePasswordChange}
+                        error={!!error}
+                        helperText={error}
                      />
                   </Box>
                   <Box>
                      <Password
                         title="Подтверждение:"
                         placeholder="Подтвердите пароль"
+                        value={confirmPassword}
+                        onChange={handleConfirmPasswordChange}
+                        error={!!error}
+                        helperText={error}
                      />
                   </Box>
 
                   <Box>
-                     <ButtonStyle>Создать</ButtonStyle>
+                     <ButtonStyle type="submit">Создать</ButtonStyle>
                   </Box>
                </Box>
             </Box>

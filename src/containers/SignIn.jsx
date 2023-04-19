@@ -1,13 +1,23 @@
 import styled from '@emotion/styled'
+import { useForm } from 'react-hook-form'
 import { Box, InputLabel, Link, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import Input from '../components/UI/Input'
 import Button from '../components/UI/Button'
 import Img from '../assets/images/signIn.png'
 import Password from '../components/UI/Password'
-import ForgotPassword from './ForgotPassword'
 
 const SignInSide = () => {
+   const {
+      register,
+      handleSubmit,
+      formState: { errors },
+   } = useForm()
+
+   const onSubmit = (data) => {
+      console.log(data)
+   }
+
    return (
       <GridContainerStyle container>
          <GridStyle1>
@@ -20,23 +30,47 @@ const SignInSide = () => {
                <TypographyStyle align="center">
                   Добро пожаловать в <span>PEAKSOFT LMS</span> !
                </TypographyStyle>
-               <Box component="form" type="submit">
+               <Box component="form" onSubmit={handleSubmit(onSubmit)}>
                   <Box>
                      <LoginInputLabelStyle htmlFor="outlined-adornment-password">
                         Логин:
                      </LoginInputLabelStyle>
-                     <InputStyle type="email" placeholder="Введите логин" />
+                     <InputStyle
+                        helperText={errors.email?.message}
+                        error={errors.email}
+                        type="email"
+                        placeholder="Введите логин"
+                        {...register('email', {
+                           required: 'Электронная почта обязательна',
+                           pattern: {
+                              value: /\S+@\S+\.\S+/,
+                              message: 'Неверный формат электронной почты',
+                           },
+                        })}
+                     />
                   </Box>
                   <Box>
-                     <Password title="Пароль:" placeholder="Введите пароль" />
+                     <Password
+                        helperText={errors.password?.message}
+                        error={errors.password}
+                        title="Пароль:"
+                        type="password"
+                        placeholder="Введите пароль"
+                        {...register('password', {
+                           required: 'Необходим пароль',
+                           minLength: {
+                              value: 8,
+                              message:
+                                 'Пароль должен содержать не менее 8 символов',
+                           },
+                        })}
+                     />
                   </Box>
 
-                  <LinkStyle to="/" element={<ForgotPassword />}>
-                     Забыли пароль?
-                  </LinkStyle>
+                  <LinkStyle to="/">Забыли пароль?</LinkStyle>
 
                   <Box>
-                     <ButtonStyle>Войти</ButtonStyle>
+                     <ButtonStyle type="submit">Войти</ButtonStyle>
                   </Box>
                </Box>
             </Box>

@@ -1,22 +1,30 @@
-import React from 'react'
 import styled from '@emotion/styled'
-import Button from '../components/UI/Button'
-import Input from '../components/UI/Input'
+import { useState } from 'react'
+import Input from './Input'
+import Button from './Button'
+import ModalWindow from './Modal'
 
 const ForgotPassword = () => {
+   const [open, setOpen] = useState(true)
+
+   const resetpassword = () => {
+      setOpen(false)
+   }
    return (
-      <Container>
-         <Header>
-            <p>Забыли пароль</p>
-         </Header>
-         <div>
-            <StyleP>Вам будет отправлена ссылка для сброса пароля</StyleP>
+      <ModalWindow open={open}>
+         <Container>
+            <Header>
+               <p>Забыли пароль</p>
+            </Header>
             <div>
-               <InputStyle placeholder="Введите ваш Email" />
+               <StyleP>Вам будет отправлена ссылка для сброса пароля</StyleP>
+               <div>
+                  <InputStyle placeholder="Введите ваш Email" />
+               </div>
+               <ButtonStyle onClick={resetpassword}>Отправить</ButtonStyle>
             </div>
-            <ButtonStyle>Отправить</ButtonStyle>
-         </div>
-      </Container>
+         </Container>
+      </ModalWindow>
    )
 }
 
