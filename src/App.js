@@ -1,11 +1,4 @@
-import LessonCard from './components/UI/CardLesson'
-
 function App() {
-   return (
-      <div>
-         <LessonCard />
-      </div>
-   )
+   return <div>Peaksoft LMS</div>
 }
-
 export default App

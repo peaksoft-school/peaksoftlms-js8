@@ -3,11 +3,16 @@ import { Avatar, IconButton, Stack } from '@mui/material'
 import { useUploadAvatar } from '../../hooks/uploadAvatar'
 import { ReactComponent as AvatarIcon } from '../../assets/icons/avatar.svg'
 
-const AvatarUpload = () => {
+const AvatarUpload = ({ ...rest }) => {
    const [avatarUrl, handleAvatarChange] = useUploadAvatar()
 
    return (
-      <IconButton color="primary" aria-label="upload picture" component="label">
+      <IconButton
+         {...rest}
+         color="primary"
+         aria-label="upload picture"
+         component="label"
+      >
          <input
             hidden
             accept="image/*"

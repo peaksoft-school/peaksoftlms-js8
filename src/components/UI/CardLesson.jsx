@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { MenuItem, Select } from '@mui/material'
+import { MenuItem } from '@mui/material'
 import { ReactComponent as EditIcon } from '../../assets/icons/editIcon.svg'
 import { ReactComponent as DeleteIcon } from '../../assets/icons/deleteIcon.svg'
 import VideoIcon from '../../assets/icons/videoIcon.svg'
@@ -7,6 +7,7 @@ import PresentationIcon from '../../assets/icons/presentationIcon.svg'
 import TaskIcon from '../../assets/icons/taskIcon.svg'
 import LinkIcon from '../../assets/icons/linkIcon.svg'
 import TestIcon from '../../assets/icons/testIcon.svg'
+import SelectInput from './SelectInput'
 
 const lessonTitle = [
    {
@@ -14,6 +15,7 @@ const lessonTitle = [
       title: 'Видеоурок',
    },
    {
+      icons: EditIcon,
       icon: PresentationIcon,
       title: 'Презентация',
    },
@@ -30,15 +32,21 @@ const lessonTitle = [
       title: 'Тест',
    },
 ]
-const LessonCard = ({ title }) => {
+const CardLesson = ({ title, role = 'ADMIN' }) => {
    return (
       <Container>
-         <StyledHeader>
-            <EditIcon />
-            <h2>{title}</h2>
-            <StyledSelect value="">{title}</StyledSelect>
-            <StyledDeleteIcon />
-         </StyledHeader>
+         {role === 'ADMIN' || role === 'INSTRUCTOR' ? (
+            <StyledHeader>
+               <StyledEditIcon />
+               <h2>{title}</h2>
+               <SelectInput />
+               <StyledDeleteIcon />
+            </StyledHeader>
+         ) : (
+            <StyledHeader>
+               <h2>{title}</h2>
+            </StyledHeader>
+         )}
          {lessonTitle.map((item) => (
             <StyledMenuItem key={item.title}>
                <img src={item.icon} alt="" />
@@ -48,7 +56,7 @@ const LessonCard = ({ title }) => {
       </Container>
    )
 }
-export default LessonCard
+export default CardLesson
 
 const StyledMenuItem = styled(MenuItem)(() => ({
    gap: '25px',
@@ -63,30 +71,23 @@ const Container = styled.div`
    border-radius: 10px;
 `
 const StyledHeader = styled.div`
+   bottom: 25px;
    padding-left: 20px;
    display: flex;
    justify-content: space-between;
    height: 80px;
-   align-items: center;
    border-bottom: 0.5px solid #bfc4ce;
    h2 {
       padding-right: 6.7rem;
    }
 `
-
-const StyledSelect = styled(Select)`
-   background-color: #ffff;
-   gap: 8px;
-   color: #000;
-   border: 1px solid #ebebeb;
-   border-radius: 8px;
-   right: 10px;
-   font-weight: 600;
-   :hover {
-      background-color: #ffff;
-      color: #000;
-   }
-`
 const StyledDeleteIcon = styled(DeleteIcon)`
-   padding-right: 15px;
+   padding: 8px;
+   margin-top: 15px;
+`
+const StyledEditIcon = styled(EditIcon)`
+   background-color: #ebebeb;
+   border-radius: 5px;
+   margin-top: 16px;
+   padding: 5px;
 `
