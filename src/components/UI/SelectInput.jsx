@@ -36,7 +36,6 @@ const StyledMenuItem = styled(MenuItem)(() => ({
    boxSizing: 'border-box',
    left: '0.5px',
    border: '1px solid #ececec',
-   boxShadow: '0px 6px 12px rgba(36, 36, 36, 0.08)',
    ':focus': {
       backgroundColor: 'rgba(26, 35, 126, 0.07)',
       color: '#3772FF',
