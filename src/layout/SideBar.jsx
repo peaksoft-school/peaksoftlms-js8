@@ -1,5 +1,5 @@
-/* eslint-disable react/self-closing-comp */
 import styled from '@emotion/styled'
+import { NavLink } from 'react-router-dom'
 import { ReactComponent as PeaksoftIcon } from '../assets/icons/PEAKSOFT.svg'
 import { ReactComponent as Groups } from '../assets/icons/groups.svg'
 import { ReactComponent as Students } from '../assets/icons/students.svg'
@@ -7,50 +7,55 @@ import { ReactComponent as Courses } from '../assets/icons/courses.svg'
 import { ReactComponent as InstructorCourses } from '../assets/icons/InstrCourses.svg'
 import { ReactComponent as Teachers } from '../assets/icons/teachers.svg'
 
-export const SideBar = ({ role = 'ADMIN' }) => {
+export const SideBar = ({ role }) => {
+   let path
+   if (role === 'STUDENT') {
+      path = 'MyCourses'
+   } else if (role === 'INSTRUCTOR') {
+      path = 'instCourses'
+   }
    return (
       <Sidebar>
          {role === 'ADMIN' ? (
             <>
                <PeaksoftIcon style={{ margin: '38px 59px 80 49px' }} />
                <InfoBox>
-                  <Link to="/">
+                  <ALink to="/groups">
                      <span>
                         <Groups />
                      </span>
                      Группы
-                  </Link>
-                  <Link to="/">
+                  </ALink>
+                  <ALink to="/courses">
                      <span>
                         <Courses />
                      </span>
                      Курсы
-                  </Link>
-                  <Link to="/">
+                  </ALink>
+                  <ALink to="/instructor">
                      <span>
                         <Teachers />
                      </span>
                      Учителя
-                  </Link>
-                  <Link to="/">
+                  </ALink>
+                  <ALink to="/students">
                      <span>
                         <Students />
                      </span>
                      Студенты
-                  </Link>
+                  </ALink>
                </InfoBox>
             </>
          ) : (
             <>
                <PeaksoftIcon style={{ margin: '38px 59px 80 49px' }} />
                <InfoBox>
-                  <Link to="/">
-                     <span></span>
+                  <ALink to={path}>
                      <span>
                         <InstructorCourses />
                      </span>
                      Мои курсы
-                  </Link>
+                  </ALink>
                </InfoBox>
             </>
          )}
@@ -63,7 +68,7 @@ const Sidebar = styled.aside({
    height: '100vh',
    display: 'flex',
    flexDirection: 'column',
-   position: 'relative',
+   position: 'fixed',
    left: '0%',
    right: '0%',
    top: '0%',
@@ -77,7 +82,7 @@ const InfoBox = styled.div({
    gap: 14,
 })
 
-const Link = styled.a`
+const ALink = styled(NavLink)`
    width: 224;
    padding-left: 34px;
    height: 50px;
@@ -91,7 +96,7 @@ const Link = styled.a`
    font-size: 16px;
    line-height: 22px;
    color: #1f6ed4;
-   :active {
+   &.active {
       border-left: 5px solid #1f6ed4;
       background-color: #dde9f9;
    }
