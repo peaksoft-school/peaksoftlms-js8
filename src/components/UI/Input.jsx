@@ -24,14 +24,15 @@ const StyledInput = styled(TextField)`
    fieldset {
       border-radius: 10px;
       padding: 10px 8px 10px 18px;
-      /* height: 42px; */
+      height: 42px;
    }
-   width: 30%;
+   /* width: 30%; */
    input:focus {
       border-radius: 10px;
       border: 2px solid #1f6ed4;
    }
    input:invalid {
-      border: 1px solid #c91e1e;
+      border-radius: 10px;
+      border: 2px solid #c91e1e;
    }
 `
