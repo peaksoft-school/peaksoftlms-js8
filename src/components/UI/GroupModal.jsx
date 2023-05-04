@@ -24,8 +24,8 @@ const GroupModal = ({
    const nameChangeHandler = (e) => {
       setInputName(e.target.value)
    }
-   const dateChangeHandler = (e) => {
-      setInputDate(e.target.value)
+   const dateChangeHandler = (date) => {
+      setInputDate(date)
    }
    const descripChangeHandler = (e) => {
       setInputDescrip(e.target.value)
@@ -38,13 +38,12 @@ const GroupModal = ({
    const addNewData = () => {
       const newData = {
          name: inputName,
-         date: inputDate,
+         createdAt: inputDate.toString(),
          description: inputDescrip,
-         avatar: img,
+         image: img.name,
       }
       data(newData)
    }
-
    return (
       <ModalWindow open={open} onClose={onClose} {...rest}>
          <StyledModalHeader>

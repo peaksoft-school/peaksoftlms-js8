@@ -15,6 +15,13 @@
    },
    "plugins": ["react", "react-hooks"],
    "rules": {
+      "jsx-a11y/aria-role": [
+         2,
+         {
+            "allowedInvalidRoles": ["text"],
+            "ignoreNonDOM": true
+         }
+      ],
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "react/jsx-props-no-spreading": "off",
       "react/react-in-jsx-scope": "off",
@@ -23,7 +30,7 @@
       "react-hooks/exhaustive-deps": "off",
       "react-hooks/rules-of-hooks": "error",
       "react/function-component-definition": "off",
-       "react/prop-types": "off",
+      "react/prop-types": "off",
       "max-len": [
          "error",
          {
@@ -41,6 +48,7 @@
                "some": ["nesting", "id"]
             }
          }
-      ]
+      ],
+      "no-param-reassign": "off"
    }
 }

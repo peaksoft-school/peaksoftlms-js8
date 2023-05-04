@@ -1,7 +1,7 @@
 import axios from 'axios'
+import { store } from '../redux/store'
 
-const BASE_URL = 'dkjdnjd'
-const store = []
+const BASE_URL = 'http://ec2-52-59-224-218.eu-central-1.compute.amazonaws.com'
 
 export const axiosInstance = axios.create({
    baseURL: BASE_URL,

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { Groups } from '../pages/admin/Groups'
 import { Courses } from '../pages/admin/Courses'
