@@ -58,7 +58,7 @@ const GroupModal = ({
             <InputStyled
                value={inputName}
                onChange={nameChangeHandler}
-               placeholder={`название ${placeholder}`}
+               placeholder={`название ${'группы'}`}
             />
             <MyDatePickers value={inputDate} onChange={dateChangeHandler} />
          </ContainerInput>
@@ -67,7 +67,7 @@ const GroupModal = ({
             onChange={descripChangeHandler}
             multiline
             rows={4}
-            placeholder={`описание ${placeholder}`}
+            placeholder={`описание ${'группы'}`}
          />
          <ContainerButton>
             <ButtonStyledСancellation variant="outlined" onClick={onClose}>

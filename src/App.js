@@ -1,8 +1,11 @@
+import { BrowserRouter } from 'react-router-dom'
+import { Groups } from './pages/admin/Groups'
+
 function App() {
-<<<<<<< HEAD
-   return <div>PeaksoftLMS</div>
-=======
-   return <div>Peaksoft LMS</div>
->>>>>>> a5fe4f2139083fbf21cdfea9c710a9c2164a8e00
+   return (
+      <BrowserRouter>
+         <Groups />
+      </BrowserRouter>
+   )
 }
 export default App
