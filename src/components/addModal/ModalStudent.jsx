@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import styled from '@emotion/styled'
 import { useFormik } from 'formik'
 import { useState } from 'react'
@@ -9,13 +10,13 @@ import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
 
 export const ModalStudent = ({ addNewData, open, onClose }) => {
-   const [selectedValue, setSelectedValue] = useState([])
-   const [selectedValue2, setSelectedValue2] = useState([])
+   const [groupId, setgroupId] = useState([])
+   const [formLearning, setFormLearning] = useState([])
    const onChangeSelect = (newValue) => {
-      setSelectedValue(newValue)
+      setgroupId(newValue)
    }
    const onChangeSelect2 = (newValue) => {
-      setSelectedValue2(newValue)
+      setFormLearning(newValue)
    }
    const optionsGroup = [
       { value: 'option1', label: 'js-8' },
@@ -27,24 +28,26 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
       { value: 'option2', label: 'Offline' },
    ]
    const onSubmitHandler = ({
-      name,
+      firstName,
       lastName,
       phoneNumber,
       email,
       password,
    }) => {
       const newData = {
-         name,
+         firstName,
          lastName,
          phoneNumber,
          email,
          password,
+         groupId,
+         formLearning,
       }
       addNewData(newData)
    }
    const formik = useFormik({
       initialValues: {
-         name: '',
+         firstName: '',
          lastName: '',
          phoneNumber: '',
          email: '',
@@ -67,7 +70,7 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
       )
    }
    return (
-      <ModalWindowStyled>
+      <div>
          <ModalStyled open={open} onClose={onClose}>
             <ContentH3>
                <h3>Добавить студента</h3>
@@ -75,9 +78,9 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
             <Container onSubmit={handleSubmit}>
                <Input
                   placeholder="Имя"
-                  value={values.name}
+                  value={values.firstName}
                   onChange={handleChange}
-                  name="name"
+                  name="firstName"
                />
                <Input
                   placeholder="Фамилия"
@@ -112,12 +115,12 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
                   isClearable
                   isMulti
                   options={optionsGroup}
-                  value={selectedValue}
+                  value={groupId}
                   onChange={onChangeSelect}
                   placeholder="Группа"
                   onCreateOption={(inputValue) => {
-                     setSelectedValue([
-                        ...selectedValue,
+                     setgroupId([
+                        ...groupId,
                         { value: inputValue, label: inputValue },
                      ])
                   }}
@@ -126,12 +129,12 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
                   isClearable
                   isMulti
                   options={optionsFormat}
-                  value={selectedValue2}
+                  value={formLearning}
                   onChange={onChangeSelect2}
                   placeholder="Формат обучения"
                   onCreateOption={(inputValue) => {
-                     setSelectedValue2([
-                        ...selectedValue,
+                     setFormLearning([
+                        ...formLearning,
                         { value: inputValue, label: inputValue },
                      ])
                   }}
@@ -150,13 +153,10 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
                </Button>
             </BtnContainer>
          </ModalStyled>
-      </ModalWindowStyled>
+      </div>
    )
 }
-const ModalWindowStyled = styled.div`
-   width: 541px;
-   height: 481px;
-`
+
 const ModalStyled = styled(ModalWindow)`
    .css-ybr8he {
       border-radius: 10px;

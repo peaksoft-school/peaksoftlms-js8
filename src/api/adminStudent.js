@@ -1,0 +1,14 @@
+import { axiosInstance } from '../config/axiosInstance'
+
+export const studentPostRequests = (data) => {
+   return axiosInstance.post('/api/students', data)
+}
+export const getStudentRequests = () => {
+   return axiosInstance.get('/api/students')
+}
+export const getAllStudentRequests = () => {
+   return axiosInstance.get('/api/students/all')
+}
+export const deleteStudentRequests = (id) => {
+   return axiosInstance.delete(`/api/students/${id}`)
+}
