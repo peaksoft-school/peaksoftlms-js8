@@ -1,21 +1,25 @@
 import styled from '@emotion/styled'
 import { useForm } from 'react-hook-form'
-import { Box, InputLabel, Link, Typography } from '@mui/material'
+import { useDispatch } from 'react-redux'
+import { NavLink } from 'react-router-dom'
+import { Box, InputLabel, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid'
+import { asyncSignIn } from '../redux/reducers/auth/authActions'
 import Input from '../components/UI/Input'
 import Button from '../components/UI/Button'
 import Img from '../assets/images/signIn.png'
 import Password from '../components/UI/Password'
 
 const SignInSide = () => {
+   const dispatch = useDispatch()
    const {
       register,
       handleSubmit,
       formState: { errors },
    } = useForm()
 
-   const onSubmit = (data) => {
-      console.log(data)
+   const onSubmit = (email, password) => {
+      dispatch(asyncSignIn(email, password))
    }
 
    return (
@@ -49,7 +53,7 @@ const SignInSide = () => {
                         })}
                      />
                   </Box>
-                  <Box>
+                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                      <Password
                         helperText={errors.password?.message}
                         error={errors.password}
@@ -65,9 +69,8 @@ const SignInSide = () => {
                            },
                         })}
                      />
+                     <LinkStyle to="/">Забыли пароль?</LinkStyle>
                   </Box>
-
-                  <LinkStyle to="/">Забыли пароль?</LinkStyle>
 
                   <Box>
                      <ButtonStyle type="submit">Войти</ButtonStyle>
@@ -128,8 +131,9 @@ const InputStyle = styled(Input)`
    border-radius: 10px;
    padding: 10px, 8px, 10px, 22px;
 `
-const LinkStyle = styled(Link)`
-   margin-left: 65%;
+const LinkStyle = styled(NavLink)`
+   align-self: flex-end;
+   margin-right: 26%;
    margin-top: 9px;
 `
 const ButtonStyle = styled(Button)`
