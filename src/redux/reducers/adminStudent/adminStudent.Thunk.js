@@ -22,11 +22,12 @@ export const getStudent = createAsyncThunk(
 
 export const postStudent = createAsyncThunk(
    'students/postStudent',
-   async (data, { dispatch, rejectWithValue }) => {
+   async (data, { rejectWithValue }) => {
       console.log('post')
       try {
-         await studentPostRequests(data)
-         return dispatch(getStudent())
+         const res = await studentPostRequests(data)
+         return res
+         // return dispatch(getStudent())
       } catch (error) {
          return rejectWithValue(error)
       }

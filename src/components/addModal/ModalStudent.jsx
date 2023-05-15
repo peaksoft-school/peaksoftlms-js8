@@ -139,19 +139,15 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
                      ])
                   }}
                />
+               <BtnContainer>
+                  <Button variant="outlined" onClick={onClose}>
+                     Отмена
+                  </Button>
+                  <Button variant="contained" type="submit">
+                     Добавить
+                  </Button>
+               </BtnContainer>
             </Container>
-            <BtnContainer>
-               <Button variant="outlined" onClick={onClose}>
-                  Отмена
-               </Button>
-               <Button
-                  variant="contained"
-                  type="submit"
-                  onClick={onSubmitHandler}
-               >
-                  Добавить
-               </Button>
-            </BtnContainer>
          </ModalStyled>
       </div>
    )

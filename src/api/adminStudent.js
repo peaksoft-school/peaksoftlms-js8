@@ -1,7 +1,7 @@
 import { axiosInstance } from '../config/axiosInstance'
 
 export const studentPostRequests = (data) => {
-   return axiosInstance.post('/api/students', data)
+   return axiosInstance.post('/students', data)
 }
 export const getStudentRequests = () => {
    return axiosInstance.get('/api/students')

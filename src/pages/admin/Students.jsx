@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styled from '@emotion/styled'
 import Select from 'react-select/creatable'
-import { useDispatch, useSelector } from 'react-redux'
 import { ModalStudent } from '../../components/addModal/ModalStudent'
 import Button from '../../components/UI/Button'
 import Input from '../../components/UI/Input'
@@ -9,17 +8,25 @@ import { ReactComponent as Victor } from '../../assets/icons/victor.svg'
 import { ReactComponent as Pluz } from '../../assets/icons/pluz.svg'
 import ModalWindow from '../../components/UI/Modal'
 import { AppTable } from '../../utlis/constants/Table'
-import {
-   getStudent,
-   postStudent,
-} from '../../redux/reducers/adminStudent/adminStudent.Thunk'
+import { studentPostRequests } from '../../api/adminStudent'
 
 export const Students = () => {
-   const dispatch = useDispatch()
-   const students = useSelector((state) => state.adminStudent.students)
+   // const [students, setStudents] = useState([])
    const [open, setOpen] = useState(false)
    const [openModal, setOpenModal] = useState(false)
    const [selectedValue, setSelectedValue] = useState([])
+   // const fetchStudent = async () => {
+   //    try {
+   //       const { data } = await getStudentRequests()
+   //       console.log(data, 'getData')
+   //       setStudents(data)
+   //    } catch (error) {
+   //       console.log(error)
+   //    }
+   // }
+   // useEffect(() => {
+   //    fetchStudent()
+   // }, [])
    const onChangeSelect = (newValue) => {
       setSelectedValue(newValue)
    }
@@ -38,12 +45,24 @@ export const Students = () => {
       const file = event.target.files[0]
       console.log(file)
    }
-   useEffect(() => {
-      dispatch(getStudent())
-   }, [])
-   const addStudent = (data) => {
-      postStudent(data)
-      console.log(data, 'data')
+   const addStudent = (
+      firstName,
+      lastName,
+      phoneNumber,
+      email,
+      password,
+      groupId,
+      formLearning
+   ) => {
+      studentPostRequests({
+         firstName,
+         lastName,
+         phoneNumber,
+         email,
+         password,
+         groupId,
+         formLearning,
+      })
    }
 
    const columns = [
@@ -130,7 +149,7 @@ export const Students = () => {
                addNewData={addStudent}
             />
          )}
-         <AppTable rows={students} columns={columns} />
+         <AppTable columns={columns} />
       </div>
    )
 }
