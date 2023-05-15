@@ -1,38 +1,43 @@
-import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from '@emotion/styled'
 import { useFormik } from 'formik'
+import PhoneInput from 'react-phone-input-2'
 import Input from '../UI/Input'
 import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
+import 'react-phone-input-2/lib/style.css'
+import { asyncPostInstructor } from '../../redux/reducers/admin/adminActions'
 
-export const ModalInstructor = ({ addNewData, open, onClose }) => {
+export const ModalInstructor = ({ open, onClose }) => {
+   const { isloading } = useSelector((state) => state.admin)
+   const dispatch = useDispatch()
+
    const onSubmitHandler = ({
-      name,
+      firstName,
       lastName,
       phoneNumber,
       email,
       password,
-      specialization,
+      special,
    }) => {
       const newData = {
-         name,
+         firstName,
          lastName,
          phoneNumber,
          email,
          password,
-         specialization,
+         special,
       }
-      addNewData(newData)
+      dispatch(asyncPostInstructor(newData))
    }
    const formik = useFormik({
       initialValues: {
-         name: '',
-         lastName: '',
-         phoneNumber: '',
-         email: '',
-         password: '',
-         specialization: '',
+         firstName: 'fdsfdsf',
+         lastName: 'sddds',
+         phoneNumber: '123123123123',
+         email: 'asdsad@gmail.com',
+         password: '123123123',
+         special: 'sadasdasd',
       },
       onSubmit: onSubmitHandler,
    })
@@ -59,9 +64,9 @@ export const ModalInstructor = ({ addNewData, open, onClose }) => {
             <Container onSubmit={handleSubmit}>
                <Input
                   placeholder="Имя"
-                  value={values.name}
+                  value={values.firstName}
                   onChange={handleChange}
-                  name="name"
+                  name="firstName"
                />
                <Input
                   placeholder="Фамилия"
@@ -94,31 +99,32 @@ export const ModalInstructor = ({ addNewData, open, onClose }) => {
                />
                <Input
                   placeholder="Специализация"
-                  value={values.specialization}
+                  value={values.special}
                   onChange={handleChange}
-                  name="specialization"
+                  name="special"
                />
             </Container>
             <BtnContainer>
                <Button variant="outlined" onClick={onClose}>
                   Отмена
                </Button>
-               <Button
-                  variant="contained"
-                  type="submit"
-                  onClick={onSubmitHandler}
-               >
-                  Добавить
-               </Button>
+               {isloading ? (
+                  <p>Loading</p>
+               ) : (
+                  <Button
+                     variant="contained"
+                     type="submit"
+                     onClick={handleSubmit}
+                  >
+                     Добавить
+                  </Button>
+               )}
             </BtnContainer>
          </ModalStyled>
       </ModalWindowStyled>
    )
 }
-const ModalWindowStyled = styled.div`
-   width: 541px;
-   height: 481px;
-`
+const ModalWindowStyled = styled.div``
 const ModalStyled = styled(ModalWindow)`
    .css-ybr8he {
       border-radius: 10px;

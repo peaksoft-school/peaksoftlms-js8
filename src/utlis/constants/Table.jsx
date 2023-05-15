@@ -44,7 +44,7 @@ export const AppTable = ({ columns, rows }) => {
 }
 
 const TableContainerStyled = styled(TableContainer)`
-   width: 71.25rem;
+   /* width: 71.25rem; */
    border-radius: 10px;
 `
 const TableRowStyled = styled(TableRow)(({ theme }) => ({

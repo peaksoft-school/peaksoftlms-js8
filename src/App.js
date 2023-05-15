@@ -1,8 +1,14 @@
+import { BrowserRouter } from 'react-router-dom'
+import { Instructors } from './pages/admin/Instructors'
+import { Courses } from './pages/admin/Courses'
+
 function App() {
-<<<<<<< HEAD
-   return <div>PeaksoftLMS</div>
-=======
-   return <div>Peaksoft LMS</div>
->>>>>>> a5fe4f2139083fbf21cdfea9c710a9c2164a8e00
+   return (
+      <BrowserRouter>
+         <Instructors />
+         <Courses />
+      </BrowserRouter>
+   )
 }
+
 export default App
