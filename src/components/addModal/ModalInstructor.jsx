@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from 'react-redux'
 import styled from '@emotion/styled'
 import { useFormik } from 'formik'
 import PhoneInput from 'react-phone-input-2'
@@ -6,12 +5,8 @@ import Input from '../UI/Input'
 import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
-import { asyncPostInstructor } from '../../redux/reducers/admin/adminActions'
 
 export const ModalInstructor = ({ open, onClose }) => {
-   const { isloading } = useSelector((state) => state.admin)
-   const dispatch = useDispatch()
-
    const onSubmitHandler = ({
       firstName,
       lastName,
@@ -28,7 +23,7 @@ export const ModalInstructor = ({ open, onClose }) => {
          password,
          special,
       }
-      dispatch(asyncPostInstructor(newData))
+      return newData
    }
    const formik = useFormik({
       initialValues: {
@@ -108,17 +103,12 @@ export const ModalInstructor = ({ open, onClose }) => {
                <Button variant="outlined" onClick={onClose}>
                   Отмена
                </Button>
-               {isloading ? (
-                  <p>Loading</p>
-               ) : (
-                  <Button
-                     variant="contained"
-                     type="submit"
-                     onClick={handleSubmit}
-                  >
-                     Добавить
-                  </Button>
-               )}
+
+               <p>Loading</p>
+
+               <Button variant="contained" type="submit" onClick={handleSubmit}>
+                  Добавить
+               </Button>
             </BtnContainer>
          </ModalStyled>
       </ModalWindowStyled>

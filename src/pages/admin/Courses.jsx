@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { Grid, IconButton } from '@mui/material'
 import styled from '@emotion/styled'
 import { AppTable } from '../../utlis/constants/Table'
@@ -10,7 +9,6 @@ import { ReactComponent as ArrowIcon } from '../../assets/icons/arrow.svg'
 import { ReactComponent as FixedIcon } from '../../assets/icons/fixed.svg'
 import { ModalCourses } from '../../components/addModal/ModalCourses'
 import { ReactComponent as DeleteIcon } from '../../assets/icons/tableDeleteTeacher.svg'
-import { asyncGetInstructors } from '../../redux/reducers/admin/adminActions'
 
 const columns = [
    {
@@ -53,48 +51,43 @@ const columns = [
 ]
 export const Courses = () => {
    const [openModal, setOpenModal] = useState(false)
-   const data = useSelector((state) => state.teacher)
 
-   const dispatch = useDispatch()
+   useEffect(() => {}, [])
 
-   useEffect(() => {
-      dispatch(asyncGetInstructors())
-   }, [])
-
-   // const rows = [
-   //    {
-   //       id: 11,
-   //       userFullName: 'Omina Mamatalieva',
-   //       spets: 'teacher',
-   //       phone: '0865434567',
-   //       email: 'omina@gmail.com',
-   //       action: 'delete',
-   //    },
-   //    {
-   //       id: 11,
-   //       userFullName: 'Omina Mamatalieva',
-   //       spets: 'teacher',
-   //       phone: '0865434567',
-   //       email: 'omina@gmail.com',
-   //       action: 'delete',
-   //    },
-   //    {
-   //       id: 11,
-   //       userFullName: 'Omina Mamatalieva',
-   //       spets: 'teacher',
-   //       phone: '0865434567',
-   //       email: 'omina@gmail.com',
-   //       action: 'delete',
-   //    },
-   //    {
-   //       id: 11,
-   //       userFullName: 'Omina Mamatalieva',
-   //       spets: 'teacher',
-   //       phone: '0865434567',
-   //       email: 'omina@gmail.com',
-   //       action: 'delete',
-   //    },
-   // ]
+   const rows = [
+      {
+         id: 11,
+         userFullName: 'Omina Mamatalieva',
+         spets: 'teacher',
+         phone: '0865434567',
+         email: 'omina@gmail.com',
+         action: 'delete',
+      },
+      {
+         id: 11,
+         userFullName: 'Omina Mamatalieva',
+         spets: 'teacher',
+         phone: '0865434567',
+         email: 'omina@gmail.com',
+         action: 'delete',
+      },
+      {
+         id: 11,
+         userFullName: 'Omina Mamatalieva',
+         spets: 'teacher',
+         phone: '0865434567',
+         email: 'omina@gmail.com',
+         action: 'delete',
+      },
+      {
+         id: 11,
+         userFullName: 'Omina Mamatalieva',
+         spets: 'teacher',
+         phone: '0865434567',
+         email: 'omina@gmail.com',
+         action: 'delete',
+      },
+   ]
 
    const closeModalHandler = () => {
       setOpenModal(false)
@@ -122,7 +115,7 @@ export const Courses = () => {
             Назначить учителя
          </ButtonDiv>
          <AppTableDiv>
-            <AppTable columns={columns} rows={data} />
+            <AppTable columns={columns} rows={rows} />
          </AppTableDiv>
          <ModalCourses open={openModal} onClose={closeModalHandler} />
       </Container>

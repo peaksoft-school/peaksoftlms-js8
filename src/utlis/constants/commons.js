@@ -19,11 +19,3 @@ export const CURRENT_PATH = {
       COURSES: 'mycourses',
    },
 }
-
-export const TeacherData = {
-   ID: 'id',
-   FULLNAME: 'fullName',
-   SPECIAL: 'special',
-   PHONENUMBER: 'phoneNumber',
-   EMAIL: 'email',
-}

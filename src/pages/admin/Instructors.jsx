@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, IconButton } from '@mui/material'
 import styled from '@emotion/styled'
-import { useDispatch, useSelector } from 'react-redux'
 import { AppTable } from '../../utlis/constants/Table'
 import Button from '../../components/UI/Button'
 import { SideBar } from '../../layout/SideBar'
@@ -11,30 +10,54 @@ import { ModalInstructor } from '../../components/addModal/ModalInstructor'
 import { ReactComponent as EditIcon } from '../../assets/icons/tableEditTeacher-3.svg'
 import { ReactComponent as DeleteIcon } from '../../assets/icons/tableDeleteTeacher.svg'
 import { ReactComponent as AddTeacherIcon } from '../../assets/icons/addTeacher.svg'
-import {
-   asyncDeleteInstructor,
-   asyncGetInstructors,
-   asyncPutInstructor,
-} from '../../redux/reducers/admin/adminActions'
+import { getAllInstructors } from '../../api/adminService'
 
 export const Instructors = () => {
    const [openModal, setOpenModal] = useState(false)
+   const [data, setData] = useState([])
 
-   const data = useSelector((state) => state.teacher)
+   // useEffect(async () => {
+   //    try {
+   //       const response = await axiosInstance.get('api/instructors')
+   //       setData(response.data)
+   //    } catch (error) {
+   //       console.error(error)
+   //    }
+   // }, [])
 
-   const dispatch = useDispatch()
+   // useEffect(() => {
+   //    async function fetchData() {
+   //       try {
+   //          const response = await axiosInstance.get('api/instructors')
+   //          setData(response.data)
+   //          console.log(data)
+   //       } catch (error) {
+   //          console.log(error)
+   //       }
+   //    }
 
+   //    fetchData()
+   // }, [])
+
+   const getData = async () => {
+      try {
+         const { data } = await getAllInstructors()
+         setData(data)
+      } catch (error) {
+         console.log(error)
+      }
+   }
    useEffect(() => {
-      dispatch(asyncGetInstructors())
+      getData()
    }, [])
 
-   const handleDeleteItem = (itemId) => {
-      dispatch(asyncDeleteInstructor(itemId))
-   }
+   // const handleDeleteItem = (itemId) => {
+   //    dispatch(asyncDeleteInstructor(itemId))
+   // }
 
-   const handleEditItem = () => {
-      dispatch(asyncPutInstructor(data))
-   }
+   // const handleEditItem = () => {
+   //    dispatch(asyncPutInstructor(data))
+   // }
 
    const columns = [
       {
@@ -70,8 +93,8 @@ export const Instructors = () => {
                <IconButton>
                   <EditIcon />
                </IconButton>
-               <IconButton onClick={() => handleDeleteItem(data.id)}>
-                  <DeleteIcon onClick={() => handleEditItem} />
+               <IconButton onClick={() => {}}>
+                  <DeleteIcon onClick={() => {}} />
                </IconButton>
             </Grid>
          ),
