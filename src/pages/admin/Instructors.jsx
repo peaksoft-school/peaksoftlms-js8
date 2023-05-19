@@ -14,39 +14,17 @@ import { getAllInstructors } from '../../api/adminService'
 
 export const Instructors = () => {
    const [openModal, setOpenModal] = useState(false)
-   const [data, setData] = useState([])
-
-   // useEffect(async () => {
-   //    try {
-   //       const response = await axiosInstance.get('api/instructors')
-   //       setData(response.data)
-   //    } catch (error) {
-   //       console.error(error)
-   //    }
-   // }, [])
-
-   // useEffect(() => {
-   //    async function fetchData() {
-   //       try {
-   //          const response = await axiosInstance.get('api/instructors')
-   //          setData(response.data)
-   //          console.log(data)
-   //       } catch (error) {
-   //          console.log(error)
-   //       }
-   //    }
-
-   //    fetchData()
-   // }, [])
+   const [rows, setRows] = useState([])
 
    const getData = async () => {
       try {
          const { data } = await getAllInstructors()
-         setData(data)
+         return setRows(data)
       } catch (error) {
-         console.log(error)
+         return error
       }
    }
+
    useEffect(() => {
       getData()
    }, [])
@@ -163,7 +141,7 @@ export const Instructors = () => {
             Добавить учителя
          </ButtonDiv>
          <AppTableDiv>
-            <AppTable columns={columns} rows={data} />
+            <AppTable columns={columns} rows={rows} />
          </AppTableDiv>
          <ModalInstructor open={openModal} onClose={closeModalHandler} />
       </Container>

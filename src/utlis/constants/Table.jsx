@@ -6,10 +6,24 @@ import {
    TableCell,
    TableContainer,
    TableHead,
+   TablePagination,
    TableRow,
 } from '@mui/material'
+import { useState } from 'react'
 
 export const AppTable = ({ columns, rows }) => {
+   const [page, setPage] = useState(1)
+   const [rowsPerPage, setRowsPerPage] = useState(2)
+   console.log(rows)
+
+   const handleChangePage = (newPage) => {
+      setPage(newPage)
+   }
+
+   const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(event.target.value)
+   }
+
    return (
       <TableContainerStyled component={Paper}>
          <Table aria-label="simple table">
@@ -21,24 +35,36 @@ export const AppTable = ({ columns, rows }) => {
                </TableRow>
             </TableHead>
             <TableBody>
-               {rows?.map((row, index) => {
-                  return (
-                     <TableRowStyled key={row.id}>
-                        {columns?.map((column) => {
-                           if (column.render) {
-                              return column.render(row)
-                           }
-                           const value = column.index
-                              ? index + 1
-                              : row[column.key]
+               {rows !== null &&
+                  rows.map((row, index) => {
+                     return (
+                        <TableRowStyled key={row.id}>
+                           {columns?.map((column) => {
+                              if (column.render) {
+                                 return column.render(row)
+                              }
+                              const value = column.index
+                                 ? index + 1
+                                 : row[column.key]
 
-                           return <TableCell key={column.id}>{value}</TableCell>
-                        })}
-                     </TableRowStyled>
-                  )
-               })}
+                              return (
+                                 <TableCell key={column.id}>{value}</TableCell>
+                              )
+                           })}
+                        </TableRowStyled>
+                     )
+                  })}
             </TableBody>
          </Table>
+         <TablePagination
+            rowsPerPageOptions={[2, 4]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={(e, newPage) => handleChangePage(newPage)}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+         />
       </TableContainerStyled>
    )
 }

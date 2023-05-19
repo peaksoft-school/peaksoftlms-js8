@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { store } from '../redux/store'
 
-const BASE_URL = 'http://ec2-52-59-224-218.eu-central-1.compute.amazonaws.com/'
+const BASE_URL = 'http://peaksoftlms.peaksoftprojects.com/'
 
 export const axiosInstance = axios.create({
    baseURL: BASE_URL,
@@ -14,7 +14,7 @@ axiosInstance.interceptors.request.use(
          headers: {
             ...config.headers,
             Authorization:
-               'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODQyNDEwMTAsImV4cCI6MTY4NDI1NTQxMH0.cNR3qt7Q2sf5GatmReTAiViWNSFT40gpD8QbEDbScmw',
+               'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODQ0OTU1MTMsImV4cCI6MTY4NDUwOTkxM30.3KXmEJWi-hylW-OnErmIBlkKZt1eN_JXQjRTMiyLe-s',
          },
       }
       return newConfig
