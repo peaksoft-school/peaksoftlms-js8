@@ -19,12 +19,12 @@ export const Instructors = () => {
    const getData = async () => {
       try {
          const { data } = await getAllInstructors()
-         return setRows(data)
+         return setRows(data.instructorResponses)
       } catch (error) {
          return error
       }
    }
-
+   console.log(rows)
    useEffect(() => {
       getData()
    }, [])
