@@ -8,24 +8,39 @@ import Input from '../UI/Input'
 import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
+// import { axiosInstance } from '../../config/axiosInstance'
 
 export const ModalStudent = ({ addNewData, open, onClose }) => {
-   const [groupId, setgroupId] = useState([])
-   const [formLearning, setFormLearning] = useState([])
+   const [formLearning, setFormLearning] = useState(null)
+   const [groupId, setGroupId] = useState(null)
    const onChangeSelect = (newValue) => {
-      setgroupId(newValue)
+      setGroupId(newValue)
    }
    const onChangeSelect2 = (newValue) => {
       setFormLearning(newValue)
    }
    const optionsGroup = [
-      { value: 'option1', label: 'js-8' },
-      { value: 'option2', label: 'js-9' },
-      { value: 'option3', label: 'js-10' },
+      { value: 'js-8', label: 'js-8' },
+      { value: 'js-9', label: 'js-9' },
+      { value: 'js-10', label: 'js-10' },
    ]
+   // useEffect(() => {
+   //    axiosInstance
+   //       .get(`/groups?groupId=${id}`)
+   //       .then((response) => {
+   //          const options = response.data.map((item) => ({
+   //             value: item.id,
+   //             label: item.name,
+   //          }))
+   //          setGroupId(options)
+   //       })
+   //       .catch((error) => {
+   //          console.error('Ошибка при получении данных:', error)
+   //       })
+   // }, [])
    const optionsFormat = [
-      { value: 'option1', label: 'Online' },
-      { value: 'option2', label: 'Offline' },
+      { value: 'online', label: 'ONLINE' },
+      { value: 'offline', label: 'OFFLINE' },
    ]
    const onSubmitHandler = ({
       firstName,
@@ -33,6 +48,8 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
       phoneNumber,
       email,
       password,
+      // groupId,
+      // formLearning,
    }) => {
       const newData = {
          firstName,
@@ -52,6 +69,8 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
          phoneNumber: '',
          email: '',
          password: '',
+         // groupId: '',
+         // formLearning: '',
       },
       onSubmit: onSubmitHandler,
    })
@@ -90,11 +109,17 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
                />
                <PhoneInput
                   onlyCountries={onlyCountries}
-                  value={values.phoneNumber}
+                  value={+values.phoneNumber}
                   onChange={handleChange}
                   name="phoneNumber"
                   type="tel"
                />
+               {/* <input
+                  value={values.phoneNumber}
+                  onChange={handleChange}
+                  name="phoneNumber"
+                  type="tel"
+               /> */}
                <Input
                   placeholder="Email"
                   type="email"
@@ -112,33 +137,34 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
                   name="password"
                />
                <Select
-                  isClearable
-                  isMulti
                   options={optionsGroup}
                   value={groupId}
-                  onChange={onChangeSelect}
                   placeholder="Группа"
-                  onCreateOption={(inputValue) => {
-                     setgroupId([
-                        ...groupId,
-                        { value: inputValue, label: inputValue },
-                     ])
-                  }}
+                  onChange={onChangeSelect}
                />
                <Select
-                  isClearable
-                  isMulti
                   options={optionsFormat}
                   value={formLearning}
-                  onChange={onChangeSelect2}
                   placeholder="Формат обучения"
-                  onCreateOption={(inputValue) => {
-                     setFormLearning([
-                        ...formLearning,
-                        { value: inputValue, label: inputValue },
-                     ])
-                  }}
+                  onChange={onChangeSelect2}
                />
+               {/* <select
+                  value={values.groupId}
+                  onChange={handleChange}
+                  name="groupId"
+               >
+                  <option value="js-8">js-8</option>
+                  <option value="js-9">js-9</option>
+                  <option value="js-10">js-10</option>
+               </select>
+               <select
+                  value={values.formLearning}
+                  onChange={handleChange}
+                  name="formLearning"
+               >
+                  <option value="online">ONLINE</option>
+                  <option value="offline">OFFLINE</option>
+               </select> */}
                <BtnContainer>
                   <Button variant="outlined" onClick={onClose}>
                      Отмена

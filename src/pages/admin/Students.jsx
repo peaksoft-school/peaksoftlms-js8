@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import Select from 'react-select/creatable'
 import { ModalStudent } from '../../components/addModal/ModalStudent'
@@ -8,25 +8,24 @@ import { ReactComponent as Victor } from '../../assets/icons/victor.svg'
 import { ReactComponent as Pluz } from '../../assets/icons/pluz.svg'
 import ModalWindow from '../../components/UI/Modal'
 import { AppTable } from '../../utlis/constants/Table'
-import { studentPostRequests } from '../../api/adminStudent'
+import { getStudentRequests, studentPostRequests } from '../../api/adminStudent'
 
 export const Students = () => {
-   // const [students, setStudents] = useState([])
+   const [students, setStudents] = useState([])
    const [open, setOpen] = useState(false)
    const [openModal, setOpenModal] = useState(false)
    const [selectedValue, setSelectedValue] = useState([])
-   // const fetchStudent = async () => {
-   //    try {
-   //       const { data } = await getStudentRequests()
-   //       console.log(data, 'getData')
-   //       setStudents(data)
-   //    } catch (error) {
-   //       console.log(error)
-   //    }
-   // }
-   // useEffect(() => {
-   //    fetchStudent()
-   // }, [])
+   const fetchStudent = async () => {
+      try {
+         const { data } = await getStudentRequests()
+         setStudents(data)
+      } catch (error) {
+         console.log(error)
+      }
+   }
+   useEffect(() => {
+      fetchStudent()
+   }, [])
    const onChangeSelect = (newValue) => {
       setSelectedValue(newValue)
    }
@@ -45,24 +44,8 @@ export const Students = () => {
       const file = event.target.files[0]
       console.log(file)
    }
-   const addStudent = (
-      firstName,
-      lastName,
-      phoneNumber,
-      email,
-      password,
-      groupId,
-      formLearning
-   ) => {
-      studentPostRequests({
-         firstName,
-         lastName,
-         phoneNumber,
-         email,
-         password,
-         groupId,
-         formLearning,
-      })
+   const addStudent = (data) => {
+      studentPostRequests(data)
    }
 
    const columns = [
@@ -73,17 +56,17 @@ export const Students = () => {
       },
       {
          header: 'Имя Фамилия',
-         key: 'userFullName',
+         key: 'fullName',
          id: 12,
       },
       {
          header: 'Группа',
-         key: 'group',
+         key: 'groupName',
          id: 13,
       },
       {
          header: 'Формат обучения',
-         key: 'learningFormat',
+         key: 'formLearning',
          id: 14,
       },
       {
@@ -149,7 +132,7 @@ export const Students = () => {
                addNewData={addStudent}
             />
          )}
-         <AppTable columns={columns} />
+         <AppTable rows={students} columns={columns} />
       </div>
    )
 }
