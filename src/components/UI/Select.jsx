@@ -16,6 +16,7 @@ const MenuProps = {
    },
 }
 const MultiSelect = ({ array, value, onChange, ...rest }) => {
+   console.log(array)
    return (
       <FormControl sx={{ m: 1 }}>
          <Select
@@ -26,9 +27,9 @@ const MultiSelect = ({ array, value, onChange, ...rest }) => {
             {...rest}
          >
             {array.map((item) => (
-               <MenuItem key={item.id} value={item.name}>
-                  <StyledListItem primary={item.name} />
-                  <Checkbox checked={value.indexOf(item.name) > -1} />
+               <MenuItem key={item.id} value={item.fullName}>
+                  <StyledListItem primary={item.fullName} />
+                  <Checkbox checked={value.indexOf(item.fullName) > -1} />
                </MenuItem>
             ))}
          </Select>

@@ -10,31 +10,52 @@ import { ModalInstructor } from '../../components/addModal/ModalInstructor'
 import { ReactComponent as EditIcon } from '../../assets/icons/tableEditTeacher-3.svg'
 import { ReactComponent as DeleteIcon } from '../../assets/icons/tableDeleteTeacher.svg'
 import { ReactComponent as AddTeacherIcon } from '../../assets/icons/addTeacher.svg'
-import { getAllInstructors } from '../../api/adminService'
+import {
+   getAllInstructors,
+   // getAllInstructors,
+   instructorDelete,
+   instructorPost,
+} from '../../api/adminService'
 
 export const Instructors = () => {
    const [openModal, setOpenModal] = useState(false)
-   const [rows, setRows] = useState([])
+   const [data, setData] = useState([])
 
    const getData = async () => {
       try {
          const { data } = await getAllInstructors()
-         return setRows(data.instructorResponses)
+         return setData(data.instructorResponses)
       } catch (error) {
          return error
       }
    }
-   console.log(rows)
+
    useEffect(() => {
       getData()
    }, [])
 
    // const handleDeleteItem = (itemId) => {
-   //    dispatch(asyncDeleteInstructor(itemId))
+   //    instructorDelete(itemId)
    // }
 
+   const handleDeleteItem = async (id) => {
+      try {
+         await instructorDelete()
+         const deleted = data.filter((row) => row.id !== id)
+
+         setData(deleted)
+      } catch (error) {
+         console.log(error)
+      }
+   }
+
+   const addInstructor = (data) => {
+      console.log(data)
+      instructorPost(data)
+   }
+
    // const handleEditItem = () => {
-   //    dispatch(asyncPutInstructor(data))
+   //    asyncPutInstructor(data)
    // }
 
    const columns = [
@@ -45,17 +66,17 @@ export const Instructors = () => {
       },
       {
          header: 'Имя Фамилия',
-         key: 'userFullName',
+         key: 'fullName',
          id: 2,
       },
       {
          header: 'Специализация',
-         key: 'spets',
+         key: 'special',
          id: 3,
       },
       {
          header: 'Номер Телефона',
-         key: 'phone',
+         key: 'phoneNumber',
          id: 4,
       },
       {
@@ -72,47 +93,12 @@ export const Instructors = () => {
                   <EditIcon />
                </IconButton>
                <IconButton onClick={() => {}}>
-                  <DeleteIcon onClick={() => {}} />
+                  <DeleteIcon onClick={() => handleDeleteItem(data.id)} />
                </IconButton>
             </Grid>
          ),
       },
    ]
-
-   // const rows = [
-   //    {
-   //       id: 11,
-   //       userFullName: 'Omina Mamatalieva',
-   //       spets: 'teacher',
-   //       phone: '0865434567',
-   //       email: 'omina@gmail.com',
-   //       action: 'delete',
-   //    },
-   //    {
-   //       id: 11,
-   //       userFullName: 'Omina Mamatalieva',
-   //       spets: 'teacher',
-   //       phone: '0865434567',
-   //       email: 'omina@gmail.com',
-   //       action: 'delete',
-   //    },
-   //    {
-   //       id: 11,
-   //       userFullName: 'Omina Mamatalieva',
-   //       spets: 'teacher',
-   //       phone: '0865434567',
-   //       email: 'omina@gmail.com',
-   //       action: 'delete',
-   //    },
-   //    {
-   //       id: 11,
-   //       userFullName: 'Omina Mamatalieva',
-   //       spets: 'teacher',
-   //       phone: '0865434567',
-   //       email: 'omina@gmail.com',
-   //       action: 'delete',
-   //    },
-   // ]
 
    const closeModalHandler = () => {
       setOpenModal(false)
@@ -141,9 +127,13 @@ export const Instructors = () => {
             Добавить учителя
          </ButtonDiv>
          <AppTableDiv>
-            <AppTable columns={columns} rows={rows} />
+            <AppTable columns={columns} rows={data} />
          </AppTableDiv>
-         <ModalInstructor open={openModal} onClose={closeModalHandler} />
+         <ModalInstructor
+            open={openModal}
+            onClose={closeModalHandler}
+            addNewData={addInstructor}
+         />
       </Container>
    )
 }

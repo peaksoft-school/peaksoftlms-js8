@@ -35,8 +35,9 @@ export const AppTable = ({ columns, rows }) => {
                </TableRow>
             </TableHead>
             <TableBody>
-               {rows !== null &&
-                  rows.map((row, index) => {
+               {rows
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
                      return (
                         <TableRowStyled key={row.id}>
                            {columns?.map((column) => {
@@ -57,7 +58,7 @@ export const AppTable = ({ columns, rows }) => {
             </TableBody>
          </Table>
          <TablePagination
-            rowsPerPageOptions={[2, 4]}
+            rowsPerPageOptions={[2, 6]}
             component="div"
             count={rows.length}
             rowsPerPage={rowsPerPage}

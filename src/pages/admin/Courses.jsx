@@ -9,6 +9,7 @@ import { ReactComponent as ArrowIcon } from '../../assets/icons/arrow.svg'
 import { ReactComponent as FixedIcon } from '../../assets/icons/fixed.svg'
 import { ModalCourses } from '../../components/addModal/ModalCourses'
 import { ReactComponent as DeleteIcon } from '../../assets/icons/tableDeleteTeacher.svg'
+import { getAllInstructors } from '../../api/adminService'
 
 const columns = [
    {
@@ -18,17 +19,17 @@ const columns = [
    },
    {
       header: 'Имя Фамилия',
-      key: 'userFullName',
+      key: 'fullName',
       id: 2,
    },
    {
       header: 'Специализация',
-      key: 'spets',
+      key: 'special',
       id: 3,
    },
    {
       header: 'Номер Телефона',
-      key: 'phone',
+      key: 'phoneNumber',
       id: 4,
    },
    {
@@ -51,43 +52,55 @@ const columns = [
 ]
 export const Courses = () => {
    const [openModal, setOpenModal] = useState(false)
+   const [data, setData] = useState([])
 
-   useEffect(() => {}, [])
+   const getData = async () => {
+      try {
+         const { data } = await getAllInstructors()
+         return setData(data.instructorResponses)
+      } catch (error) {
+         return error
+      }
+   }
 
-   const rows = [
-      {
-         id: 11,
-         userFullName: 'Omina Mamatalieva',
-         spets: 'teacher',
-         phone: '0865434567',
-         email: 'omina@gmail.com',
-         action: 'delete',
-      },
-      {
-         id: 11,
-         userFullName: 'Omina Mamatalieva',
-         spets: 'teacher',
-         phone: '0865434567',
-         email: 'omina@gmail.com',
-         action: 'delete',
-      },
-      {
-         id: 11,
-         userFullName: 'Omina Mamatalieva',
-         spets: 'teacher',
-         phone: '0865434567',
-         email: 'omina@gmail.com',
-         action: 'delete',
-      },
-      {
-         id: 11,
-         userFullName: 'Omina Mamatalieva',
-         spets: 'teacher',
-         phone: '0865434567',
-         email: 'omina@gmail.com',
-         action: 'delete',
-      },
-   ]
+   useEffect(() => {
+      getData()
+   }, [])
+
+   // const rows = [
+   //    {
+   //       id: 11,
+   //       userFullName: 'Omina Mamatalieva',
+   //       spets: 'teacher',
+   //       phone: '0865434567',
+   //       email: 'omina@gmail.com',
+   //       action: 'delete',
+   //    },
+   //    {
+   //       id: 11,
+   //       userFullName: 'Omina Mamatalieva',
+   //       spets: 'teacher',
+   //       phone: '0865434567',
+   //       email: 'omina@gmail.com',
+   //       action: 'delete',
+   //    },
+   //    {
+   //       id: 11,
+   //       userFullName: 'Omina Mamatalieva',
+   //       spets: 'teacher',
+   //       phone: '0865434567',
+   //       email: 'omina@gmail.com',
+   //       action: 'delete',
+   //    },
+   //    {
+   //       id: 11,
+   //       userFullName: 'Omina Mamatalieva',
+   //       spets: 'teacher',
+   //       phone: '0865434567',
+   //       email: 'omina@gmail.com',
+   //       action: 'delete',
+   //    },
+   // ]
 
    const closeModalHandler = () => {
       setOpenModal(false)
@@ -115,7 +128,7 @@ export const Courses = () => {
             Назначить учителя
          </ButtonDiv>
          <AppTableDiv>
-            <AppTable columns={columns} rows={rows} />
+            <AppTable columns={columns} rows={data} />
          </AppTableDiv>
          <ModalCourses open={openModal} onClose={closeModalHandler} />
       </Container>

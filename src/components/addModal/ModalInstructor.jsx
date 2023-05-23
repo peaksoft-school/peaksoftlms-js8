@@ -6,7 +6,7 @@ import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
 
-export const ModalInstructor = ({ open, onClose }) => {
+export const ModalInstructor = ({ addNewData, open, onClose }) => {
    const onSubmitHandler = ({
       firstName,
       lastName,
@@ -23,16 +23,17 @@ export const ModalInstructor = ({ open, onClose }) => {
          password,
          special,
       }
-      return newData
+      addNewData(newData)
    }
+
    const formik = useFormik({
       initialValues: {
-         firstName: 'fdsfdsf',
-         lastName: 'sddds',
-         phoneNumber: '123123123123',
-         email: 'asdsad@gmail.com',
-         password: '123123123',
-         special: 'sadasdasd',
+         firstName: '',
+         lastName: '',
+         phoneNumber: '',
+         email: '',
+         password: '',
+         special: '',
       },
       onSubmit: onSubmitHandler,
    })
@@ -50,13 +51,14 @@ export const ModalInstructor = ({ open, onClose }) => {
          (values.password.length > 0 && values.password >= 6)
       )
    }
+
    return (
       <ModalWindowStyled>
          <ModalStyled open={open} onClose={onClose}>
             <ContentH3>
                <h3>Добавить учителя</h3>
             </ContentH3>
-            <Container onSubmit={handleSubmit}>
+            <Container onSubmit={handleChange}>
                <Input
                   placeholder="Имя"
                   value={values.firstName}
@@ -103,9 +105,6 @@ export const ModalInstructor = ({ open, onClose }) => {
                <Button variant="outlined" onClick={onClose}>
                   Отмена
                </Button>
-
-               <p>Loading</p>
-
                <Button variant="contained" type="submit" onClick={handleSubmit}>
                   Добавить
                </Button>

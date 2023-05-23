@@ -1,68 +1,73 @@
 import styled from '@emotion/styled'
+import { useEffect, useState } from 'react'
 import { IconButton } from '@mui/material'
-// import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react'
 import ModalWindow from '../UI/Modal'
 import { ReactComponent as IconDeleteTeacher } from '../../assets/icons/deleteTeacher.svg'
 import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
 import MultiSelect from '../UI/Select'
-// import { asyncGetInstructors } from '../../redux/reducers/admin/adminActions'
+import { getAllInstructors } from '../../api/adminService'
 
-const array = [
-   {
-      id: 1,
-      name: 'Omina Mamatalieva',
-      spets: 'teacher',
-      phone: '0865434567',
-      email: 'omina@gmail.com',
-      action: 'delete',
-   },
-   {
-      id: 2,
-      name: 'ilya',
-      spets: 'teacher',
-      phone: '0865434567',
-      email: 'omina@gmail.com',
-      action: 'delete',
-   },
-   {
-      id: 3,
-      name: 'Asel',
-      spets: 'teacher',
-      phone: '0865434567',
-      email: 'omina@gmail.com',
-      action: 'delete',
-   },
-   {
-      id: 4,
-      name: 'Aibek',
-      spets: 'teacher',
-      phone: '0865434567',
-      email: 'omina@gmail.com',
-      action: 'delete',
-   },
-]
+// const array = [
+//    {
+//       id: 1,
+//       name: 'Omina Mamatalieva',
+//       spets: 'teacher',
+//       phone: '0865434567',
+//       email: 'omina@gmail.com',
+//       action: 'delete',
+//    },
+//    {
+//       id: 2,
+//       name: 'ilya',
+//       spets: 'teacher',
+//       phone: '0865434567',
+//       email: 'omina@gmail.com',
+//       action: 'delete',
+//    },
+//    {
+//       id: 3,
+//       name: 'Asel',
+//       spets: 'teacher',
+//       phone: '0865434567',
+//       email: 'omina@gmail.com',
+//       action: 'delete',
+//    },
+//    {
+//       id: 4,
+//       name: 'Aibek',
+//       spets: 'teacher',
+//       phone: '0865434567',
+//       email: 'omina@gmail.com',
+//       action: 'delete',
+//    },
+// ]
 
 export const ModalCourses = ({ open, onClose }) => {
    const [name, setName] = useState('')
    const [teacher, setTeacher] = useState([])
-   // const data = useSelector((state) => state.teacher)
-   // const dispatch = useDispatch()
 
-   // useEffect(() => {
-   //    dispatch(asyncGetInstructors())
-   // }, [])
+   const [data, setData] = useState([])
+
+   const getData = async () => {
+      try {
+         const { data } = await getAllInstructors()
+         return setData(data.instructorResponses)
+      } catch (error) {
+         return error
+      }
+   }
+   console.log(data)
+
+   useEffect(() => {
+      getData()
+   }, [])
 
    const changeName = (e) => {
       setName(e.target.value)
    }
    const onSubmitHandler = () => {
       setTeacher((prev) => [...prev, { ...prev, teacherName: name }])
-      // const newData = {
-      //    name,
-      // }
-      // addNewData(newData)
    }
 
    const handleDelete = (itemToDelete) => {
@@ -89,7 +94,7 @@ export const ModalCourses = ({ open, onClose }) => {
                      ))}
                   </StyleUl>
                </StyleDiv>
-               <MultiSelect value={name} onChange={changeName} array={array} />
+               <MultiSelect value={name} onChange={changeName} array={data} />
             </Container>
             <BtnContainer>
                <Button variant="outlined" onClick={onClose}>
@@ -156,22 +161,20 @@ const BtnContainer = styled.div`
    }
 `
 
-const StyleDiv = styled.div`
-   border: 1px solid #b6bac2;
-   border-radius: 4px;
-   width: 524px;
-   height: 55px;
-   margin-left: 8px;
-   margin-top: 16px;
-   margin-bottom: 12px;
-   overflow-y: scroll;
-`
+const StyleDiv = styled.div``
 const StyleUl = styled.ul`
    list-style: none;
-   padding-left: 10px;
+   padding-left: 8px;
 `
 const StyleLi = styled.li`
+   /* overflow-y: scroll; */
+   border: 1px solid #b6bac2;
    display: flex;
    justify-content: space-between;
    align-items: center;
+   border-radius: 4px;
+   padding-left: 12px;
+   width: 513px;
+   height: 55px;
+   margin-bottom: 12px;
 `
