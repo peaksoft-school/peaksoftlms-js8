@@ -1,6 +1,6 @@
 import { axiosInstance } from '../config/axiosInstance'
 
-export const getAllInstructors = (size = 10, page = 1) => {
+export const getAllInstructors = (page = 1, size = 10) => {
    return axiosInstance.get(`api/instructors?size=${size}&page=${page}`)
 }
 // export const getInstructors = () => {

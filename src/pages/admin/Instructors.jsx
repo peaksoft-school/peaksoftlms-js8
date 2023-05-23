@@ -22,9 +22,9 @@ export const Instructors = () => {
    const [openModal, setOpenModal] = useState(false)
    const [instructors, setInstructors] = useState([])
 
-   const getData = async () => {
+   const getData = async (_page) => {
       try {
-         const { data } = await getAllInstructors()
+         const { data } = await getAllInstructors(_page)
          return setInstructors(data.instructorResponses)
       } catch (error) {
          return error
@@ -32,8 +32,8 @@ export const Instructors = () => {
    }
 
    useEffect(() => {
-      getData()
-   }, [])
+      getData(page)
+   }, [page])
 
    // const handleDeleteItem = (itemId) => {
    //    instructorDelete(itemId)
