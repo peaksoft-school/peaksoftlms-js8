@@ -51,8 +51,9 @@ export const Instructors = () => {
    const addInstructor = async (data) => {
       try {
          await instructorPost(data)
+         setPage(1)
          setOpenModal(false)
-         await getData()
+         await getData(1)
       } catch (e) {
          console.log(e)
       }
