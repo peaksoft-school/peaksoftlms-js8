@@ -18,13 +18,14 @@ import {
 } from '../../api/adminService'
 
 export const Instructors = () => {
+   const [page, setPage] = useState(1)
    const [openModal, setOpenModal] = useState(false)
-   const [data, setData] = useState([])
+   const [instructors, setInstructors] = useState([])
 
    const getData = async () => {
       try {
          const { data } = await getAllInstructors()
-         return setData(data.instructorResponses)
+         return setInstructors(data.instructorResponses)
       } catch (error) {
          return error
       }
@@ -41,17 +42,22 @@ export const Instructors = () => {
    const handleDeleteItem = async (id) => {
       try {
          await instructorDelete()
-         const deleted = data.filter((row) => row.id !== id)
+         const deleted = instructors.filter((row) => row.id !== id)
 
-         setData(deleted)
+         setInstructors(deleted)
       } catch (error) {
          console.log(error)
       }
    }
 
-   const addInstructor = (data) => {
-      console.log(data)
-      // instructorPost(data)
+   const addInstructor = async (data) => {
+      try {
+         await instructorPost(data)
+         setOpenModal(false)
+         await getData()
+      } catch (e) {
+         console.log(e)
+      }
    }
 
    // const handleEditItem = () => {
@@ -93,7 +99,9 @@ export const Instructors = () => {
                   <EditIcon />
                </IconButton>
                <IconButton onClick={() => {}}>
-                  <DeleteIcon onClick={() => handleDeleteItem(data.id)} />
+                  <DeleteIcon
+                     onClick={() => handleDeleteItem(instructors.id)}
+                  />
                </IconButton>
             </Grid>
          ),
@@ -127,7 +135,12 @@ export const Instructors = () => {
             Добавить учителя
          </ButtonDiv>
          <AppTableDiv>
-            <AppTable columns={columns} rows={data} />
+            <AppTable
+               columns={columns}
+               rows={instructors}
+               page={page}
+               onChangePage={(newPage) => setPage(newPage)}
+            />
          </AppTableDiv>
          <ModalInstructor
             open={openModal}

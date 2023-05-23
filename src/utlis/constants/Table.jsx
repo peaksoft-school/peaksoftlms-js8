@@ -11,12 +11,11 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 
-export const AppTable = ({ columns, rows }) => {
-   const [page, setPage] = useState(1)
+export const AppTable = ({ columns, rows, onChangePage, page }) => {
    const [rowsPerPage, setRowsPerPage] = useState(2)
 
    const handleChangePage = (newPage) => {
-      setPage(newPage)
+      onChangePage(newPage)
    }
 
    const handleChangeRowsPerPage = (event) => {
@@ -35,7 +34,7 @@ export const AppTable = ({ columns, rows }) => {
             </TableHead>
             <TableBody>
                {rows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                      return (
                         <TableRowStyled key={row.id}>
