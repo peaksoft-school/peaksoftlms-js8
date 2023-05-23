@@ -41,10 +41,8 @@ export const Instructors = () => {
 
    const handleDeleteItem = async (id) => {
       try {
-         await instructorDelete()
-         const deleted = instructors.filter((row) => row.id !== id)
-
-         setInstructors(deleted)
+         await instructorDelete(id)
+         getData(1)
       } catch (error) {
          console.log(error)
       }
@@ -93,18 +91,18 @@ export const Instructors = () => {
       {
          header: 'Действия',
          key: 'actions',
-         render: () => (
-            <Grid>
-               <IconButton>
-                  <EditIcon />
-               </IconButton>
-               <IconButton onClick={() => {}}>
-                  <DeleteIcon
-                     onClick={() => handleDeleteItem(instructors.id)}
-                  />
-               </IconButton>
-            </Grid>
-         ),
+         render: (row) => {
+            return (
+               <Grid>
+                  <IconButton>
+                     <EditIcon />
+                  </IconButton>
+                  <IconButton onClick={() => handleDeleteItem(row.id)}>
+                     <DeleteIcon />
+                  </IconButton>
+               </Grid>
+            )
+         },
       },
    ]
 

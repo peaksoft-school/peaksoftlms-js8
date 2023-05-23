@@ -27,9 +27,11 @@ export const AppTable = ({ columns, rows, onChangePage, page }) => {
          <Table aria-label="simple table">
             <TableHead>
                <TableRow>
-                  {columns?.map((column) => (
-                     <TableCell key={column.id}>{column.header}</TableCell>
-                  ))}
+                  {columns?.map((column) => {
+                     return (
+                        <TableCell key={column.id}>{column.header}</TableCell>
+                     )
+                  })}
                </TableRow>
             </TableHead>
             <TableBody>
