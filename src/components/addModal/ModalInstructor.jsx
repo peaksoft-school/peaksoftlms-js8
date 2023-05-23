@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import styled from '@emotion/styled'
 import { useFormik } from 'formik'
 import PhoneInput from 'react-phone-input-2'
@@ -6,11 +7,13 @@ import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
 
+const onlyCountries = ['kg', 'ru', 'kz']
 export const ModalInstructor = ({ addNewData, open, onClose }) => {
+   const [phoneNumber, setPhoneNumber] = useState('')
+
    const onSubmitHandler = ({
       firstName,
       lastName,
-      phoneNumber,
       email,
       password,
       special,
@@ -30,15 +33,15 @@ export const ModalInstructor = ({ addNewData, open, onClose }) => {
       initialValues: {
          firstName: '',
          lastName: '',
-         phoneNumber: '',
          email: '',
          password: '',
          special: '',
       },
-      onSubmit: onSubmitHandler,
+      onSubmit: (values) => {
+         return onSubmitHandler(values)
+      },
    })
    const { handleChange, handleSubmit, values } = formik
-   const onlyCountries = ['kg', 'ru', 'kz']
    const isEmailValid = () => {
       return (
          values.email.length === 0 ||
@@ -58,7 +61,7 @@ export const ModalInstructor = ({ addNewData, open, onClose }) => {
             <ContentH3>
                <h3>Добавить учителя</h3>
             </ContentH3>
-            <Container onSubmit={handleChange}>
+            <Container onSubmit={handleSubmit}>
                <Input
                   placeholder="Имя"
                   value={values.firstName}
@@ -72,9 +75,10 @@ export const ModalInstructor = ({ addNewData, open, onClose }) => {
                   name="lastName"
                />
                <PhoneInput
+                  country="kg"
                   onlyCountries={onlyCountries}
-                  value={values.phoneNumber}
-                  onChange={handleChange}
+                  value={phoneNumber}
+                  onChange={(phone) => setPhoneNumber(phone)}
                   name="phoneNumber"
                   type="tel"
                />
@@ -100,15 +104,15 @@ export const ModalInstructor = ({ addNewData, open, onClose }) => {
                   onChange={handleChange}
                   name="special"
                />
+               <BtnContainer>
+                  <Button variant="outlined" onClick={onClose}>
+                     Отмена
+                  </Button>
+                  <Button variant="contained" type="submit">
+                     Добавить
+                  </Button>
+               </BtnContainer>
             </Container>
-            <BtnContainer>
-               <Button variant="outlined" onClick={onClose}>
-                  Отмена
-               </Button>
-               <Button variant="contained" type="submit" onClick={handleSubmit}>
-                  Добавить
-               </Button>
-            </BtnContainer>
          </ModalStyled>
       </ModalWindowStyled>
    )

@@ -14,7 +14,6 @@ import { useState } from 'react'
 export const AppTable = ({ columns, rows }) => {
    const [page, setPage] = useState(1)
    const [rowsPerPage, setRowsPerPage] = useState(2)
-   console.log(rows)
 
    const handleChangePage = (newPage) => {
       setPage(newPage)

@@ -51,7 +51,7 @@ export const Instructors = () => {
 
    const addInstructor = (data) => {
       console.log(data)
-      instructorPost(data)
+      // instructorPost(data)
    }
 
    // const handleEditItem = () => {
