@@ -11,7 +11,7 @@ const ForgotPassword = () => {
       setOpen(false)
    }
    return (
-      <ModalWindow open={open}>
+      <ModalWindow open={open} onClose={() => setOpen(false)}>
          <Container>
             <Header>
                <p>Забыли пароль</p>

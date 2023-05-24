@@ -8,5 +8,6 @@ export const ProtectedRoute = ({
    if (!isAllowed) {
       return <Navigate to={fallBackPath} />
    }
+
    return <Component />
 }

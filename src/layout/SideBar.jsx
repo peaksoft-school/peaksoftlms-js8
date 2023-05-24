@@ -6,13 +6,14 @@ import { ReactComponent as Students } from '../assets/icons/students.svg'
 import { ReactComponent as Courses } from '../assets/icons/courses.svg'
 import { ReactComponent as InstructorCourses } from '../assets/icons/InstrCourses.svg'
 import { ReactComponent as Teachers } from '../assets/icons/teachers.svg'
+import { CURRENT_PATH } from '../utlis/constants/commons'
 
 export const SideBar = ({ role }) => {
    let path
    if (role === 'STUDENT') {
-      path = 'MyCourses'
+      path = CURRENT_PATH.student.COURSES
    } else if (role === 'INSTRUCTOR') {
-      path = 'instCourses'
+      path = CURRENT_PATH.instructor.COURSES
    }
    return (
       <Sidebar>
@@ -20,25 +21,25 @@ export const SideBar = ({ role }) => {
             <>
                <PeaksoftIcon style={{ margin: '38px 59px 80 49px' }} />
                <InfoBox>
-                  <ALink to="/groups">
+                  <ALink to={CURRENT_PATH.admin.GROUPS}>
                      <span>
                         <Groups />
                      </span>
                      Группы
                   </ALink>
-                  <ALink to="/courses">
+                  <ALink to={CURRENT_PATH.admin.COURSES}>
                      <span>
                         <Courses />
                      </span>
                      Курсы
                   </ALink>
-                  <ALink to="/instructor">
+                  <ALink to={CURRENT_PATH.admin.INSTRUCTOR}>
                      <span>
                         <Teachers />
                      </span>
                      Учителя
                   </ALink>
-                  <ALink to="/students">
+                  <ALink to={CURRENT_PATH.admin.STUDENTS}>
                      <span>
                         <Students />
                      </span>
