@@ -12,13 +12,13 @@ import { getGroupAllRequest } from '../../api/adminStudent'
 
 export const ModalStudent = ({ addNewData, open, onClose }) => {
    const [formLearning, setFormLearning] = useState(null)
-   const [groupId, setGroupId] = useState([])
-   const [setSelectedGroupId] = useState('')
+   const [groups, setGroups] = useState([])
+   const [selectedGroupID, setSelectedGroupID] = useState('')
    const [phoneNumber, setPhoneNumber] = useState('')
    const fetchData = async () => {
       try {
          const response = await getGroupAllRequest()
-         setGroupId(response.data.groupResponses)
+         setGroups(response.data.groupResponses)
       } catch (error) {
          console.error('Ошибка при получении данных:', error)
       }
@@ -43,7 +43,7 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
          phoneNumber,
          email,
          password,
-         groupId: groupId[0].id,
+         groupId: selectedGroupID,
          formLearning: formLearning.label,
       }
       addNewData(newData)
@@ -127,8 +127,8 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
                   onChange={onChangeSelect2}
                />
                <select onChange={handleGroupChange}>
-                  {groupId.map((item) => (
-                     <option key={item.id} value={item.value} id={item.id}>
+                  {groups.map((item) => (
+                     <option key={item.id} value={item.id} id={item.id}>
                         {item.name}
                      </option>
                   ))}

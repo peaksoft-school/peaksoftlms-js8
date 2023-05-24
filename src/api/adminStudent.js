@@ -2,7 +2,10 @@ import { axiosInstance } from '../config/axiosInstance'
 
 export const studentPostRequests = (data) => {
    console.log(data, 'dataPost')
-   return axiosInstance.post('/students', data)
+   return axiosInstance.post('/students', {
+      ...data,
+      phoneNumber: `+${data.phoneNumber}`,
+   })
 }
 export const getStudentRequests = () => {
    return axiosInstance.get('students')
