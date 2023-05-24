@@ -92,7 +92,7 @@ export const Students = () => {
    ]
 
    return (
-      <div>
+      <Container>
          <Button variant="outlined" onClick={btnHandler2}>
             <VictorStyled />
             Импорт Excel
@@ -133,9 +133,17 @@ export const Students = () => {
             />
          )}
          <AppTable rows={students} columns={columns} />
-      </div>
+      </Container>
    )
 }
+
+const Container = styled.div`
+   background: #eff0f4;
+   margin-left: 15rem;
+   width: 1140px;
+   /* height: 875px; */
+`
+
 const VictorStyled = styled(Victor)`
    margin-right: 10.5px;
 `

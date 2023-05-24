@@ -1,6 +1,7 @@
 import { axiosInstance } from '../config/axiosInstance'
 
 export const studentPostRequests = (data) => {
+   console.log(data, 'dataPost')
    return axiosInstance.post('/students', data)
 }
 export const getStudentRequests = () => {
@@ -12,3 +13,6 @@ export const getStudentRequests = () => {
 // export const deleteStudentRequests = (id) => {
 //    return axiosInstance.delete(`/api/students/${id}`)
 // }
+export const getGroupAllRequest = () => {
+   return axiosInstance.get('/groups/pagination?size=2&page=1')
+}
