@@ -5,7 +5,7 @@ import { Students } from './pages/admin/Students'
 function App() {
    return (
       <div>
-         Peaksoft LMS
+         {/* Peaksoft LMS */}
          <SideBar role="ADMIN" />
          <Students />
       </div>

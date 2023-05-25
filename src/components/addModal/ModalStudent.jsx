@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import styled from '@emotion/styled'
 import { useFormik } from 'formik'
 import { useEffect, useState } from 'react'
@@ -13,7 +12,7 @@ import { getGroupAllRequest } from '../../api/adminStudent'
 export const ModalStudent = ({ addNewData, open, onClose }) => {
    const [formLearning, setFormLearning] = useState(null)
    const [groups, setGroups] = useState([])
-   const [groupId, setGroupId] = useState('')
+   const [selectedGroupID, setSelectedGroupID] = useState('')
    const [phoneNumber, setPhoneNumber] = useState('')
    const fetchData = async () => {
       try {
@@ -23,13 +22,13 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
          console.error('Ошибка при получении данных:', error)
       }
    }
-   const handleGroupChange = (event) => {
-      setGroupId(event.target.value)
+   const handleGroupChange = (options) => {
+      setSelectedGroupID(options)
    }
    useEffect(() => {
       fetchData()
    }, [])
-   const onChangeSelect2 = (newValue) => {
+   const onChangeFormLearning = (newValue) => {
       setFormLearning(newValue)
    }
    const optionsFormat = [
@@ -43,7 +42,7 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
          phoneNumber,
          email,
          password,
-         groupId,
+         groupId: selectedGroupID.value,
          formLearning: formLearning.label,
       }
       addNewData(newData)
@@ -71,6 +70,12 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
          (values.password.length > 0 && values.password >= 6)
       )
    }
+
+   const groupOptions = groups.map((group) => ({
+      value: group.id,
+      label: group.name,
+   }))
+
    return (
       <div>
          <ModalStyled open={open} onClose={onClose}>
@@ -114,33 +119,18 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
                   onChange={handleChange}
                   name="password"
                />
-               {/* <Select
-                  options={groupId}
-                  value={groupId}
+               <Select
+                  options={groupOptions}
+                  value={selectedGroupID}
+                  onChange={handleGroupChange}
                   placeholder="Группа"
-                  onChange={onChangeSelect}
-               /> */}
+               />
                <Select
                   options={optionsFormat}
                   value={formLearning}
                   placeholder="Формат обучения"
-                  onChange={onChangeSelect2}
+                  onChange={onChangeFormLearning}
                />
-               <select onChange={handleGroupChange}>
-                  {groups.map((item) => (
-                     <option key={item.id} value={item.id} id={item.id}>
-                        {item.name}
-                     </option>
-                  ))}
-               </select>
-               {/* <select
-                  value={values.formLearning}
-                  onChange={handleChange}
-                  name="formLearning"
-               >
-                  <option value="online">ONLINE</option>
-                  <option value="offline">OFFLINE</option>
-               </select> */}
                <BtnContainer>
                   <Button variant="outlined" onClick={onClose}>
                      Отмена
@@ -203,6 +193,9 @@ const Container = styled.form`
    .flag-dropdown {
       border: none;
    }
+   Select {
+      margin-bottom: 20px;
+   }
 `
 const BtnContainer = styled.div`
    display: flex;
@@ -210,6 +203,5 @@ const BtnContainer = styled.div`
    Button {
       margin-left: -5px;
       margin-right: 25px;
-      margin-bottom: 25px;
    }
 `

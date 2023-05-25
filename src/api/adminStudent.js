@@ -1,11 +1,13 @@
 import { axiosInstance } from '../config/axiosInstance'
 
 export const studentPostRequests = (data) => {
-   console.log(data.phoneNumber, 'dataPost')
-   return axiosInstance.post('/students')
+   return axiosInstance.post('/students', {
+      ...data,
+      phoneNumber: `+${data.phoneNumber}`,
+   })
 }
-export const getStudentRequests = () => {
-   return axiosInstance.get('students')
+export const getStudentRequests = (courseId) => {
+   return axiosInstance.get(`/students?courseId=${courseId}`)
 }
 // export const getAllStudentRequests = () => {
 //    return axiosInstance.get('/api/students/all')
