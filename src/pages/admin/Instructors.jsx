@@ -12,8 +12,9 @@ import { ReactComponent as DeleteIcon } from '../../assets/icons/tableDeleteTeac
 import { ReactComponent as AddTeacherIcon } from '../../assets/icons/addTeacher.svg'
 import {
    getAllInstructors,
-   // getAllInstructors,
    instructorDelete,
+   // getAllInstructors,
+   // instructorDelete,
    instructorPost,
 } from '../../api/adminService'
 
@@ -48,6 +49,10 @@ export const Instructors = () => {
       }
    }
 
+   // const handleDeleteItem = (id) => {
+   //    console.log(id)
+   // }
+
    const addInstructor = async (data) => {
       try {
          await instructorPost(data)
@@ -62,6 +67,20 @@ export const Instructors = () => {
    // const handleEditItem = () => {
    //    asyncPutInstructor(data)
    // }
+
+   // const editHandler = async (id) => {
+   //    try {
+   //       openModalHandler('edit')
+   //       const response = await instructorPut(teacher, teacherId)
+   //       console.log(response.data)
+   //       await getData()
+   //    } catch (error) {
+   //       console.error('Error updating data:', error)
+   //    }
+   // }
+   const editHandler = (id) => {
+      console.log(id)
+   }
 
    const columns = [
       {
@@ -95,7 +114,7 @@ export const Instructors = () => {
          render: (row) => {
             return (
                <Grid>
-                  <IconButton>
+                  <IconButton onClick={() => editHandler(row.id)}>
                      <EditIcon />
                   </IconButton>
                   <IconButton onClick={() => handleDeleteItem(row.id)}>
