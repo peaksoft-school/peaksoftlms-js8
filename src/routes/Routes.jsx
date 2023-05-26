@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import { Groups } from '../pages/admin/Groups'
-import { Courses } from '../pages/admin/Courses'
+import { Courses } from '../pages/admin/course/Courses'
 import { Courses as InstructorCourses } from '../pages/instructor/courses/Courses'
 import { Instructors } from '../pages/admin/Instructors'
 import { Students } from '../pages/admin/Students'
@@ -8,6 +8,7 @@ import { AdminLayout } from '../layout/AdminLayout'
 import { ProtectedRoute } from './ProtectedRoute'
 import { CURRENT_PATH, USER_ROLES } from '../utlis/constants/commons'
 import { MyCourses } from '../pages/student/my-courses/MyCourses'
+import BasicTabs from '../pages/admin/course/Tabs'
 
 export const AppRoutes = () => {
    const currentrole = ''
@@ -43,6 +44,16 @@ export const AppRoutes = () => {
                   isAllowed={isAllowed(USER_ROLES.ADMIN)}
                   fallBackPath="/"
                   component={Courses}
+               />
+            }
+         />
+         <Route
+            path="/courses/:courseId"
+            element={
+               <ProtectedRoute
+                  isAllowed={isAllowed(USER_ROLES.ADMIN)}
+                  fallBackPath="/"
+                  component={BasicTabs}
                />
             }
          />

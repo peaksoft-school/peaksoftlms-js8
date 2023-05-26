@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { store } from '../redux/store'
 
-const BASE_URL = 'http://ec2-52-59-224-218.eu-central-1.compute.amazonaws.com'
+const BASE_URL = 'http://peaksoftlms.peaksoftprojects.com'
 
 export const axiosInstance = axios.create({
    baseURL: BASE_URL,
@@ -13,7 +13,7 @@ axiosInstance.interceptors.request.use(
          ...config,
          headers: {
             ...config.headers,
-            Authorization: store.getState().auth.token,
+            Authorization: `Bearer ${store.getState().auth.token}`,
          },
       }
       return newConfig
@@ -22,6 +22,7 @@ axiosInstance.interceptors.request.use(
       return Promise.reject(error)
    }
 )
+
 axiosInstance.interceptors.response.use(
    function (response) {
       if (response.status === 401) {
@@ -30,6 +31,38 @@ axiosInstance.interceptors.response.use(
       return response
    },
    function (error) {
+      return Promise.reject(error)
+   }
+)
+export const fileInstance = axios.create({
+   baseURL: 'http://peaksoftlms.peaksoftprojects.com/',
+   headers: {
+      'Content-Type': 'multipart/form-data',
+   },
+})
+fileInstance.interceptors.request.use(
+   function (config) {
+      const newConfig = {
+         ...config,
+         headers: {
+            ...config.headers,
+            Authorization: `Bearer ${store.getState().auth.token}`,
+         },
+      }
+      return newConfig
+   },
+   function (error) {
+      return Promise.reject(error)
+   }
+)
+fileInstance.interceptors.response.use(
+   function (response) {
+      return response
+   },
+   function (error) {
+      if (error.response && error.response.status === 401) {
+         throw new Error('401 unauthorized')
+      }
       return Promise.reject(error)
    }
 )

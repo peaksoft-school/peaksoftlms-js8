@@ -1,10 +1,12 @@
-import { Courses } from './pages/admin/Courses'
+import { SideBar } from './layout/SideBar'
+import { AppRoutes } from './routes/Routes'
 
 function App() {
    return (
       <div>
          {/* PeaksoftLMS/ */}
-         <Courses />
+         <SideBar role="ADMIN" />
+         <AppRoutes />
       </div>
    )
 }
