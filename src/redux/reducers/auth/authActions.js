@@ -32,19 +32,11 @@ export const asyncSignIn = createAsyncThunk(
          )
 
          axiosInstance.defaults.headers.Authorization = `Bearer ${serverData.token}`
-         if (data.role === USER_ROLES.ADMIN) {
-            navigate(
-               `/${CURRENT_PATH.admin.ADMIN}/${CURRENT_PATH.admin.GROUPS}`
-            )
-         } else if (serverData.role === USER_ROLES.INSTRUCTOR) {
-            navigate(
-               `/${CURRENT_PATH.instructor.INSTRUCTOR}/${CURRENT_PATH.instructor.COURSES}`
-            )
-         } else if (serverData.role === USER_ROLES.STUDENT) {
-            navigate(
-               `/${CURRENT_PATH.student.STUDENT}/${CURRENT_PATH.student.COURSES}`
-            )
+
+         if (Object.values(USER_ROLES).includes(data.role)) {
+            navigate(`/${CURRENT_PATH.admin.ADMIN}`)
          }
+
          return serverData
       } catch (error) {
          return thunkMethods.rejectWithValue(error)

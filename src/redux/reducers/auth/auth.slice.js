@@ -15,7 +15,13 @@ const initialState = {
 const authSlice = createSlice({
    name: 'auth',
    initialState,
-   reducers: {},
+   reducers: {
+      autoLogin: (state, { payload }) => {
+         state.accessToken = payload.token
+         state.role = payload.userInfo.role
+         state.isAuthorized = true
+      },
+   },
    extraReducers: (builder) => {
       builder
          .addCase(asyncSignIn.pending, (state) => {

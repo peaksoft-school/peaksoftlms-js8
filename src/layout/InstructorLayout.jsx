@@ -1,5 +1,4 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { SideBar } from './SideBar'
 
@@ -8,7 +7,6 @@ const InstructorLayout = () => {
    return (
       <div>
          <SideBar role={role} />
-         <Outlet />
       </div>
    )
 }
