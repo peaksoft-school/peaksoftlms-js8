@@ -15,6 +15,7 @@ axiosInstance.interceptors.request.use(
          headers: {
             ...config.headers,
             'Content-Type': 'application/json',
+            Authorization: store.getState().auth.accessToken,
          },
       }
       return newConfig

@@ -35,6 +35,7 @@ const authSlice = createSlice({
             state.isAuthorized = payload.isAuthorized
             state.isLoading = false
             state.role = payload.role
+            state.accessToken = payload.token
          })
    },
 })

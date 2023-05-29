@@ -71,7 +71,6 @@ export const AppRoutes = () => {
                   <ProtectedRoute
                      isAllowed={isAllowed(USER_ROLES)}
                      isAuth={isAuthorized}
-                     fallBackPath="."
                      component={InstructorLayout}
                   />
                }
@@ -88,7 +87,6 @@ export const AppRoutes = () => {
                   <ProtectedRoute
                      isAllowed={isAllowed(USER_ROLES)}
                      isAuth={isAuthorized}
-                     fallBackPath="."
                      component={StudentLayout}
                   />
                }
