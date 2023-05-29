@@ -1,35 +1,37 @@
+/* eslint-disable import/no-cycle */
 import axios from 'axios'
+import { store } from '../redux/store'
 
-const BASE_URL = 'dkjdnjd'
-const store = []
+const BASE_URL = 'http://peaksoftlms.peaksoftprojects.com/api/'
 
 export const axiosInstance = axios.create({
    baseURL: BASE_URL,
 })
 
 axiosInstance.interceptors.request.use(
-   function (config) {
+   (config) => {
       const newConfig = {
          ...config,
          headers: {
+            Authorization: `Bearer ${store.getState().auth.accessToken}`,
             ...config.headers,
-            Authorization: store.getState().auth.token,
+            'Content-Type': 'application/json',
          },
       }
       return newConfig
    },
-   function (error) {
+   (error) => {
       return Promise.reject(error)
    }
 )
 axiosInstance.interceptors.response.use(
-   function (response) {
+   (response) => {
       if (response.status === 401) {
          store.dispatch()
       }
       return response
    },
-   function (error) {
+   (error) => {
       return Promise.reject(error)
    }
 )
