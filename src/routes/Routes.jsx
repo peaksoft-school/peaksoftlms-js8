@@ -11,7 +11,7 @@ import { CURRENT_PATH, USER_ROLES } from '../utlis/constants/commons'
 import { MyCourses } from '../pages/student/my-courses/MyCourses'
 
 export const AppRoutes = () => {
-   const currentrole = ''
+   const currentrole = USER_ROLES.INSTRUCTOR
    const isAllowed = (roles) => {
       return roles.includes(currentrole)
    }

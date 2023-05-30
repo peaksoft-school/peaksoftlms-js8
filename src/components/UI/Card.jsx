@@ -4,6 +4,7 @@ import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
 import { ReactComponent as Icons } from '../../assets/icons/frames.svg'
+import { Meatballs } from './Meatballs'
 
 const Cards = ({ title, content, image, date }) => {
    return (
@@ -13,9 +14,12 @@ const Cards = ({ title, content, image, date }) => {
             <CardContent>{title}</CardContent>
             <CardContent>{date}</CardContent>
          </DivStyled>
+
          <StyledCartContent>{content}</StyledCartContent>
          <CardActionStyled>
             <Icons />
+            <Meatballs />
+            okn;olknljkfdniskjv;n fdkj, jasnmdfnxjcklsn xlk.f,mvdfl kc.,
          </CardActionStyled>
       </CardStyled>
    )

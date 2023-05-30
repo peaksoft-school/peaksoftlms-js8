@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = 'dkjdnjd'
+const BASE_URL = 'http://peaksoftlms.peaksoftprojects.com/'
 const store = []
 
 export const axiosInstance = axios.create({
