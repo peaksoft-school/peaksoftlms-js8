@@ -1,15 +1,44 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable import/no-cycle */
 import { createSlice } from '@reduxjs/toolkit'
+import { asyncSignIn } from './authActions'
 
 const initialState = {
-   linkPhoto: '',
-   error: '',
-   isloading: '',
-   token: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODUwMTkyNjUsImV4cCI6MTY4NjQ1OTI2NX0.uavXfXcGp8_TRffX5HulDlwPx3JkLlmj9EulxwCrzMY',
+   userId: '',
+   accessToken: '',
+   role: '',
+   isAuthorized: false,
+   isLoading: false,
+   error: null,
 }
-export const authSlice = createSlice({
+
+const authSlice = createSlice({
    name: 'auth',
    initialState,
-   reducers: {},
+   reducers: {
+      autoLogin: (state, { payload }) => {
+         state.accessToken = payload.token
+         state.role = payload.userInfo.role
+         state.isAuthorized = true
+      },
+   },
+   extraReducers: (builder) => {
+      builder
+         .addCase(asyncSignIn.pending, (state) => {
+            state.isLoading = true
+         })
+         .addCase(asyncSignIn.rejected, (state, { payload }) => {
+            state.isLoading = false
+            state.error = payload.error
+         })
+         .addCase(asyncSignIn.fulfilled, (state, { payload }) => {
+            state.isAuthorized = payload.isAuthorized
+            state.isLoading = false
+            state.role = payload.role
+            state.accessToken = payload.token
+         })
+   },
 })
+export const authActions = authSlice.actions
 
-export const AuthActions = authSlice.actions
+export default authSlice

@@ -16,9 +16,17 @@ export const CURRENT_PATH = {
       STUDENTS: 'students',
    },
    instructor: {
-      COURSES: 'instructorcourses',
+      INSTRUCTOR: 'instructor',
+      COURSES: 'courses',
    },
    student: {
+      STUDENT: 'student',
       COURSES: 'mycourses',
    },
+   auth: {
+      FORGOT_PASSWORD: 'forgot_password',
+   },
 }
+
+export const JWT_TOKEN_KEY = 'PEAKSOFT_LMS_JWT_TOKEN_KEY&'
+export const USER_INFO = 'USER_INFO@'

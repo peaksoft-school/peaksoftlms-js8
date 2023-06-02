@@ -1,20 +1,9 @@
 import React from 'react'
 import { Button as MuiButton } from '@mui/material'
 
-const Button = ({
-   children,
-   onClick,
-   variant = 'contained',
-   borderStyle = 'rounded',
-   ...props
-}) => {
+const Button = ({ children, variant = 'contained', ...props }) => {
    return (
-      <MuiButton
-         {...props}
-         onClick={onClick}
-         borderStyle={borderStyle}
-         variant={variant}
-      >
+      <MuiButton {...props} variant={variant}>
          {children}
       </MuiButton>
    )

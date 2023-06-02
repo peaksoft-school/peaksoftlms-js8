@@ -12,7 +12,6 @@ import { usePasswordShow } from '../../hooks/passwordShow'
 
 const Password = forwardRef(
    ({ title, placeholder, password, error, ...rest }, ref) => {
-      console.log(rest)
       const [showPassword, handleClickShowPassword, handleMouseDownPassword] =
          usePasswordShow()
       return (
