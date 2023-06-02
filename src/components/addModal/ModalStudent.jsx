@@ -3,31 +3,20 @@ import { useFormik } from 'formik'
 import { useEffect, useState } from 'react'
 import Select from 'react-select/creatable'
 import PhoneInput from 'react-phone-input-2'
+import { useSearchParams } from 'react-router-dom'
 import Input from '../UI/Input'
 import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
-import { getGroupAllRequest } from '../../api/adminStudent'
+import useGetAllGroup from '../../hooks/getAllGroup'
+import { getStudentById } from '../../api/adminStudent'
 
-export const ModalStudent = ({ addNewData, open, onClose }) => {
+const onlyCountries = ['kg', 'ru', 'kz']
+export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
+   const [searchParams] = useSearchParams()
    const [formLearning, setFormLearning] = useState(null)
-   const [groups, setGroups] = useState([])
-   const [selectedGroupID, setSelectedGroupID] = useState('')
    const [phoneNumber, setPhoneNumber] = useState('')
-   const fetchData = async () => {
-      try {
-         const response = await getGroupAllRequest()
-         setGroups(response.data.groupResponses)
-      } catch (error) {
-         console.error('Ошибка при получении данных:', error)
-      }
-   }
-   const handleGroupChange = (options) => {
-      setSelectedGroupID(options)
-   }
-   useEffect(() => {
-      fetchData()
-   }, [])
+   const { groups, selectedGroupID, handleGroupChange } = useGetAllGroup()
    const onChangeFormLearning = (newValue) => {
       setFormLearning(newValue)
    }
@@ -56,26 +45,37 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
       },
       onSubmit: onSubmitHandler,
    })
-   const { handleChange, handleSubmit, values } = formik
-   const onlyCountries = ['kg', 'ru', 'kz']
+   const { handleChange, handleSubmit, values, setValues } = formik
    const isEmailValid = () => {
       return (
          values.email.length === 0 ||
          (values.email.length > 0 && values.email.includes('@'))
       )
    }
-   const isPasswordValid = () => {
-      return (
-         values.password.length === 0 ||
-         (values.password.length > 0 && values.password >= 6)
-      )
-   }
-
    const groupOptions = groups.map((group) => ({
       value: group.id,
       label: group.name,
    }))
-
+   useEffect(() => {
+      const studentId = searchParams.get('studentId')
+      if (open && searchParams.get('modal') === 'edit' && studentId) {
+         getStudentById(studentId)
+            .then(({ data }) => {
+               return setValues({ ...data })
+            })
+            .catch((error) => {
+               console.error('Error fetching student data:', error)
+            })
+      }
+   }, [open])
+   const id = 'studentsId' || '1'
+   const submitHandler = () => {
+      if (searchParams.get('modal') === 'edit') {
+         onSubmit(id, values)
+      } else {
+         addNewData(values)
+      }
+   }
    return (
       <div>
          <ModalStyled open={open} onClose={onClose}>
@@ -99,7 +99,7 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
                   country="kg"
                   onlyCountries={onlyCountries}
                   value={phoneNumber}
-                  onChange={(phone) => setPhoneNumber(phone)}
+                  onChange={(phone) => setPhoneNumber(console.log(phone))}
                   name="phoneNumber"
                   type="tel"
                />
@@ -114,7 +114,6 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
                <Input
                   placeholder="Пароль"
                   type="password"
-                  error={!isPasswordValid()}
                   value={values.password}
                   onChange={handleChange}
                   name="password"
@@ -135,7 +134,7 @@ export const ModalStudent = ({ addNewData, open, onClose }) => {
                   <Button variant="outlined" onClick={onClose}>
                      Отмена
                   </Button>
-                  <Button variant="contained" type="submit">
+                  <Button variant="contained" onClick={submitHandler}>
                      Добавить
                   </Button>
                </BtnContainer>

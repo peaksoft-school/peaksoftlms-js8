@@ -1,5 +1,7 @@
 import styled from '@emotion/styled'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { ToastContainer, toast } from 'react-toastify'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import 'react-toastify/dist/ReactToastify.css'
 
 export const useSnackbar = (type, message) => {
