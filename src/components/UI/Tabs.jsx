@@ -1,21 +1,26 @@
 import styled from '@emotion/styled'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Outlet, useParams } from 'react-router-dom'
 
 const Tabs = ({ role = 'ADMIN' }) => {
+   const { coursesId } = useParams()
+
    return (
-      <Container>
-         {role === 'ADMIN' ? (
-            <>
-               <StyledLink to="/">Учителя</StyledLink>
-               <StyledLink to="/">Студенты</StyledLink>
-            </>
-         ) : (
-            <>
-               <StyledLink to="/">Материалы</StyledLink>
-               <StyledLink to="/">Студенты</StyledLink>
-            </>
-         )}
-      </Container>
+      <>
+         <Container>
+            {role === 'ADMIN' ? (
+               <>
+                  <StyledLink to={`${coursesId}/teachers`}>Учителя</StyledLink>
+                  <StyledLink to={`${coursesId}/students`}>Студенты</StyledLink>
+               </>
+            ) : (
+               <>
+                  <StyledLink to="/">Материалы</StyledLink>
+                  <StyledLink to="/">Студенты</StyledLink>
+               </>
+            )}
+         </Container>
+         <Outlet />
+      </>
    )
 }
 

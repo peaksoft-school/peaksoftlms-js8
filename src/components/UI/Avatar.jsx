@@ -3,7 +3,7 @@ import { Avatar, IconButton, Stack } from '@mui/material'
 import { useUploadAvatar } from '../../hooks/uploadAvatar'
 import { ReactComponent as AvatarIcon } from '../../assets/icons/avatar.svg'
 
-const AvatarUpload = ({ ...rest }) => {
+const AvatarUpload = ({ imgLink, ...rest }) => {
    const [avatarUrl, handleAvatarChange] = useUploadAvatar()
 
    return (
@@ -21,7 +21,7 @@ const AvatarUpload = ({ ...rest }) => {
          />
          <Stack direction="row" spacing={2}>
             <AvatarGroupStyle sx={{ bgcolor: '#E2E4E8' }} variant="rounded">
-               <img src={avatarUrl} alt="" />
+               <img src={imgLink || avatarUrl} alt="" />
                <AvatarIcon />
             </AvatarGroupStyle>
          </Stack>
@@ -32,7 +32,7 @@ const AvatarUpload = ({ ...rest }) => {
 export default AvatarUpload
 
 const AvatarGroupStyle = styled(Avatar)`
-   width: 173px;
-   height: 145px;
+   width: 153px;
+   height: 125px;
    border-radius: 10px;
 `
