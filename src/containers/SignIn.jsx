@@ -10,11 +10,12 @@ import Img from '../assets/images/signIn.png'
 import Password from '../components/UI/Password'
 import { asyncSignIn } from '../redux/reducers/auth/authActions'
 import { CURRENT_PATH } from '../utlis/constants/commons'
+import { useSnackbar } from '../hooks/useSnackbar'
 
 const SignInSide = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
-
+   const { notify, Snackbar } = useSnackbar()
    const {
       register,
       handleSubmit,
@@ -22,11 +23,12 @@ const SignInSide = () => {
    } = useForm()
 
    const onSubmit = (email) => {
-      dispatch(asyncSignIn({ email, navigate }))
+      dispatch(asyncSignIn({ email, navigate, notify }))
    }
 
    return (
       <GridContainerStyle container>
+         {Snackbar}
          <GridStyle1>
             <BoxStyle>
                <img src={Img} alt="" />
