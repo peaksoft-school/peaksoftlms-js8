@@ -1,11 +1,22 @@
+import { useState } from 'react'
 import styled from '@emotion/styled'
 import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
-import { ReactComponent as Icons } from '../../assets/icons/frames.svg'
+// import { ReactComponent as Icons } from '../../assets/icons/frames.svg'
+import { Meatballs } from './Meatballs'
 
 const Cards = ({ title, content, image, date }) => {
+   const [anchorEl, setAnchorEl] = useState(null)
+   const open = Boolean(anchorEl)
+
+   const handleClickMeatballs = (e) => {
+      setAnchorEl(e.currentTarget)
+   }
+   const handleCloseMeatballs = () => {
+      setAnchorEl(null)
+   }
    return (
       <CardStyled>
          <CardMedia component="img" alt="projects" height="171" image={image} />
@@ -15,7 +26,11 @@ const Cards = ({ title, content, image, date }) => {
          </DivStyled>
          <StyledCartContent>{content}</StyledCartContent>
          <CardActionStyled>
-            <Icons />
+            <Styledmeatballs
+               onClick={handleClickMeatballs}
+               onClose={handleCloseMeatballs}
+               open={open}
+            />
          </CardActionStyled>
       </CardStyled>
    )
@@ -25,6 +40,7 @@ export default Cards
 
 const DivStyled = styled.div({
    display: 'flex',
+   gap: 34,
    maxWidth: 234,
    height: 18,
    marginLeft: 18,
@@ -39,7 +55,7 @@ const CardStyled = styled(Card)({
 })
 
 const CardActionStyled = styled(CardActions)({
-   marginLeft: 228,
+   marginLeft: 18,
    marginBottom: 8,
 })
 
@@ -54,5 +70,12 @@ const StyledCartContent = styled(CardContent)`
       text-overflow: ellipsis;
       width: 234;
       height: 66px;
+   }
+`
+const Styledmeatballs = styled(Meatballs)`
+   .MuiList-root > li {
+      :first-of-type {
+         display: none;
+      }
    }
 `
