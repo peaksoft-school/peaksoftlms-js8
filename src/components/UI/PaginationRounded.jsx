@@ -2,11 +2,11 @@ import styled from '@emotion/styled'
 import Pagination from '@mui/material/Pagination'
 import Stack from '@mui/material/Stack'
 
-export function PaginationRounded({ onChange, page }) {
+export function PaginationRounded({ onChange, page, count }) {
    return (
       <Stack spacing={2}>
          <StyledPagination
-            count={10}
+            count={count}
             variant="outlined"
             shape="rounded"
             onChange={onChange}

@@ -1,14 +1,11 @@
 import styled from '@emotion/styled'
 import CardMedia from '@mui/material/CardMedia'
 import { useState } from 'react'
-// import { Box } from '@mui/material'
 import { Tooltip, Zoom } from '@mui/material'
 import { Meatballs } from './Meatballs'
 
 const Cards = ({ title, content, image, date, id, navigate, openModal }) => {
    const [anchorEl, setAnchorEl] = useState(null)
-   // const [isShow, setIsShow] = useState(false)
-   // const des = item.description.split(' ').slice(0, 10).join(' ')
 
    const item = {
       title,
@@ -34,15 +31,10 @@ const Cards = ({ title, content, image, date, id, navigate, openModal }) => {
    const handleClose = () => {
       setAnchorEl(null)
    }
-
-   // const isShowHandler = () => {
-   //    setIsShow((prev) => !prev)
-   // }
-
    return (
-      <CardContainer>
+      <CardContainer iner>
          <CardMedia
-            onClick={() => navigate(id)}
+            onClick={() => navigate({ id, title })}
             component="img"
             alt="projects"
             height="171"
@@ -79,19 +71,26 @@ const Cards = ({ title, content, image, date, id, navigate, openModal }) => {
 export default Cards
 
 const CardContainer = styled('div')(() => ({
-   border: '1px solid ',
+   display: 'flex',
+   flexDirection: 'column',
+   justifyContent: 'space-between',
    width: '230px',
    borderRadius: '10px',
-
+   backgroundColor: ' #FFFFFF',
+   minHeight: '310px',
+   maxHeight: 'auto',
    img: {
       borderRadius: '10px 10px 0px 0px',
    },
+   padding: '0 0 21px 0',
+   overflow: 'hidden',
 }))
 
 const DateContainer = styled('div')(() => ({
    display: 'flex',
-   justifyContent: 'space-around',
    alignItems: 'center',
+   gap: '20px',
+   padding: '0 10px',
 }))
 
 const DataEngineer = styled('span')(() => ({
@@ -102,6 +101,8 @@ const DataEngineer = styled('span')(() => ({
    lineHeight: '25px',
    color: '#1D293F',
    margin: '15px 0 0',
+   overflow: 'hidden',
+   textOverflow: 'ellipsis',
 }))
 
 const Date = styled('span')(() => ({
@@ -126,11 +127,12 @@ const Description = styled('p')(() => ({
 
 const DescriptionContainer = styled('div')(() => ({
    whiteSpace: 'pre-wrap',
-   padding: '0px 5px',
+   padding: '0px 10px',
+   maxWidth: '230px',
 }))
 
 const MeatballsContainer = styled('div')(() => ({
    display: 'flex',
    justifyContent: 'flex-end',
-   paddingLeft: '240px',
+   alignItems: 'flex-end',
 }))

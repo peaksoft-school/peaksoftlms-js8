@@ -58,10 +58,10 @@ export const Meatballs = ({
    }
 
    const submitHandler = async (data) => {
-      data.id = courseData.id
+      data.courseId = courseData.id
       try {
          await putCourses(data)
-         dispatch(asyncGetCourses({ pageSize: '9', pagination: '1' }))
+         dispatch(asyncGetCourses({ pageSize: '8', pagination: '1' }))
          closeModal()
       } catch (error) {
          console.log(error)
