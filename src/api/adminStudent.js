@@ -7,11 +7,7 @@ export const studentPostRequests = (data) => {
       phoneNumber: `+${data.phoneNumber}`,
    })
 }
-// export const getStudentRequests = (courseId) => {
-//    return axiosInstance.get(`/students?courseId=${courseId}`)
-// }
 export const getAllStudentRequests = (formStudy) => {
-   console.log(formStudy, 'formstudy')
    return axiosInstance.get('/students/getAllForAdmin', {
       params: { formStudy: `${formStudy}` },
    })
@@ -29,14 +25,8 @@ export const fileUploadPostRequest = (data) => {
 }
 
 export const updateStudents = (id, values) => {
-   console.log(values)
-   return axiosInstance.put(
-      '/students',
-      {
-         params: { studentId: `${id}` },
-      },
-      values
-   )
+   console.log(values, 'values')
+   return axiosInstance.put(`/students?studentId=${id}`, values)
 }
 export const getStudentById = (id) => {
    return axiosInstance.get('/students/getById', {

@@ -35,10 +35,9 @@ export const Students = () => {
    const [searchParams, setSearchParams] = useSearchParams()
    const [openModal, setOpenModal] = useState(false)
    const [file, setFile] = useState(null)
-   const [filteredData, setFilteredData] = useState([])
    const [type, setError] = useState('')
    const [message, setMessage] = useState('')
-   const [filterValue, setFilterValue] = useState('Все')
+   const [filterValue, setFilterValue] = useState('all')
    const { groups, selectedGroupID, handleGroupChange } = useGetAllGroup()
    const { notify, Snackbar } = useSnackbar(type, message)
    const fetchStudent = async () => {
@@ -49,24 +48,10 @@ export const Students = () => {
          console.log(error, 'ERROR')
       }
    }
-   function filterData() {
-      let filteredData = students
-      if (filterValue !== 'Все') {
-         filteredData = filteredData.filter(
-            (item) => item.status === filterValue
-         )
-      }
-      setFilteredData(filteredData)
-   }
    useEffect(() => {
       fetchStudent()
-   }, [])
+   }, [filterValue])
 
-   useEffect(() => {
-      if (students.length > 0) {
-         filterData()
-      }
-   }, [filterValue, students])
    const filterChangeHand = (event) => {
       setFilterValue(event.target.value)
    }
@@ -172,7 +157,6 @@ export const Students = () => {
       },
    ]
    const saveHandler = (id, values) => {
-      console.log(values)
       updateStudents(id, values)
    }
    const isModalOpen = !!searchParams.get('modal')
@@ -201,7 +185,7 @@ export const Students = () => {
                >
                   <MenuItem value="ONLINE">Онлайн</MenuItem>
                   <MenuItem value="OFFLINE">Оффлайн</MenuItem>
-                  <MenuItem value="Все">Все</MenuItem>
+                  <MenuItem value="all">Все</MenuItem>
                </SelectFormStudy>
                <ImportFileBtn variant="outlined" onClick={btnHandler2}>
                   <VictorStyled />
@@ -271,7 +255,7 @@ export const Students = () => {
          </AddModalStudentAndFile>
          <AppTable
             columns={columns}
-            rows={filteredData}
+            rows={students}
             getUniqueId={(val) => val.id}
          />
       </Container>

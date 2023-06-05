@@ -14,7 +14,7 @@ axiosInstance.interceptors.request.use(
          headers: {
             ...config.headers,
             Authorization:
-               'Bearere eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODU2ODE3MTEsImV4cCI6MTY4NzEyMTcxMX0.-d-yGoNRV4Jq2MonJjEHYAk1w6YcZpYOhcTODw60RiM',
+               'Bearere eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODU5NzM4MzAsImV4cCI6MTY4NzQxMzgzMH0.VK7TYoeDO4-yr6gUfHexjVzbtfC906B3eyxzPik7iUg',
          },
       }
       return newConfig

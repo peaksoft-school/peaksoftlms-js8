@@ -14,17 +14,19 @@ import { getStudentById } from '../../api/adminStudent'
 const onlyCountries = ['kg', 'ru', 'kz']
 export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
    const [searchParams] = useSearchParams()
-   const [formLearning, setFormLearning] = useState(null)
-   const [phoneNumber, setPhoneNumber] = useState('')
+   const [formLearning, setFormLearning] = useState('')
    const { groups, selectedGroupID, handleGroupChange } = useGetAllGroup()
-   const onChangeFormLearning = (newValue) => {
-      setFormLearning(newValue)
-   }
    const optionsFormat = [
       { value: 'online', label: 'ONLINE' },
       { value: 'offline', label: 'OFFLINE' },
    ]
-   const onSubmitHandler = ({ firstName, lastName, email, password }) => {
+   const onSubmitHandler = ({
+      firstName,
+      lastName,
+      email,
+      password,
+      phoneNumber,
+   }) => {
       const newData = {
          firstName,
          lastName,
@@ -42,16 +44,22 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
          lastName: '',
          email: '',
          password: '',
+         phoneNumber: '',
       },
       onSubmit: onSubmitHandler,
    })
-   const { handleChange, handleSubmit, values, setValues } = formik
+   const { handleChange, handleSubmit, values, setValues, setFieldValue } =
+      formik
    const isEmailValid = () => {
       return (
          values.email.length === 0 ||
          (values.email.length > 0 && values.email.includes('@'))
       )
    }
+   const handlePhoneChange = (value) => {
+      setFieldValue('phoneNumber', value)
+   }
+
    const groupOptions = groups.map((group) => ({
       value: group.id,
       label: group.name,
@@ -61,17 +69,25 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
       if (open && searchParams.get('modal') === 'edit' && studentId) {
          getStudentById(studentId)
             .then(({ data }) => {
-               return setValues({ ...data })
+               const splittedUsername = data?.fullName.split(' ')
+               return setValues({
+                  ...data,
+                  phoneNumber: data.phoneNumber,
+                  firstName: splittedUsername[0],
+                  lastName: splittedUsername[1],
+                  groupName: data.groupName,
+                  formLearning: data.formLearning,
+               })
             })
             .catch((error) => {
                console.error('Error fetching student data:', error)
             })
       }
    }, [open])
-   const id = 'studentsId' || '1'
+
    const submitHandler = () => {
       if (searchParams.get('modal') === 'edit') {
-         onSubmit(id, values)
+         onSubmit(values.id, values)
       } else {
          addNewData(values)
       }
@@ -85,21 +101,21 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
             <Container onSubmit={handleSubmit}>
                <Input
                   placeholder="Имя"
-                  value={values.firstName}
+                  value={values.firstName || ''}
                   onChange={handleChange}
                   name="firstName"
                />
                <Input
                   placeholder="Фамилия"
-                  value={values.lastName}
+                  value={values.lastName || ''}
                   onChange={handleChange}
                   name="lastName"
                />
                <PhoneInput
                   country="kg"
                   onlyCountries={onlyCountries}
-                  value={phoneNumber}
-                  onChange={(phone) => setPhoneNumber(console.log(phone))}
+                  value={values.phoneNumber}
+                  onChange={handlePhoneChange}
                   name="phoneNumber"
                   type="tel"
                />
@@ -114,7 +130,7 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
                <Input
                   placeholder="Пароль"
                   type="password"
-                  value={values.password}
+                  value={values.password || ''}
                   onChange={handleChange}
                   name="password"
                />
@@ -128,7 +144,7 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
                   options={optionsFormat}
                   value={formLearning}
                   placeholder="Формат обучения"
-                  onChange={onChangeFormLearning}
+                  onChange={(value) => setFormLearning(value)}
                />
                <BtnContainer>
                   <Button variant="outlined" onClick={onClose}>
