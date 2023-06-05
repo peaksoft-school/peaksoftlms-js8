@@ -16,10 +16,12 @@ import {
    // getAllInstructors,
    // instructorDelete,
    instructorPost,
+   // instructorPut,
 } from '../../api/adminService'
 
 export const Instructors = () => {
    const [page, setPage] = useState(1)
+   const [user, setUser] = useState()
    const [openModal, setOpenModal] = useState(false)
    const [instructors, setInstructors] = useState([])
 
@@ -36,10 +38,6 @@ export const Instructors = () => {
       getData(page)
    }, [page])
 
-   // const handleDeleteItem = (itemId) => {
-   //    instructorDelete(itemId)
-   // }
-
    const handleDeleteItem = async (id) => {
       try {
          await instructorDelete(id)
@@ -48,10 +46,6 @@ export const Instructors = () => {
          console.log(error)
       }
    }
-
-   // const handleDeleteItem = (id) => {
-   //    console.log(id)
-   // }
 
    const addInstructor = async (data) => {
       try {
@@ -64,6 +58,27 @@ export const Instructors = () => {
       }
    }
 
+   // const updateTeacher = async (id) => {
+   //    try {
+   //       await instructorPut(id)
+   //       console.log('TEACHER', id)
+   //    } catch (e) {
+   //       console.log(e)
+   //    }
+   // }
+
+   const closeModalHandler = () => {
+      setOpenModal(false)
+   }
+   const openModalHandler = () => {
+      setOpenModal(true)
+   }
+
+   const editHandler = (teacher) => {
+      openModalHandler()
+      console.log(teacher)
+      setUser(teacher)
+   }
    // const handleEditItem = () => {
    //    asyncPutInstructor(data)
    // }
@@ -78,9 +93,6 @@ export const Instructors = () => {
    //       console.error('Error updating data:', error)
    //    }
    // }
-   const editHandler = (id) => {
-      console.log(id)
-   }
 
    const columns = [
       {
@@ -114,7 +126,7 @@ export const Instructors = () => {
          render: (row) => {
             return (
                <Grid>
-                  <IconButton onClick={() => editHandler(row.id)}>
+                  <IconButton onClick={() => editHandler(row)}>
                      <EditIcon />
                   </IconButton>
                   <IconButton onClick={() => handleDeleteItem(row.id)}>
@@ -125,13 +137,6 @@ export const Instructors = () => {
          },
       },
    ]
-
-   const closeModalHandler = () => {
-      setOpenModal(false)
-   }
-   const openModalHandler = () => {
-      setOpenModal(true)
-   }
 
    return (
       <Container>
@@ -164,6 +169,7 @@ export const Instructors = () => {
             open={openModal}
             onClose={closeModalHandler}
             addNewData={addInstructor}
+            sd={user}
          />
       </Container>
    )
