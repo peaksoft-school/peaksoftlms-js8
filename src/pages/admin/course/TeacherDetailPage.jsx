@@ -3,20 +3,23 @@ import { useEffect, useState } from 'react'
 import Typography from '@mui/material/Typography'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Link from '@mui/material/Link'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { AppTable } from '../../../utlis/constants/Table'
 import Button from '../../../components/UI/Button'
 import { getTeacherDetail } from '../../../api/courseService'
 import CourseHeader from './CourseHeader'
 import { useSnackbar } from '../../../hooks/useSnackbar'
+import Spinner from '../../../components/UI/Spinner'
 
 const TeacherDetailPage = () => {
    const [teacherDetail, setTeacherDetail] = useState()
+   const [isLoading, setLoading] = useState(false)
    const { notify, Snackbar } = useSnackbar()
    const navigate = useNavigate()
+   const { state } = useLocation()
 
    const navigateToCourse = () => {
-      navigate('/courses')
+      navigate('/admin/courses')
    }
 
    const handleClick = (event) => {
@@ -47,8 +50,9 @@ const TeacherDetailPage = () => {
 
    const getTeacher = async () => {
       try {
+         setLoading(true)
          const { data } = await getTeacherDetail()
-         notify('success', 'Successfully get teacher')
+         setLoading(false)
          return setTeacherDetail(data.instructorResponses)
       } catch (error) {
          return notify('error', 'Failed to get teacher')
@@ -59,8 +63,10 @@ const TeacherDetailPage = () => {
       getTeacher()
    }, [])
    return (
-      <div>
-         <CourseHeader />
+      <>
+         <CourseHeaderStyled>
+            <CourseHeader />
+         </CourseHeaderStyled>
          <StyledButton>Назначить учителя</StyledButton>
          <TableContainer role="presentation" onClick={handleClick}>
             <Breadcrumbs aria-label="breadcrumb">
@@ -78,24 +84,32 @@ const TeacherDetailPage = () => {
                   href="/material-ui/getting-started/installation/"
                   onClick={navigateToCourse}
                >
-                  Data Engineer
+                  {state.title}
                </Link>
                <Typography color="text.primary">Учителя</Typography>
             </Breadcrumbs>
-            <AppTable columns={columns} rows={teacherDetail} />
+            {isLoading ? (
+               <Spinner />
+            ) : (
+               <AppTable columns={columns} rows={teacherDetail} />
+            )}
          </TableContainer>
          {Snackbar}
-      </div>
+      </>
    )
 }
 
 export default TeacherDetailPage
 
+const CourseHeaderStyled = styled('div')({
+   marginTop: '-75px',
+})
 const StyledButton = styled(Button)({
-   marginLeft: '84%',
+   marginLeft: '85%',
+   marginTop: '10px',
 })
 
 const TableContainer = styled('div')({
-   marginLeft: '240px',
+   marginLeft: '230px',
    marginTop: '-18px',
 })

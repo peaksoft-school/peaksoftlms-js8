@@ -24,7 +24,6 @@ const StyledInput = styled(TextField)`
    fieldset {
       border-radius: 10px;
       padding: 10px 8px 10px 18px;
-      height: 42px;
    }
    /* width: 30%; */
    input:focus {

@@ -25,6 +25,8 @@ const GroupModal = ({
    const [inputDate, setInputDate] = useState('')
    const [inputDescrip, setInputDescrip] = useState('')
 
+   const disabledBtn = !img || !inputDate || !inputDate || !inputDescrip
+
    const nameChangeHandler = (e) => {
       setInputName(e.target.value)
    }
@@ -34,8 +36,6 @@ const GroupModal = ({
    const descripChangeHandler = (e) => {
       setInputDescrip(e.target.value)
    }
-
-   console.log(img)
 
    const setImageHandler = async (e) => {
       const image = e.target.files[0]
@@ -61,16 +61,21 @@ const GroupModal = ({
          description: inputDescrip,
          image: img,
       }
+      setImg('')
+      setInputDate('')
+      setInputDescrip('')
+      setInputName('')
       data(newData)
    }
    const getCoursesById = async (courseId) => {
       try {
-         const { data } = await axiosInstance.get(`api/courses/${courseId}`)
+         const { data } = await axiosInstance.get(`courses/${courseId}`)
          setInputName(data.name)
          setImg(data.image)
          setInputDescrip(data.description)
+         return data
       } catch (error) {
-         console.log(error)
+         return error
       }
    }
    useEffect(() => {
@@ -94,20 +99,24 @@ const GroupModal = ({
                onChange={nameChangeHandler}
                placeholder={`название ${placeholder}`}
             />
-            <StyledDataPicker value={inputDate} onChange={dateChangeHandler} />
+            <StyledDataPicker>
+               <MyDatePickers value={inputDate} onChange={dateChangeHandler} />
+            </StyledDataPicker>
          </ContainerInput>
          <StyledInput
             value={inputDescrip}
             onChange={descripChangeHandler}
-            multiline
             rows={4}
+            multiline
             placeholder={`описание ${placeholder}`}
          />
          <ContainerButton>
             <ButtonStyledСancellation variant="outlined" onClick={onClose}>
                Отмена
             </ButtonStyledСancellation>
-            <StyledButtonAdd onClick={addNewData}>Добавить</StyledButtonAdd>
+            <StyledButtonAdd onClick={addNewData} disabled={disabledBtn}>
+               Добавить
+            </StyledButtonAdd>
          </ContainerButton>
       </ModalWindow>
    )
@@ -115,7 +124,7 @@ const GroupModal = ({
 
 export default GroupModal
 
-const StyledDataPicker = styled(MyDatePickers)({
+const StyledDataPicker = styled('div')({
    minWidth: '150px',
 })
 
