@@ -1,10 +1,46 @@
+import { useState } from 'react'
 import styled from '@emotion/styled'
-// import React, { useState } from 'react'
 import Cards from '../../../components/UI/Card'
 import Button from '../../../components/UI/Button'
-import { ReactComponent as ProfileAdmin } from '../../../assets/icons/profileAdmin.svg'
-// import GroupModal from '../../components/UI/GroupModal'
-// import { Meatballs } from '../../components/UI/Meatballs'
+import EditIcon from '../../../assets/icons/edit.svg'
+import DeleteIcon from '../../../assets/icons/delete.svg'
+import CourseHeader from '../course/CourseHeader'
+import { PaginationRounded } from '../../../components/UI/PaginationRounded'
+import GroupModal from '../../../components/UI/GroupModal'
+import { AppTable } from '../../../utlis/constants/Table'
+
+const arrayIcon = [
+   {
+      icon: EditIcon,
+      title: 'Редактировать',
+   },
+   {
+      icon: DeleteIcon,
+      title: 'Удалить',
+   },
+]
+const columns = [
+   {
+      header: 'ID',
+      key: 'id',
+   },
+   {
+      header: 'Имя Фамилия',
+      key: 'fullName',
+   },
+   {
+      header: 'Специализация',
+      key: 'special',
+   },
+   {
+      header: 'Номер телефона',
+      key: 'phoneNumber',
+   },
+   {
+      header: 'E-mail',
+      key: 'email',
+   },
+]
 
 const data = [
    {
@@ -58,24 +94,24 @@ const data = [
 ]
 
 export const Groups = () => {
-   // const [anchorEl, setAnchorEl] = useState(null)
-   // const open = Boolean(anchorEl)
+   const [showModal, setShowModal] = useState(false)
+   const [teacherDetail, setTeacherDetail] = useState()
+   console.log(setTeacherDetail)
 
-   // const handleClickMeatballs = (e) => {
-   //    setAnchorEl(e.currentTarget)
-   // }
-   // const handleCloseMeatballs = () => {
-   //    setAnchorEl(null)
-   // }
-
+   const closeModalHandler = () => {
+      setShowModal(false)
+   }
    return (
       <StyledContainer>
-         <StyledProfile>
-            <StyledBorder>
-               <ProfileAdmin />
-               <h2>Администратор</h2>
-            </StyledBorder>
-         </StyledProfile>
+         <StyledHeader>
+            <CourseHeader />
+            <StyledBorder />
+            <StyledButton>
+               <StyledBtn onClick={() => setShowModal(true)}>
+                  + Создать группу
+               </StyledBtn>
+            </StyledButton>
+         </StyledHeader>
          <StyledContent>
             {data.map((item) => (
                <Cards
@@ -84,61 +120,44 @@ export const Groups = () => {
                   title={item.title}
                   content={item.content}
                   key={item.id}
+                  arrayIcon={arrayIcon}
                />
             ))}
          </StyledContent>
-         <StyledButton>
-            <StyledBtn>+ Создать группу</StyledBtn>
-         </StyledButton>
-         {/* <GroupModal open={open} /> */}
+         <AppTable columns={columns} rows={teacherDetail} />
+         <GroupModal onClose={closeModalHandler} open={showModal} />
+         <PaginationRounded />
       </StyledContainer>
    )
 }
 
 const StyledContainer = styled.div`
-   /* position: absolute; */
-   /* width: 1240px; */
-   /* height: 875px; */
-   left: 272px;
-   display: flex;
+   margin-left: 252px;
    background-color: #eff0f4;
 `
 const StyledContent = styled.div`
    display: flex;
-   /* flex-wrap: wrap; */
-   /* flex-direction: column; */
-   justify-content: space-between;
+   flex-wrap: wrap;
    gap: 25px;
-   margin: 45 auto;
-   margin-top: 164px;
+   margin-top: 164px auto;
 `
 const StyledButton = styled.div`
-   margin-right: 56px;
-   margin-top: 100px;
+   display: flex;
+   justify-content: flex-end;
 `
 const StyledBtn = styled(Button)`
+   margin-bottom: 24px;
+   /* margin-top: 24px; */
+   margin-right: 30px;
    height: 40px;
    width: 177px;
    border-radius: 8px;
    padding: 10px 24px 10px 16px;
 `
-const StyledProfile = styled.div`
-   display: flex;
-   flex-direction: row;
-   justify-content: center;
-   align-items: center;
-   padding: 8px;
-   gap: 14px;
-   position: absolute;
-   width: 1113px;
-   height: 46px;
-   left: 927px;
-   top: 15px;
-   /* border-bottom: 2px solid #c4c4c4; */
+const StyledHeader = styled.div`
+   margin-top: 65px;
 `
-const StyledBorder = styled.span`
-   border-bottom: 2px solid #c4c4c4;
-   width: 1140px;
-   /* left: 0px;
-   top: 75px; */
+const StyledBorder = styled.hr`
+   border-bottom: 1px solid #c4c4c4;
+   width: 1240px;
 `

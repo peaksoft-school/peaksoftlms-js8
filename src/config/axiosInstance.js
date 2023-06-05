@@ -24,6 +24,7 @@ axiosInstance.interceptors.request.use(
       return Promise.reject(error)
    }
 )
+
 axiosInstance.interceptors.response.use(
    (response) => {
       if (response.status === 401) {
@@ -32,6 +33,38 @@ axiosInstance.interceptors.response.use(
       return response
    },
    (error) => {
+      return Promise.reject(error)
+   }
+)
+export const fileInstance = axios.create({
+   baseURL: BASE_URL,
+   headers: {
+      'Content-Type': 'multipart/form-data',
+   },
+})
+fileInstance.interceptors.request.use(
+   function (config) {
+      const newConfig = {
+         ...config,
+         headers: {
+            ...config.headers,
+            Authorization: `Bearer ${store.getState().auth.accessToken}`,
+         },
+      }
+      return newConfig
+   },
+   function (error) {
+      return Promise.reject(error)
+   }
+)
+fileInstance.interceptors.response.use(
+   function (response) {
+      return response
+   },
+   function (error) {
+      if (error.response && error.response.status === 401) {
+         throw new Error('401 unauthorized')
+      }
       return Promise.reject(error)
    }
 )

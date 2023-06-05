@@ -1,0 +1,61 @@
+import styled from '@emotion/styled'
+import React, { useState } from 'react'
+import IconButton from '../../../components/UI/IconButton'
+import { ReactComponent as Profile } from '../../../assets/icons/Profile.svg'
+import { ReactComponent as Vector } from '../../../assets/icons/Vector (1).svg'
+import { ReactComponent as Vectore } from '../../../assets/icons/Vector (2).svg'
+
+const CourseHeader = () => {
+   const [showText, setShowText] = useState(false)
+
+   const handleIconClick = () => {
+      setShowText(!showText)
+   }
+   return (
+      <div>
+         {' '}
+         <MenuStyled>
+            <IconButton icon={<Profile />} />
+            <h4>Администратор</h4>
+            <IconButton icon={<Vector />} onClick={handleIconClick} />
+            {showText && (
+               <StyledDropDown>
+                  <IconButton icon={<Vectore />} />
+                  <h2>Выйти</h2>
+               </StyledDropDown>
+            )}
+         </MenuStyled>
+      </div>
+   )
+}
+
+export default CourseHeader
+
+const MenuStyled = styled('div')({
+   display: 'flex',
+   marginTop: '-80px',
+   marginLeft: '1040px',
+   '& h4': {
+      fontWeight: '400',
+   },
+})
+const StyledDropDown = styled('h3')({
+   display: 'flex',
+   zIndex: 1,
+   position: 'absolute',
+   top: '35px',
+   right: '30px',
+   width: '40px',
+   height: '10px',
+   background: '#DDE9F9',
+   cursor: 'pointer',
+   border: '1px solid #3772FF',
+   padding: '8px 90px 16px 0px',
+   borderRadius: '10px',
+   '& h2': {
+      fontSize: '18px',
+      color: '#3772FF',
+      marginTop: '-4px',
+      marginLeft: '6px',
+   },
+})

@@ -31,6 +31,7 @@
       "react-hooks/rules-of-hooks": "error",
       "react/function-component-definition": "off",
       "react/prop-types": "off",
+      "import/no-cycle": "off",
       "max-len": [
          "error",
          {
@@ -48,6 +49,7 @@
                "some": ["nesting", "id"]
             }
          }
-      ]
+      ],
+      "no-param-reassign": "off"
    }
 }

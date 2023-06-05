@@ -2,13 +2,13 @@ import styled from '@emotion/styled'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-export const useSnackbar = (type, message) => {
-   const notify = () => {
+export const useSnackbar = () => {
+   const notify = (type, message) => {
       return toast[type](<div>{message}</div>)
    }
    return {
       notify,
-      Snackbar: <SnackBox type={type} />,
+      Snackbar: <SnackBox />,
    }
 }
 
@@ -18,8 +18,6 @@ const SnackBox = styled(ToastContainer)`
    .Toastify__toast {
       width: fit-content;
       padding: 0;
-      background-color: ${(props) =>
-         props.type === 'success' ? '#36AC0C' : '#C91E1E'};
       color: white;
       border-radius: 10px;
       font-weight: 400;
@@ -35,11 +33,13 @@ const SnackBox = styled(ToastContainer)`
    .Toastify__toast-icon > svg {
       fill: white;
    }
+   .Toastify__toast--success {
+      background-color: #36ac0c;
+   }
+   .Toastify__toast--error {
+      background-color: #c91e1e;
+   }
    .Toastify__close-button {
       display: none;
-   }
-   .Toastify__progress-bar {
-      background-color: ${(props) =>
-         props.type === 'success' ? '#36AC0C' : '#C91E1E'};
    }
 `
