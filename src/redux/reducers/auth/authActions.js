@@ -12,7 +12,7 @@ import { axiosInstance } from '../../../config/axiosInstance'
 
 export const asyncSignIn = createAsyncThunk(
    'auth/signIn-request',
-   async ({ email, navigate }, thunkMethods) => {
+   async ({ email, navigate, notify }, thunkMethods) => {
       try {
          const userData = {
             email: email.email,
@@ -30,15 +30,16 @@ export const asyncSignIn = createAsyncThunk(
             { role: serverData.role, email: serverData.email },
             USER_INFO
          )
-
          axiosInstance.defaults.headers.Authorization = `Bearer ${serverData.token}`
 
          if (Object.values(USER_ROLES).includes(data.role)) {
             navigate(`/${CURRENT_PATH.admin.ADMIN}`)
          }
+         notify('success', `Вы успешно вошли в аккаунт ${data.email}`)
 
          return serverData
       } catch (error) {
+         notify('error', 'Ошибка, попробуйте еще')
          return thunkMethods.rejectWithValue(error)
       }
    }
