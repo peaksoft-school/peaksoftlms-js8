@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { useFormik } from 'formik'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Select from 'react-select/creatable'
 import PhoneInput from 'react-phone-input-2'
 import { useSearchParams } from 'react-router-dom'
@@ -12,20 +12,24 @@ import useGetAllGroup from '../../hooks/getAllGroup'
 import { getStudentById } from '../../api/adminStudent'
 
 const onlyCountries = ['kg', 'ru', 'kz']
+const optionsFormat = [
+   { value: 'online', label: 'ONLINE' },
+   { value: 'offline', label: 'OFFLINE' },
+]
 export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
    const [searchParams] = useSearchParams()
-   const [formLearning, setFormLearning] = useState('')
    const { groups, selectedGroupID, handleGroupChange } = useGetAllGroup()
-   const optionsFormat = [
-      { value: 'online', label: 'ONLINE' },
-      { value: 'offline', label: 'OFFLINE' },
-   ]
+   const groupOptions = groups.map((group) => ({
+      value: group.id,
+      label: group.name,
+   }))
    const onSubmitHandler = ({
       firstName,
       lastName,
       email,
       password,
       phoneNumber,
+      formLearning,
    }) => {
       const newData = {
          firstName,
@@ -45,6 +49,7 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
          email: '',
          password: '',
          phoneNumber: '',
+         formLearning: '',
       },
       onSubmit: onSubmitHandler,
    })
@@ -59,16 +64,12 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
    const handlePhoneChange = (value) => {
       setFieldValue('phoneNumber', value)
    }
-
-   const groupOptions = groups.map((group) => ({
-      value: group.id,
-      label: group.name,
-   }))
    useEffect(() => {
       const studentId = searchParams.get('studentId')
       if (open && searchParams.get('modal') === 'edit' && studentId) {
          getStudentById(studentId)
             .then(({ data }) => {
+               console.log(data.formLearning)
                const splittedUsername = data?.fullName.split(' ')
                return setValues({
                   ...data,
@@ -80,7 +81,7 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
                })
             })
             .catch((error) => {
-               console.error('Error fetching student data:', error)
+               console.log(error)
             })
       }
    }, [open])
@@ -142,9 +143,15 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
                />
                <Select
                   options={optionsFormat}
-                  value={formLearning}
+                  value={values.formLearning}
                   placeholder="Формат обучения"
-                  onChange={(value) => setFormLearning(value)}
+                  onChange={(value) =>
+                     setFieldValue(
+                        'formLearning',
+                        console.log(value.value),
+                        value.value
+                     )
+                  }
                />
                <BtnContainer>
                   <Button variant="outlined" onClick={onClose}>

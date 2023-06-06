@@ -4,7 +4,6 @@ import Select from 'react-select/creatable'
 import styled from '@emotion/styled'
 import {
    IconButton,
-   // InputLabel,
    MenuItem,
    Select as SelectFormStudy,
    TableCell,
@@ -20,6 +19,7 @@ import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg'
 import { ReactComponent as DeleteIcon } from '../../assets/icons/deleteIcon.svg'
 import { ReactComponent as AdminIcon } from '../../assets/icons/profile.svg'
 import { ReactComponent as ArrowIcon } from '../../assets/icons/arrow.svg'
+import { ReactComponent as LogOut } from '../../assets/icons/logout.svg'
 import {
    deleteStudentRequests,
    fileUploadPostRequest,
@@ -37,7 +37,8 @@ export const Students = () => {
    const [file, setFile] = useState(null)
    const [type, setError] = useState('')
    const [message, setMessage] = useState('')
-   const [filterValue, setFilterValue] = useState('all')
+   const [filterValue, setFilterValue] = useState('все')
+   const [showLogoutIcon, setShowLogoutIcon] = useState(false)
    const { groups, selectedGroupID, handleGroupChange } = useGetAllGroup()
    const { notify, Snackbar } = useSnackbar(type, message)
    const fetchStudent = async () => {
@@ -45,7 +46,9 @@ export const Students = () => {
          const response = await getAllStudentRequests(filterValue)
          setStudents(response.data)
       } catch (error) {
-         console.log(error, 'ERROR')
+         setError('error')
+         setMessage(error.response.data.message)
+         notify()
       }
    }
    useEffect(() => {
@@ -57,14 +60,16 @@ export const Students = () => {
    }
    const addStudent = async (data) => {
       try {
-         await studentPostRequests(data)
+         const response = await studentPostRequests(data)
          setError('success')
-         setMessage('Запрос успешно выполнен')
+         setMessage(response.data.message)
          notify()
       } catch (error) {
-         setError('error')
-         setMessage('Что-то пошло не так')
-         notify()
+         if (error.response) {
+            setError('error')
+            setMessage(error.response.data.message)
+            notify()
+         }
       }
    }
    const showModalHandler = (mode) => {
@@ -156,6 +161,10 @@ export const Students = () => {
          ),
       },
    ]
+   const handleArrowIconClick = () => {
+      setShowLogoutIcon(!showLogoutIcon)
+   }
+   const handleLogout = () => {}
    const saveHandler = (id, values) => {
       updateStudents(id, values)
    }
@@ -168,8 +177,9 @@ export const Students = () => {
                <AdminIcon />
             </AdminIconStyled>
             <AdminSpan>Администратор</AdminSpan>
-            <ArrowIcon />
+            <ArrowIcon onClick={handleArrowIconClick} />
          </Header>
+         {showLogoutIcon && <LogOutStyled onClick={handleLogout} />}
          <hr style={{ width: '78%', marginLeft: '18% ' }} />
          <AddModalStudentAndFile>
             <div>
@@ -185,7 +195,7 @@ export const Students = () => {
                >
                   <MenuItem value="ONLINE">Онлайн</MenuItem>
                   <MenuItem value="OFFLINE">Оффлайн</MenuItem>
-                  <MenuItem value="all">Все</MenuItem>
+                  <MenuItem value="все">Все</MenuItem>
                </SelectFormStudy>
                <ImportFileBtn variant="outlined" onClick={btnHandler2}>
                   <VictorStyled />
@@ -346,6 +356,13 @@ const ModalStyled = styled(ModalWindow)`
       margin-left: 25px;
       margin-top: 10px;
    }
+`
+const LogOutStyled = styled(LogOut)`
+   margin-left: 77rem;
+   width: 200px;
+   height: 100px;
+   margin-top: -1rem;
+   margin-bottom: -1rem;
 `
 const FileUpload = styled.div`
    input {
