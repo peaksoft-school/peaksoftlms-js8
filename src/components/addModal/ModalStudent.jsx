@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { useFormik } from 'formik'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Select from 'react-select/creatable'
 import PhoneInput from 'react-phone-input-2'
 import { useSearchParams } from 'react-router-dom'
@@ -9,38 +9,40 @@ import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
 import useGetAllGroup from '../../hooks/getAllGroup'
-import { getStudentById } from '../../api/adminStudent'
+import { getStudentById } from '../../api/studentService'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
 const onlyCountries = ['kg', 'ru', 'kz']
-const optionsFormat = [
-   { value: 'online', label: 'ONLINE' },
-   { value: 'offline', label: 'OFFLINE' },
-]
 export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
    const [searchParams] = useSearchParams()
    const { groups, selectedGroupID, handleGroupChange } = useGetAllGroup()
+   const { notify, Snackbar } = useSnackbar()
+   const [formLearning, setFormLearning] = useState('')
    const groupOptions = groups.map((group) => ({
       value: group.id,
       label: group.name,
    }))
-   const onSubmitHandler = ({
-      firstName,
-      lastName,
-      email,
-      password,
-      phoneNumber,
-      formLearning,
-   }) => {
-      const newData = {
-         firstName,
-         lastName,
-         phoneNumber,
-         email,
-         password,
-         groupId: selectedGroupID.value,
-         formLearning: formLearning.label,
+   const optionsFormat = [
+      { value: 'online', label: 'ONLINE' },
+      { value: 'offline', label: 'OFFLINE' },
+   ]
+
+   const onSubmitHandler = (values) => {
+      if (searchParams.get('modal') === 'edit') {
+         onSubmit(values.id, values)
+         onClose()
+      } else {
+         const newData = {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            phoneNumber: values.phoneNumber,
+            email: values.email,
+            password: values.password,
+            groupId: selectedGroupID.value,
+            formLearning: formLearning.label,
+         }
+         addNewData(newData)
       }
-      addNewData(newData)
    }
    const formik = useFormik({
       initialValues: {
@@ -49,7 +51,6 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
          email: '',
          password: '',
          phoneNumber: '',
-         formLearning: '',
       },
       onSubmit: onSubmitHandler,
    })
@@ -69,7 +70,6 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
       if (open && searchParams.get('modal') === 'edit' && studentId) {
          getStudentById(studentId)
             .then(({ data }) => {
-               console.log(data.formLearning)
                const splittedUsername = data?.fullName.split(' ')
                return setValues({
                   ...data,
@@ -81,20 +81,15 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
                })
             })
             .catch((error) => {
-               console.log(error)
+               if (error.response) {
+                  notify('error', error.response.data.message)
+               }
             })
       }
    }, [open])
-
-   const submitHandler = () => {
-      if (searchParams.get('modal') === 'edit') {
-         onSubmit(values.id, values)
-      } else {
-         addNewData(values)
-      }
-   }
    return (
       <div>
+         {Snackbar}
          <ModalStyled open={open} onClose={onClose}>
             <ContentH3>
                <h3>Добавить студента</h3>
@@ -143,21 +138,15 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
                />
                <Select
                   options={optionsFormat}
-                  value={values.formLearning}
+                  value={formLearning}
                   placeholder="Формат обучения"
-                  onChange={(value) =>
-                     setFieldValue(
-                        'formLearning',
-                        console.log(value.value),
-                        value.value
-                     )
-                  }
+                  onChange={(value) => setFormLearning(value)}
                />
                <BtnContainer>
                   <Button variant="outlined" onClick={onClose}>
                      Отмена
                   </Button>
-                  <Button variant="contained" onClick={submitHandler}>
+                  <Button variant="contained" type="submit">
                      Добавить
                   </Button>
                </BtnContainer>
@@ -183,21 +172,23 @@ const ContentH3 = styled.div`
 const Container = styled.form`
    display: flex;
    flex-direction: column;
+   align-items: space-between;
    width: 491px;
    margin-left: 25px;
    margin-right: 25px;
    margin-top: 16px;
-   margin-bottom: 16px;
-   Input {
-      margin-bottom: 12px;
+   margin-bottom: 12px;
+   .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+      margin-bottom: 11px;
    }
-   .css-b62m3t-container {
+   .css-1qaaf9z-MuiFormControl-root-MuiTextField-root fieldset {
       margin-bottom: 12px;
    }
    .css-13cymwt-control {
       display: flex;
       padding: 0.5rem;
       border-radius: 10px;
+      margin-bottom: 12px;
    }
    .form-control {
       width: 491px;
