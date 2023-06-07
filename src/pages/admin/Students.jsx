@@ -1,15 +1,13 @@
-/* eslint-disable consistent-return */
 import { useEffect, useState } from 'react'
 import Select from 'react-select/creatable'
 import styled from '@emotion/styled'
 import {
    IconButton,
-   // InputLabel,
    MenuItem,
    Select as SelectFormStudy,
    TableCell,
 } from '@mui/material'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ModalStudent } from '../../components/addModal/ModalStudent'
 import Button from '../../components/UI/Button'
 import { ReactComponent as Victor } from '../../assets/icons/victor.svg'
@@ -18,34 +16,37 @@ import ModalWindow from '../../components/UI/Modal'
 import { AppTable } from '../../utlis/constants/Table'
 import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg'
 import { ReactComponent as DeleteIcon } from '../../assets/icons/deleteIcon.svg'
-import { ReactComponent as AdminIcon } from '../../assets/icons/profile.svg'
+import { ReactComponent as AdminIcon } from '../../assets/icons/Profile.svg'
 import { ReactComponent as ArrowIcon } from '../../assets/icons/arrow.svg'
+import { ReactComponent as LogOut } from '../../assets/icons/logout.svg'
 import {
    deleteStudentRequests,
    fileUploadPostRequest,
    getAllStudentRequests,
    studentPostRequests,
    updateStudents,
-} from '../../api/adminStudent'
+} from '../../api/studentService'
 import useGetAllGroup from '../../hooks/getAllGroup'
 import { useSnackbar } from '../../hooks/useSnackbar'
+import { removeItemFromStorage } from '../../utlis/helpers/storageHelper'
+import { JWT_TOKEN_KEY, USER_INFO } from '../../utlis/constants/commons'
 
 export const Students = () => {
    const [students, setStudents] = useState([])
    const [searchParams, setSearchParams] = useSearchParams()
    const [openModal, setOpenModal] = useState(false)
    const [file, setFile] = useState(null)
-   const [type, setError] = useState('')
-   const [message, setMessage] = useState('')
-   const [filterValue, setFilterValue] = useState('all')
+   const [filterValue, setFilterValue] = useState('все')
+   const [showLogoutIcon, setShowLogoutIcon] = useState(false)
    const { groups, selectedGroupID, handleGroupChange } = useGetAllGroup()
-   const { notify, Snackbar } = useSnackbar(type, message)
+   const { notify, Snackbar } = useSnackbar()
+   const navigate = useNavigate()
    const fetchStudent = async () => {
       try {
          const response = await getAllStudentRequests(filterValue)
          setStudents(response.data)
       } catch (error) {
-         console.log(error, 'ERROR')
+         notify('error', error.response.data.message)
       }
    }
    useEffect(() => {
@@ -57,14 +58,12 @@ export const Students = () => {
    }
    const addStudent = async (data) => {
       try {
-         await studentPostRequests(data)
-         setError('success')
-         setMessage('Запрос успешно выполнен')
-         notify()
+         const response = await studentPostRequests(data)
+         notify('success', response.data.message)
       } catch (error) {
-         setError('error')
-         setMessage('Что-то пошло не так')
-         notify()
+         if (error.response) {
+            notify('error', error.response.data.message)
+         }
       }
    }
    const showModalHandler = (mode) => {
@@ -100,14 +99,18 @@ export const Students = () => {
       try {
          await fileUploadPostRequest(formData)
       } catch (error) {
-         return error
+         if (error.response) {
+            notify('error', error.response.data.message)
+         }
       }
    }
    const deleteStudent = async (id) => {
       try {
          await deleteStudentRequests(id)
       } catch (error) {
-         return error
+         if (error.response) {
+            notify('error', error.response.data.message)
+         }
       }
    }
    const columns = [
@@ -145,7 +148,7 @@ export const Students = () => {
          header: 'Действия',
          key: 'action',
          render: (student) => (
-            <TableCell>
+            <TableCell key={student.id}>
                <IconButton onClick={() => editStudentHadler(student.id)}>
                   <EditIcon />
                </IconButton>
@@ -156,6 +159,14 @@ export const Students = () => {
          ),
       },
    ]
+   const handleArrowIconClick = () => {
+      setShowLogoutIcon(!showLogoutIcon)
+   }
+   const handleLogout = () => {
+      removeItemFromStorage(JWT_TOKEN_KEY)
+      removeItemFromStorage(USER_INFO)
+      navigate('/login')
+   }
    const saveHandler = (id, values) => {
       updateStudents(id, values)
    }
@@ -168,14 +179,12 @@ export const Students = () => {
                <AdminIcon />
             </AdminIconStyled>
             <AdminSpan>Администратор</AdminSpan>
-            <ArrowIcon />
+            <ArrowIcon onClick={handleArrowIconClick} />
          </Header>
+         {showLogoutIcon && <LogOutStyled onClick={handleLogout} />}
          <hr style={{ width: '78%', marginLeft: '18% ' }} />
          <AddModalStudentAndFile>
             <div>
-               {/* <InputLabel id="demo-simple-select-label">
-                  Формат обучение
-               </InputLabel> */}
                <SelectFormStudy
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -185,7 +194,7 @@ export const Students = () => {
                >
                   <MenuItem value="ONLINE">Онлайн</MenuItem>
                   <MenuItem value="OFFLINE">Оффлайн</MenuItem>
-                  <MenuItem value="all">Все</MenuItem>
+                  <MenuItem value="все">Все</MenuItem>
                </SelectFormStudy>
                <ImportFileBtn variant="outlined" onClick={btnHandler2}>
                   <VictorStyled />
@@ -266,7 +275,7 @@ const Container = styled.div`
    background-color: #eff0f4;
    width: 100%;
    height: 100vh;
-   .css-5fhgwo-MuiPaper-root-MuiTableContainer-root {
+   .css-gv27rd-MuiPaper-root-MuiTableContainer-root {
       width: 78%;
       margin-left: 18%;
    }
@@ -346,6 +355,13 @@ const ModalStyled = styled(ModalWindow)`
       margin-left: 25px;
       margin-top: 10px;
    }
+`
+const LogOutStyled = styled(LogOut)`
+   margin-left: 77rem;
+   width: 200px;
+   height: 100px;
+   margin-top: -1rem;
+   margin-bottom: -1rem;
 `
 const FileUpload = styled.div`
    input {

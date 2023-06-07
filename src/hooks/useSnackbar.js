@@ -1,16 +1,17 @@
 import styled from '@emotion/styled'
-// eslint-disable-next-line import/no-extraneous-dependencies
+import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import 'react-toastify/dist/ReactToastify.css'
 
-export const useSnackbar = (type, message) => {
-   const notify = () => {
-      return toast[type](<div>{message}</div>)
+export const useSnackbar = () => {
+   const [type, setType] = useState()
+   const notify = (types, message) => {
+      toast[types](message)
+      setType(types)
    }
    return {
       notify,
-      Snackbar: <SnackBox type={type} />,
+      Snackbar: <SnackBox type={type} autoClose={1500} />,
    }
 }
 
@@ -24,10 +25,6 @@ const SnackBox = styled(ToastContainer)`
          props.type === 'success' ? '#36AC0C' : '#C91E1E'};
       color: white;
       border-radius: 10px;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 22px;
-      color: #ffffff;
    }
    .Toastify__toast-body {
       flex-direction: row-reverse;

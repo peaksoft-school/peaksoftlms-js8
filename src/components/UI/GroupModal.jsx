@@ -1,11 +1,15 @@
-import { Typography, styled } from '@mui/material'
-import { useState } from 'react'
+import { styled } from '@mui/material'
+import { useEffect, useState } from 'react'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { format, isValid } from 'date-fns'
 import ModalWindow from './Modal'
 import Input from './Input'
 import Button from './Button'
 import AvatarUpload from './Avatar'
 import MyDatePickers from './MyDatePickers'
 import TextArea from './TextArea'
+import { imagePostService } from '../../api/courseService'
+import { axiosInstance } from '../../config/axiosInstance'
 
 const GroupModal = ({
    children,
@@ -14,44 +18,80 @@ const GroupModal = ({
    onClose,
    placeholder,
    data,
+   courseId,
    ...rest
 }) => {
-   const [img, setImg] = useState()
+   const [img, setImg] = useState('')
    const [inputName, setInputName] = useState('')
    const [inputDate, setInputDate] = useState('')
    const [inputDescrip, setInputDescrip] = useState('')
 
+   const disabledBtn = !img || !inputDate || !inputDate || !inputDescrip
+
    const nameChangeHandler = (e) => {
       setInputName(e.target.value)
    }
-   const dateChangeHandler = (e) => {
-      setInputDate(e.target.value)
+   const dateChangeHandler = (date) => {
+      setInputDate(date)
    }
    const descripChangeHandler = (e) => {
       setInputDescrip(e.target.value)
    }
 
-   const setImageHandler = (e) => {
-      setImg(e.target.files[0])
+   const setImageHandler = async (e) => {
+      const image = e.target.files[0]
+      const formData = new FormData()
+      formData.append('file', image)
+      try {
+         const { data } = await imagePostService(formData)
+         return setImg(data.link)
+      } catch (error) {
+         return error
+      }
+   }
+
+   let date = ''
+   if (inputDate && isValid(new Date(inputDate))) {
+      date = format(new Date(inputDate), 'yyyy-MM-dd')
    }
 
    const addNewData = () => {
       const newData = {
          name: inputName,
-         date: inputDate,
+         createdAt: date,
          description: inputDescrip,
-         avatar: img,
+         image: img,
       }
+      setImg('')
+      setInputDate('')
+      setInputDescrip('')
+      setInputName('')
       data(newData)
    }
+   const getCoursesById = async (courseId) => {
+      try {
+         const { data } = await axiosInstance.get(`courses/${courseId}`)
+         setInputName(data.name)
+         setImg(data.image)
+         setInputDescrip(data.description)
+         return data
+      } catch (error) {
+         return error
+      }
+   }
+   useEffect(() => {
+      if (courseId !== undefined) {
+         getCoursesById(courseId)
+      }
+   }, [courseId])
 
    return (
       <ModalWindow open={open} onClose={onClose} {...rest}>
          <StyledModalHeader>
-            <Typography>{title}</Typography>
+            <h1>{title}</h1>
          </StyledModalHeader>
          <AvatarContainer>
-            <AvatarStyled onChange={setImageHandler} />
+            <AvatarStyled imgLink={img} onChange={setImageHandler} />
             <p>Нажмите на иконку чтобы загрузить или перетащите фото</p>
          </AvatarContainer>
          <ContainerInput>
@@ -60,26 +100,34 @@ const GroupModal = ({
                onChange={nameChangeHandler}
                placeholder={`название ${placeholder}`}
             />
-            <MyDatePickers value={inputDate} onChange={dateChangeHandler} />
+            <StyledDataPicker>
+               <MyDatePickers value={inputDate} onChange={dateChangeHandler} />
+            </StyledDataPicker>
          </ContainerInput>
          <StyledInput
             value={inputDescrip}
             onChange={descripChangeHandler}
-            multiline
             rows={4}
+            multiline
             placeholder={`описание ${placeholder}`}
          />
          <ContainerButton>
             <ButtonStyledСancellation variant="outlined" onClick={onClose}>
                Отмена
             </ButtonStyledСancellation>
-            <StyledButtonAdd onClick={addNewData}>Добавить</StyledButtonAdd>
+            <StyledButtonAdd onClick={addNewData} disabled={disabledBtn}>
+               Добавить
+            </StyledButtonAdd>
          </ContainerButton>
       </ModalWindow>
    )
 }
 
 export default GroupModal
+
+const StyledDataPicker = styled('div')({
+   minWidth: '150px',
+})
 
 const StyledModalHeader = styled('div')({
    color: '#fff',
@@ -97,34 +145,30 @@ const ContainerInput = styled('div')({
    padding: '0 25px',
 })
 const InputStyled = styled(Input)({
-   width: '327px',
+   width: '287px',
    borderRadius: '10px',
    background: '#FFFFFF',
    border: '1 solid #D4D4D4',
 })
-// const InputDataStyle = styled(Input)({
-//    borderRadius: '10px',
-//    width: '149px',
-// })
 const StyledInput = styled(TextArea)({
-   width: '491px',
+   width: '90%',
    borderRadius: '10px',
    margin: '12px 24px',
 })
 
 const AvatarStyled = styled(AvatarUpload)({
-   marginTop: '20%',
+   marginTop: '4%',
+   marginLeft: '20px',
 })
 
 const AvatarContainer = styled('div')({
    margin: '0 189px 100px',
-   width: '173px',
-   height: '145px',
+   width: '103px',
+   height: '105px',
    textAlign: 'center',
    borderRadius: '10px',
    p: {
       inlineSize: '220px',
-      marginLeft: '-10%',
       marginTop: '-1%',
       color: '#8D949E',
       fontFamily: 'Nunito',
@@ -139,7 +183,8 @@ const AvatarContainer = styled('div')({
 const ContainerButton = styled('div')({
    display: 'flex',
    gap: '10px',
-   marginLeft: '52%',
+   justifyContent: 'flex-end',
+   padding: ' 0 30px 0 0',
 })
 const ButtonStyledСancellation = styled(Button)({
    padding: '10px 24px',

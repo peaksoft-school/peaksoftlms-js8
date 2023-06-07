@@ -11,6 +11,5 @@ export const userSlice = createSlice({
    name: 'user',
    initialState,
    reducers: {},
-   extraReducers: {},
 })
 export const userActions = userSlice.actions

@@ -9,34 +9,40 @@ import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
 import useGetAllGroup from '../../hooks/getAllGroup'
-import { getStudentById } from '../../api/adminStudent'
+import { getStudentById } from '../../api/studentService'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
 const onlyCountries = ['kg', 'ru', 'kz']
 export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
    const [searchParams] = useSearchParams()
-   const [formLearning, setFormLearning] = useState('')
    const { groups, selectedGroupID, handleGroupChange } = useGetAllGroup()
+   const { notify, Snackbar } = useSnackbar()
+   const [formLearning, setFormLearning] = useState('')
+   const groupOptions = groups.map((group) => ({
+      value: group.id,
+      label: group.name,
+   }))
    const optionsFormat = [
       { value: 'online', label: 'ONLINE' },
       { value: 'offline', label: 'OFFLINE' },
    ]
-   const onSubmitHandler = ({
-      firstName,
-      lastName,
-      email,
-      password,
-      phoneNumber,
-   }) => {
-      const newData = {
-         firstName,
-         lastName,
-         phoneNumber,
-         email,
-         password,
-         groupId: selectedGroupID.value,
-         formLearning: formLearning.label,
+
+   const onSubmitHandler = (values) => {
+      if (searchParams.get('modal') === 'edit') {
+         onSubmit(values.id, values)
+         onClose()
+      } else {
+         const newData = {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            phoneNumber: values.phoneNumber,
+            email: values.email,
+            password: values.password,
+            groupId: selectedGroupID.value,
+            formLearning: formLearning.label,
+         }
+         addNewData(newData)
       }
-      addNewData(newData)
    }
    const formik = useFormik({
       initialValues: {
@@ -59,11 +65,6 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
    const handlePhoneChange = (value) => {
       setFieldValue('phoneNumber', value)
    }
-
-   const groupOptions = groups.map((group) => ({
-      value: group.id,
-      label: group.name,
-   }))
    useEffect(() => {
       const studentId = searchParams.get('studentId')
       if (open && searchParams.get('modal') === 'edit' && studentId) {
@@ -80,20 +81,15 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
                })
             })
             .catch((error) => {
-               console.error('Error fetching student data:', error)
+               if (error.response) {
+                  notify('error', error.response.data.message)
+               }
             })
       }
    }, [open])
-
-   const submitHandler = () => {
-      if (searchParams.get('modal') === 'edit') {
-         onSubmit(values.id, values)
-      } else {
-         addNewData(values)
-      }
-   }
    return (
       <div>
+         {Snackbar}
          <ModalStyled open={open} onClose={onClose}>
             <ContentH3>
                <h3>Добавить студента</h3>
@@ -150,7 +146,7 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
                   <Button variant="outlined" onClick={onClose}>
                      Отмена
                   </Button>
-                  <Button variant="contained" onClick={submitHandler}>
+                  <Button variant="contained" type="submit">
                      Добавить
                   </Button>
                </BtnContainer>
@@ -176,21 +172,23 @@ const ContentH3 = styled.div`
 const Container = styled.form`
    display: flex;
    flex-direction: column;
+   align-items: space-between;
    width: 491px;
    margin-left: 25px;
    margin-right: 25px;
    margin-top: 16px;
-   margin-bottom: 16px;
-   Input {
-      margin-bottom: 12px;
+   margin-bottom: 12px;
+   .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+      margin-bottom: 11px;
    }
-   .css-b62m3t-container {
+   .css-1qaaf9z-MuiFormControl-root-MuiTextField-root fieldset {
       margin-bottom: 12px;
    }
    .css-13cymwt-control {
       display: flex;
       padding: 0.5rem;
       border-radius: 10px;
+      margin-bottom: 12px;
    }
    .form-control {
       width: 491px;

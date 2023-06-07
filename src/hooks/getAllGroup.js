@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getGroupAllRequest } from '../api/adminStudent'
+import { getGroupAllRequest } from '../api/studentService'
 
 const useGetAllGroup = () => {
    const [groups, setGroups] = useState([])

@@ -48,7 +48,13 @@ export const AppTable = ({ columns, rows, getUniqueId }) => {
 }
 
 const TableContainerStyled = styled(TableContainer)`
+<<<<<<< HEAD
+=======
+   width: 990px;
+>>>>>>> e0c288f8e2449d9aa9fe4631f4cd964ab63e86c8
    border-radius: 10px;
+   min-height: 405px;
+   margin-top: 30px;
 `
 const TableRowStyled = styled(TableRow)(({ theme }) => ({
    '&:nth-of-type(even)': {
