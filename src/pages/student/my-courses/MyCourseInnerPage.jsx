@@ -1,23 +1,24 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
-import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import Cards from '../../../components/UI/Card'
-import { asyncGetCourses } from '../../../redux/reducers/course/CourseThunk'
+import { useEffect, useState } from 'react'
+import { useParams, useSearchParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import CardLesson from '../../../components/UI/CardLesson'
+import { getLessonByCourseId } from '../../../api/lessonService'
 import Spinner from '../../../components/UI/Spinner'
-import { PaginationRounded } from '../../../components/UI/PaginationRounded'
 import Input from '../../../components/UI/Input'
+import { PaginationRounded } from '../../../components/UI/PaginationRounded'
 
-export const MyCourses = () => {
-   const dispatch = useDispatch()
+const MyCourseInnerPage = () => {
    const [pageSize, setPageSize] = useState(8)
-   const { course, isLoading } = useSelector((state) => state.course)
+   const { course } = useSelector((state) => state.course)
    const [searchParams, setSearchParams] = useSearchParams()
    const [pagination, setPagination] = useState(1)
-   const [page, setPage] = useState(1)
+   const [page] = useState(1)
    const [count, setCount] = useState(1)
-   const navigate = useNavigate()
+   const { coursesId } = useParams()
+   const [lessons, setLessons] = useState([])
+   const [isLoading, setIsLoading] = useState(false)
 
    const {
       register,
@@ -26,23 +27,32 @@ export const MyCourses = () => {
    } = useForm()
 
    const getCourses = async () => {
-      dispatch(asyncGetCourses({ pageSize, pagination }))
+      try {
+         setIsLoading(true)
+         const { data } = await getLessonByCourseId({
+            page: pagination,
+            size: pageSize,
+            courseId: coursesId,
+         })
+         setIsLoading()
+         return setLessons(data)
+      } catch (error) {
+         return error
+      }
    }
    useEffect(() => {
       getCourses()
    }, [searchParams])
 
-   const pageChangeHandler = (e) => {
-      setPage(+e.target.value)
-   }
-   const paginationChangeHandler = (e, value) => {
+   const pageChangeHandler = () => {}
+   const paginationChangeHandler = (value) => {
       setPagination(value)
    }
 
    const pageSizeChangeHandler = (e) => {
       const selectedPageSize = +e.target.value
       setPageSize(selectedPageSize)
-      setCount(Math.ceil(course.courseResponses.length / selectedPageSize))
+      setCount(Math.ceil(lessons.lessonResponses.length / selectedPageSize))
    }
 
    const submitSearchParams = () => {
@@ -65,31 +75,21 @@ export const MyCourses = () => {
       }
    }
 
-   const navigateToDetailPage = ({ id, title }) => {
-      navigate(`${id}`, { state: { title } })
-   }
-
    return (
       <>
-         <StyledContainer>
-            {isLoading ? (
-               <StyledSpinner>
-                  <Spinner />
-               </StyledSpinner>
-            ) : (
-               course.courseResponses?.map((item) => (
-                  <Cards
-                     key={item.id}
-                     title={item.name}
-                     image={item.image}
-                     content={item.description}
-                     date={item.createdAt}
-                     id={item.id}
-                     navigate={navigateToDetailPage}
-                  />
-               ))
-            )}
-         </StyledContainer>
+         {isLoading ? (
+            <StyledSpinner>
+               <Spinner />
+            </StyledSpinner>
+         ) : (
+            <StyledLesson>
+               {lessons?.lessonResponses?.map((card) => (
+                  <CardLessonStyled>
+                     <CardLesson role="STUDENT" title={card.name} />
+                  </CardLessonStyled>
+               ))}
+            </StyledLesson>
+         )}
          <StyledFormPagination onSubmit={handleSubmit(submitSearchParams)}>
             <InputContainers>
                <p>Перейти на страницу</p>
@@ -123,25 +123,32 @@ export const MyCourses = () => {
                   error={errors.pageSize}
                   helperText={errors.pageSize && 'Введите размер страницы'}
                />
-               <p>из {course.courseResponses?.length}</p>
+               <p>из {lessons.lessonResponses?.length}</p>
             </InputContainers>
          </StyledFormPagination>
       </>
    )
 }
+export default MyCourseInnerPage
+
+const CardLessonStyled = styled('div')({
+   fontSize: '13px',
+})
 
 const StyledSpinner = styled('div')({
    margin: 'auto',
    marginTop: '150px',
 })
 
-const StyledContainer = styled('div')({
+const StyledLesson = styled('div')({
    display: 'flex',
    flexWrap: 'wrap',
-   gap: 20,
-   margin: '20px 0 0 250px',
-   alignItems: 'flex-start',
+   gap: '10px',
+   marginLeft: '240px',
+   marginTop: '20px',
+   justifyContent: 'center',
 })
+
 const InputStyled = styled(Input)({
    width: '40px',
    borderRadius: 'none',

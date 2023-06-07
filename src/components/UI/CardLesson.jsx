@@ -66,7 +66,7 @@ const StyledMenuItem = styled(MenuItem)(() => ({
 }))
 const Container = styled.div`
    background-color: #ffffff;
-   width: 367px;
+   width: 25vw;
    border: 1px solid #d4d4d4;
    border-radius: 10px;
 `

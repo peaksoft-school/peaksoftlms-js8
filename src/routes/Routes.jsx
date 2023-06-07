@@ -8,7 +8,7 @@ import {
 import { useSelector } from 'react-redux'
 import { Groups } from '../pages/admin/Groups'
 import { Courses } from '../pages/admin/course/Courses'
-import { Courses as InstructorCourses } from '../pages/instructor/courses/Courses'
+// import { Courses as InstructorCourses } from '../pages/instructor/courses/Courses'
 import { Instructors } from '../pages/admin/Instructors'
 import { Students } from '../pages/admin/Students'
 import { AdminLayout } from '../layout/AdminLayout'
@@ -20,6 +20,7 @@ import SignInSide from '../containers/SignIn'
 import InstructorLayout from '../layout/InstructorLayout'
 import StudentLayout from '../layout/StudentLayout'
 import { AuthManagementRoute } from './AuthManagementRoute'
+import MyCourseInnerPage from '../pages/student/my-courses/MyCourseInnerPage'
 
 export const AppRoutes = () => {
    const role = useSelector((state) => state.auth.role)
@@ -79,10 +80,10 @@ export const AppRoutes = () => {
                   />
                }
             >
-               <Route
+               {/* <Route
                   path={CURRENT_PATH.instructor.COURSES}
                   element={<InstructorCourses />}
-               />
+               /> */}
             </Route>
 
             <Route
@@ -109,6 +110,10 @@ export const AppRoutes = () => {
                <Route
                   path={CURRENT_PATH.student.COURSES}
                   element={<MyCourses />}
+               />
+               <Route
+                  path={CURRENT_PATH.student.COURSES_DETAIL}
+                  element={<MyCourseInnerPage />}
                />
             </Route>
          </Routes>

@@ -13,7 +13,8 @@ axiosInstance.interceptors.request.use(
       const newConfig = {
          ...config,
          headers: {
-            Authorization: `Bearer ${store.getState().auth.accessToken}`,
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHVkZW50QGdtYWlsLmNvbSIsImlhdCI6MTY4NjExNTgxNywiZXhwIjoxNjg3NTU1ODE3fQ.qNQAGCVftgK3ztbKu3bqrDfzVj2L6gz_kHZJWZOokl8`,
+            // Authorization: `Bearer ${store.getState().auth.accessToken}`,
             ...config.headers,
             'Content-Type': 'application/json',
          },
