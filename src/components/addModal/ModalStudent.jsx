@@ -43,7 +43,7 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
          firstName: '',
          lastName: '',
          email: '',
-         password: '',
+         password: 'dgdsfdsfds',
          phoneNumber: '',
       },
       onSubmit: onSubmitHandler,
@@ -127,10 +127,10 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
                   onChange={handleChange}
                   name="email"
                />
-               <Input
+               <PasswordInput
                   placeholder="Пароль"
                   type="password"
-                  value={values.password || ''}
+                  value="dfdsfdsf"
                   onChange={handleChange}
                   name="password"
                />
@@ -219,4 +219,7 @@ const BtnContainer = styled.div`
       margin-left: -5px;
       margin-right: 25px;
    }
+`
+const PasswordInput = styled(Input)`
+   display: flex;
 `
