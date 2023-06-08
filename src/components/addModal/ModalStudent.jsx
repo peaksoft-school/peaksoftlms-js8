@@ -13,20 +13,19 @@ import { getStudentById } from '../../api/studentService'
 import { useSnackbar } from '../../hooks/useSnackbar'
 
 const onlyCountries = ['kg', 'ru', 'kz']
+const optionsFormat = [
+   { value: 'ONLINE', label: 'ONLINE' },
+   { value: 'OFFLINE', label: 'OFFLINE' },
+]
 export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
    const [searchParams] = useSearchParams()
-   const { groups, selectedGroupID, handleGroupChange } = useGetAllGroup()
+   const { groups, selectedGroupID, setSelectedGroupID } = useGetAllGroup()
    const { notify, Snackbar } = useSnackbar()
-   const [formLearning, setFormLearning] = useState('')
+   const [formLearning, setFormLearning] = useState(null)
    const groupOptions = groups.map((group) => ({
       value: group.id,
       label: group.name,
    }))
-   const optionsFormat = [
-      { value: 'online', label: 'ONLINE' },
-      { value: 'offline', label: 'OFFLINE' },
-   ]
-
    const onSubmitHandler = (values) => {
       if (searchParams.get('modal') === 'edit') {
          onSubmit(values.id, values)
@@ -39,7 +38,7 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
             email: values.email,
             password: values.password,
             groupId: selectedGroupID.value,
-            formLearning: formLearning.label,
+            formLearning: formLearning.value,
          }
          addNewData(newData)
       }
@@ -49,7 +48,7 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
          firstName: '',
          lastName: '',
          email: '',
-         password: '',
+         password: 'Здесь будет линк create password',
          phoneNumber: '',
       },
       onSubmit: onSubmitHandler,
@@ -71,13 +70,19 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
          getStudentById(studentId)
             .then(({ data }) => {
                const splittedUsername = data?.fullName.split(' ')
+               const selectedOption = optionsFormat.find(
+                  (option) => option.value === data.formLearning
+               )
+               setFormLearning(selectedOption)
+               const selectedGroup = groupOptions.find(
+                  (option) => option.label === data.groupName
+               )
+               setSelectedGroupID(selectedGroup)
                return setValues({
                   ...data,
                   phoneNumber: data.phoneNumber,
                   firstName: splittedUsername[0],
                   lastName: splittedUsername[1],
-                  groupName: data.groupName,
-                  formLearning: data.formLearning,
                })
             })
             .catch((error) => {
@@ -124,6 +129,7 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
                   name="email"
                />
                <Input
+                  style={{ display: 'none' }}
                   placeholder="Пароль"
                   type="password"
                   value={values.password || ''}
@@ -133,14 +139,18 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
                <Select
                   options={groupOptions}
                   value={selectedGroupID}
-                  onChange={handleGroupChange}
                   placeholder="Группа"
+                  onChange={(selectedOption) => {
+                     setSelectedGroupID(selectedOption)
+                  }}
                />
                <Select
                   options={optionsFormat}
                   value={formLearning}
                   placeholder="Формат обучения"
-                  onChange={(value) => setFormLearning(value)}
+                  onChange={(selectedOption) => {
+                     setFormLearning(selectedOption)
+                  }}
                />
                <BtnContainer>
                   <Button variant="outlined" onClick={onClose}>

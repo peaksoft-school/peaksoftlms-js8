@@ -7,7 +7,7 @@ import {
    Select as SelectFormStudy,
    TableCell,
 } from '@mui/material'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { ModalStudent } from '../../components/addModal/ModalStudent'
 import Button from '../../components/UI/Button'
 import { ReactComponent as Victor } from '../../assets/icons/victor.svg'
@@ -40,7 +40,6 @@ export const Students = () => {
    const [showLogoutIcon, setShowLogoutIcon] = useState(false)
    const { groups, selectedGroupID, handleGroupChange } = useGetAllGroup()
    const { notify, Snackbar } = useSnackbar()
-   const navigate = useNavigate()
    const fetchStudent = async () => {
       try {
          const response = await getAllStudentRequests(filterValue)
@@ -162,15 +161,15 @@ export const Students = () => {
    const handleArrowIconClick = () => {
       setShowLogoutIcon(!showLogoutIcon)
    }
-   const handleLogout = () => {
-      removeItemFromStorage(JWT_TOKEN_KEY)
-      removeItemFromStorage(USER_INFO)
-      navigate('/login')
-   }
    const saveHandler = (id, values) => {
       updateStudents(id, values)
    }
    const isModalOpen = !!searchParams.get('modal')
+   const handleLogout = () => {
+      removeItemFromStorage(JWT_TOKEN_KEY)
+      removeItemFromStorage(USER_INFO)
+      window.location.reload()
+   }
    return (
       <Container>
          {Snackbar}
