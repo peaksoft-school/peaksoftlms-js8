@@ -9,8 +9,8 @@ export const getAllInstructors = (page = 1, size = 10) => {
 export const instructorPost = (data) => {
    return axiosInstance.post('api/instructors', data)
 }
-export const instructorPut = (teacher, teacherId) => {
-   return axiosInstance.put(`api/instructors/${teacherId}`, teacher)
+export const instructorPut = (data, id) => {
+   return axiosInstance.put(`api/instructors/${id}`, data)
 }
 export const instructorDelete = (id) => {
    return axiosInstance.delete(`api/instructors/${id}`)

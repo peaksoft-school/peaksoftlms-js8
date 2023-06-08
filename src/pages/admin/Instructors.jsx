@@ -16,6 +16,7 @@ import {
    // getAllInstructors,
    // instructorDelete,
    instructorPost,
+   // instructorPut,
 } from '../../api/adminService'
 
 export const Instructors = () => {
@@ -36,22 +37,15 @@ export const Instructors = () => {
       getData(page)
    }, [page])
 
-   // const handleDeleteItem = (itemId) => {
-   //    instructorDelete(itemId)
-   // }
-
    const handleDeleteItem = async (id) => {
       try {
          await instructorDelete(id)
+         console.log(id)
          getData(1)
       } catch (error) {
          console.log(error)
       }
    }
-
-   // const handleDeleteItem = (id) => {
-   //    console.log(id)
-   // }
 
    const addInstructor = async (data) => {
       try {
@@ -64,6 +58,27 @@ export const Instructors = () => {
       }
    }
 
+   // const updateTeacher = async (id) => {
+   //    try {
+   //       await instructorPut(id)
+   //       console.log('TEACHER', id)
+   //    } catch (e) {
+   //       console.log(e)
+   //    }
+   // }
+
+   const closeModalHandler = () => {
+      setOpenModal(false)
+   }
+   const openModalHandler = () => {
+      setOpenModal(true)
+   }
+
+   const editHandler = (id) => {
+      openModalHandler()
+      // updateTeacher(id)
+      console.log(id)
+   }
    // const handleEditItem = () => {
    //    asyncPutInstructor(data)
    // }
@@ -78,9 +93,6 @@ export const Instructors = () => {
    //       console.error('Error updating data:', error)
    //    }
    // }
-   const editHandler = (id) => {
-      console.log(id)
-   }
 
    const columns = [
       {
@@ -125,13 +137,6 @@ export const Instructors = () => {
          },
       },
    ]
-
-   const closeModalHandler = () => {
-      setOpenModal(false)
-   }
-   const openModalHandler = () => {
-      setOpenModal(true)
-   }
 
    return (
       <Container>
