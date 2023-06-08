@@ -9,7 +9,6 @@ import 'react-phone-input-2/lib/style.css'
 
 const onlyCountries = ['kg', 'ru', 'kz']
 export const ModalInstructor = ({ addNewData, open, onClose, sd }) => {
-   console.log(sd)
    const [phoneNumber, setPhoneNumber] = useState('')
    const onSubmitHandler = ({
       firstName,
@@ -35,7 +34,7 @@ export const ModalInstructor = ({ addNewData, open, onClose, sd }) => {
          lastName: '',
          phoneNumber: '',
          email: '',
-         password: '',
+         password: 'здесь будет link',
          special: '',
       },
       onSubmit: (values) => {
@@ -58,12 +57,6 @@ export const ModalInstructor = ({ addNewData, open, onClose, sd }) => {
       return (
          values.email?.length === 0 ||
          (values.email?.length > 0 && values.email.includes('@'))
-      )
-   }
-   const isPasswordValid = () => {
-      return (
-         values.password.length === 0 ||
-         (values.password.length > 0 && values.password >= 6)
       )
    }
 
@@ -103,9 +96,8 @@ export const ModalInstructor = ({ addNewData, open, onClose, sd }) => {
                   name="email"
                />
                <Input
-                  placeholder="Пароль"
+                  style={{ display: 'none' }}
                   type="password"
-                  error={!isPasswordValid()}
                   value={values.password}
                   onChange={handleChange}
                   name="password"
