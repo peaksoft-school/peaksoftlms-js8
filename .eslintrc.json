@@ -31,7 +31,6 @@
       "react-hooks/rules-of-hooks": "error",
       "react/function-component-definition": "off",
       "react/prop-types": "off",
-      "no-param-reassign": "off",
       "import/no-cycle": "off",
       "max-len": [
          "error",

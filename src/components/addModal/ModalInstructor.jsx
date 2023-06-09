@@ -1,33 +1,34 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import styled from '@emotion/styled'
-import { useFormik } from 'formik'
 import PhoneInput from 'react-phone-input-2'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { useFormik } from 'formik'
+import { useSearchParams } from 'react-router-dom'
 import Input from '../UI/Input'
 import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
+import { getInstructorsById } from '../../api/adminService'
 
 const onlyCountries = ['kg', 'ru', 'kz']
-export const ModalInstructor = ({ addNewData, open, onClose, sd }) => {
-   const [phoneNumber, setPhoneNumber] = useState('')
-   const onSubmitHandler = ({
-      firstName,
-      lastName,
-      email,
-      password,
-      special,
-   }) => {
-      const newData = {
-         firstName,
-         lastName,
-         phoneNumber,
-         email,
-         password,
-         special,
+export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
+   const [searchParams] = useSearchParams()
+   const onSubmitHandler = (values) => {
+      if (searchParams.get('modal') === 'edit') {
+         onSubmit(values.id, values)
+         onClose()
+      } else {
+         const newData = {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            phoneNumber: values.phoneNumber,
+            email: values.email,
+            password: values.password,
+            special: values.special,
+         }
+         addNewData(newData)
       }
-      addNewData(newData)
    }
-
    const formik = useFormik({
       initialValues: {
          firstName: '',
@@ -37,21 +38,29 @@ export const ModalInstructor = ({ addNewData, open, onClose, sd }) => {
          password: 'здесь будет link',
          special: '',
       },
-      onSubmit: (values) => {
-         return onSubmitHandler(values)
-      },
+      onSubmit: onSubmitHandler,
    })
-   const { handleChange, handleSubmit, values, setValues } = formik
+   const { handleChange, handleSubmit, values, setValues, setFieldValue } =
+      formik
    useEffect(() => {
-      setValues({
-         firstName: sd?.fullName,
-         lastName: sd?.fullName,
-         phoneNumber: Number(sd?.phoneNumber),
-         email: sd?.email,
-         password: '',
-         special: sd?.special,
-      })
-   }, [sd])
+      const instructorId = searchParams.get('instructorId')
+      if (open && searchParams.get('modal') === 'edit' && instructorId) {
+         getInstructorsById(instructorId)
+            .then(({ data }) => {
+               console.log(data, 'dataIn')
+               return setValues({
+                  firstName: data.fullName,
+                  lastName: data.fullName,
+                  phoneNumber: data.phoneNumber,
+                  email: data.email,
+                  special: data.special,
+               })
+            })
+            .catch((error) => {
+               console.log(error, 'oшибка в сети')
+            })
+      }
+   }, [open])
 
    const isEmailValid = () => {
       return (
@@ -82,8 +91,8 @@ export const ModalInstructor = ({ addNewData, open, onClose, sd }) => {
                <PhoneInput
                   country="kg"
                   onlyCountries={onlyCountries}
-                  value={phoneNumber}
-                  onChange={(phone) => setPhoneNumber(phone)}
+                  value={values.phoneNumber}
+                  onChange={(value) => setFieldValue('phoneNumber', value)}
                   name="phoneNumber"
                   type="tel"
                />

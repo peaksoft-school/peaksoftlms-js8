@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, IconButton } from '@mui/material'
+import { IconButton, TableCell } from '@mui/material'
 import styled from '@emotion/styled'
+import { useSearchParams } from 'react-router-dom'
 import { AppTable } from '../../utlis/constants/Table'
 import Button from '../../components/UI/Button'
 import { SideBar } from '../../layout/SideBar'
@@ -13,16 +14,13 @@ import { ReactComponent as AddTeacherIcon } from '../../assets/icons/addTeacher.
 import {
    getAllInstructors,
    instructorDelete,
-   // getAllInstructors,
-   // instructorDelete,
    instructorPost,
-   // instructorPut,
+   instructorPut,
 } from '../../api/adminService'
 
 export const Instructors = () => {
    const [page, setPage] = useState(1)
-   const [user, setUser] = useState()
-   const [openModal, setOpenModal] = useState(false)
+   const [searchParams, setSearchParams] = useSearchParams()
    const [instructors, setInstructors] = useState([])
 
    const getData = async (_page) => {
@@ -51,48 +49,26 @@ export const Instructors = () => {
       try {
          await instructorPost(data)
          setPage(1)
-         setOpenModal(false)
          await getData(1)
       } catch (e) {
          console.log(e)
       }
    }
 
-   // const updateTeacher = async (id) => {
-   //    try {
-   //       await instructorPut(id)
-   //       console.log('TEACHER', id)
-   //    } catch (e) {
-   //       console.log(e)
-   //    }
-   // }
-
+   const showModalHandler = (mode) => {
+      searchParams.set('modal', mode)
+      setSearchParams(searchParams)
+   }
    const closeModalHandler = () => {
-      setOpenModal(false)
+      searchParams.delete('modal')
+      setSearchParams(searchParams)
    }
-   const openModalHandler = () => {
-      setOpenModal(true)
+   const editInstructorHadler = (id) => {
+      console.log(id)
+      showModalHandler('edit')
+      searchParams.set('instuctorId', id)
+      setSearchParams(searchParams)
    }
-
-   const editHandler = (teacher) => {
-      openModalHandler()
-      console.log(teacher)
-      setUser(teacher)
-   }
-   // const handleEditItem = () => {
-   //    asyncPutInstructor(data)
-   // }
-
-   // const editHandler = async (id) => {
-   //    try {
-   //       openModalHandler('edit')
-   //       const response = await instructorPut(teacher, teacherId)
-   //       console.log(response.data)
-   //       await getData()
-   //    } catch (error) {
-   //       console.error('Error updating data:', error)
-   //    }
-   // }
 
    const columns = [
       {
@@ -123,21 +99,23 @@ export const Instructors = () => {
       {
          header: 'Действия',
          key: 'actions',
-         render: (row) => {
-            return (
-               <Grid>
-                  <IconButton onClick={() => editHandler(row)}>
-                     <EditIcon />
-                  </IconButton>
-                  <IconButton onClick={() => handleDeleteItem(row.id)}>
-                     <DeleteIcon />
-                  </IconButton>
-               </Grid>
-            )
-         },
+         render: (instructor) => (
+            <TableCell>
+               <IconButton onClick={() => editInstructorHadler(instructor.id)}>
+                  <EditIcon />
+               </IconButton>
+               <IconButton onClick={() => handleDeleteItem(instructor.id)}>
+                  <DeleteIcon />
+               </IconButton>
+            </TableCell>
+         ),
       },
    ]
-
+   const saveHandler = (id, values) => {
+      console.log(id)
+      instructorPut(id, values)
+   }
+   const isModalOpen = !!searchParams.get('modal')
    return (
       <Container>
          <div>
@@ -153,7 +131,7 @@ export const Instructors = () => {
             </div>
          </Header>
          <hr style={{ width: '78%', marginLeft: '20% ' }} />
-         <ButtonDiv onClick={openModalHandler}>
+         <ButtonDiv onClick={() => showModalHandler('add')}>
             <StyleIcon />
             Добавить учителя
          </ButtonDiv>
@@ -166,10 +144,10 @@ export const Instructors = () => {
             />
          </AppTableDiv>
          <ModalInstructor
-            open={openModal}
+            open={isModalOpen}
             onClose={closeModalHandler}
             addNewData={addInstructor}
-            sd={user}
+            onSubmit={saveHandler}
          />
       </Container>
    )
