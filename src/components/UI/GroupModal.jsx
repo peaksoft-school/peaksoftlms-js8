@@ -1,6 +1,6 @@
 import { styled } from '@mui/material'
 import { useEffect, useState } from 'react'
-// eslint-disable-next-line import/no-extraneous-dependencies
+// eslint-disable-next-line import/no-unresolved
 import { format, isValid } from 'date-fns'
 import ModalWindow from './Modal'
 import Input from './Input'

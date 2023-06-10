@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { useFormik } from 'formik'
 import { useEffect, useState } from 'react'
 import Select from 'react-select/creatable'
@@ -96,71 +97,73 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
       <div>
          {Snackbar}
          <ModalStyled open={open} onClose={onClose}>
-            <ContentH3>
-               <h3>Добавить студента</h3>
-            </ContentH3>
-            <Container onSubmit={handleSubmit}>
-               <Input
-                  placeholder="Имя"
-                  value={values.firstName || ''}
-                  onChange={handleChange}
-                  name="firstName"
-               />
-               <Input
-                  placeholder="Фамилия"
-                  value={values.lastName || ''}
-                  onChange={handleChange}
-                  name="lastName"
-               />
-               <PhoneInput
-                  country="kg"
-                  onlyCountries={onlyCountries}
-                  value={values.phoneNumber}
-                  onChange={handlePhoneChange}
-                  name="phoneNumber"
-                  type="tel"
-               />
-               <Input
-                  placeholder="Email"
-                  type="email"
-                  error={!isEmailValid()}
-                  value={values.email}
-                  onChange={handleChange}
-                  name="email"
-               />
-               <Input
-                  style={{ display: 'none' }}
-                  placeholder="Пароль"
-                  type="password"
-                  value={values.password}
-                  onChange={handleChange}
-                  name="password"
-               />
-               <Select
-                  options={groupOptions}
-                  value={selectedGroupID}
-                  placeholder="Группа"
-                  onChange={(selectedOption) => {
-                     setSelectedGroupID(selectedOption)
-                  }}
-               />
-               <Select
-                  options={optionsFormat}
-                  value={formLearning}
-                  placeholder="Формат обучения"
-                  onChange={(selectedOption) => {
-                     setFormLearning(selectedOption)
-                  }}
-               />
-               <BtnContainer>
-                  <Button variant="outlined" onClick={onClose}>
-                     Отмена
-                  </Button>
-                  <Button variant="contained" type="submit">
-                     Добавить
-                  </Button>
-               </BtnContainer>
-            </Container>
+            <>
+               <ContentH3>
+                  <h3>Добавить студента</h3>
+               </ContentH3>
+               <Container onSubmit={handleSubmit}>
+                  <Input
+                     placeholder="Имя"
+                     value={values.firstName || ''}
+                     onChange={handleChange}
+                     name="firstName"
+                  />
+                  <Input
+                     placeholder="Фамилия"
+                     value={values.lastName || ''}
+                     onChange={handleChange}
+                     name="lastName"
+                  />
+                  <PhoneInput
+                     country="kg"
+                     onlyCountries={onlyCountries}
+                     value={values.phoneNumber}
+                     onChange={handlePhoneChange}
+                     name="phoneNumber"
+                     type="tel"
+                  />
+                  <Input
+                     placeholder="Email"
+                     type="email"
+                     error={!isEmailValid()}
+                     value={values.email}
+                     onChange={handleChange}
+                     name="email"
+                  />
+                  <Input
+                     style={{ display: 'none' }}
+                     placeholder="Пароль"
+                     type="password"
+                     value={values.password}
+                     onChange={handleChange}
+                     name="password"
+                  />
+                  <Select
+                     options={groupOptions}
+                     value={selectedGroupID}
+                     placeholder="Группа"
+                     onChange={(selectedOption) => {
+                        setSelectedGroupID(selectedOption)
+                     }}
+                  />
+                  <Select
+                     options={optionsFormat}
+                     value={formLearning}
+                     placeholder="Формат обучения"
+                     onChange={(selectedOption) => {
+                        setFormLearning(selectedOption)
+                     }}
+                  />
+                  <BtnContainer>
+                     <Button variant="outlined" onClick={onClose}>
+                        Отмена
+                     </Button>
+                     <Button variant="contained" type="submit">
+                        Добавить
+                     </Button>
+                  </BtnContainer>
+               </Container>
+            </>
          </ModalStyled>
       </div>
    )
