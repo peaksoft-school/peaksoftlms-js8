@@ -21,6 +21,7 @@ import {
 
 export const Instructors = () => {
    const [page, setPage] = useState(1)
+   const [user, setUser] = useState()
    const [openModal, setOpenModal] = useState(false)
    const [instructors, setInstructors] = useState([])
 
@@ -74,10 +75,10 @@ export const Instructors = () => {
       setOpenModal(true)
    }
 
-   const editHandler = (id) => {
+   const editHandler = (teacher) => {
       openModalHandler()
-      // updateTeacher(id)
-      console.log(id)
+      console.log(teacher)
+      setUser(teacher)
    }
    // const handleEditItem = () => {
    //    asyncPutInstructor(data)
@@ -126,7 +127,7 @@ export const Instructors = () => {
          render: (row) => {
             return (
                <Grid>
-                  <IconButton onClick={() => editHandler(row.id)}>
+                  <IconButton onClick={() => editHandler(row)}>
                      <EditIcon />
                   </IconButton>
                   <IconButton onClick={() => handleDeleteItem(row.id)}>
@@ -169,6 +170,7 @@ export const Instructors = () => {
             open={openModal}
             onClose={closeModalHandler}
             addNewData={addInstructor}
+            sd={user}
          />
       </Container>
    )

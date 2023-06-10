@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { useFormik } from 'formik'
 import PhoneInput from 'react-phone-input-2'
@@ -8,9 +8,8 @@ import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
 
 const onlyCountries = ['kg', 'ru', 'kz']
-export const ModalInstructor = ({ addNewData, open, onClose }) => {
+export const ModalInstructor = ({ addNewData, open, onClose, sd }) => {
    const [phoneNumber, setPhoneNumber] = useState('')
-
    const onSubmitHandler = ({
       firstName,
       lastName,
@@ -33,25 +32,31 @@ export const ModalInstructor = ({ addNewData, open, onClose }) => {
       initialValues: {
          firstName: '',
          lastName: '',
+         phoneNumber: '',
          email: '',
-         password: '',
+         password: 'здесь будет link',
          special: '',
       },
       onSubmit: (values) => {
          return onSubmitHandler(values)
       },
    })
-   const { handleChange, handleSubmit, values } = formik
+   const { handleChange, handleSubmit, values, setValues } = formik
+   useEffect(() => {
+      setValues({
+         firstName: sd?.fullName,
+         lastName: sd?.fullName,
+         phoneNumber: Number(sd?.phoneNumber),
+         email: sd?.email,
+         password: '',
+         special: sd?.special,
+      })
+   }, [sd])
+
    const isEmailValid = () => {
       return (
-         values.email.length === 0 ||
-         (values.email.length > 0 && values.email.includes('@'))
-      )
-   }
-   const isPasswordValid = () => {
-      return (
-         values.password.length === 0 ||
-         (values.password.length > 0 && values.password >= 6)
+         values.email?.length === 0 ||
+         (values.email?.length > 0 && values.email.includes('@'))
       )
    }
 
@@ -61,7 +66,7 @@ export const ModalInstructor = ({ addNewData, open, onClose }) => {
             <ContentH3>
                <h3>Добавить учителя</h3>
             </ContentH3>
-            <Container onSubmit={handleSubmit}>
+            <Container onSubmit={handleSubmit} name="form">
                <Input
                   placeholder="Имя"
                   value={values.firstName}
@@ -91,9 +96,8 @@ export const ModalInstructor = ({ addNewData, open, onClose }) => {
                   name="email"
                />
                <Input
-                  placeholder="Пароль"
+                  style={{ display: 'none' }}
                   type="password"
-                  error={!isPasswordValid()}
                   value={values.password}
                   onChange={handleChange}
                   name="password"
