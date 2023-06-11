@@ -20,7 +20,6 @@ export const getGroupAllRequest = () => {
    return axiosInstance.get('/groups/pagination?size=2&page=1')
 }
 export const updateStudents = (id, values) => {
-   console.log(values, 'value')
    return axiosInstance.put(`/students?studentId=${id}`, values)
 }
 export const getStudentById = (id) => {

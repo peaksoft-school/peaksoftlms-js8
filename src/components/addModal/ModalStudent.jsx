@@ -20,7 +20,8 @@ const optionsFormat = [
 ]
 export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
    const [searchParams] = useSearchParams()
-   const { groups, selectedGroupID, setSelectedGroupID } = useGetAllGroup()
+   const { groups, selectedGroupID, setSelectedGroupID, refetchHandle } =
+      useGetAllGroup()
    const { notify, Snackbar } = useSnackbar()
    const [formLearning, setFormLearning] = useState(null)
    const groupOptions = groups.map((group) => ({
@@ -42,6 +43,7 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
             formLearning: formLearning.value,
          }
          addNewData(newData)
+         refetchHandle()
       }
    }
    const formik = useFormik({
