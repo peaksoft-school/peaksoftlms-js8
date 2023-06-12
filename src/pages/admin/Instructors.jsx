@@ -4,25 +4,29 @@ import styled from '@emotion/styled'
 import { useSearchParams } from 'react-router-dom'
 import { AppTable } from '../../utlis/constants/Table'
 import Button from '../../components/UI/Button'
-import { SideBar } from '../../layout/SideBar'
 import { ReactComponent as AdminIcon } from '../../assets/icons/adminIcon.svg'
 import { ReactComponent as ArrowIcon } from '../../assets/icons/arrow.svg'
 import { ModalInstructor } from '../../components/addModal/ModalInstructor'
 import { ReactComponent as EditIcon } from '../../assets/icons/tableEditTeacher-3.svg'
 import { ReactComponent as DeleteIcon } from '../../assets/icons/tableDeleteTeacher.svg'
 import { ReactComponent as AddTeacherIcon } from '../../assets/icons/addTeacher.svg'
+import { ReactComponent as LogOut } from '../../assets/icons/logout.svg'
 import {
    getAllInstructors,
    instructorDelete,
    instructorPost,
    instructorPut,
 } from '../../api/adminService'
+import { removeItemFromStorage } from '../../utlis/helpers/storageHelper'
+import { JWT_TOKEN_KEY, USER_INFO } from '../../utlis/constants/commons'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
 export const Instructors = () => {
    const [page, setPage] = useState(1)
    const [searchParams, setSearchParams] = useSearchParams()
    const [instructors, setInstructors] = useState([])
-
+   const [showLogoutIcon, setShowLogoutIcon] = useState(false)
+   const { notify, Snackbar } = useSnackbar()
    const getData = async (_page) => {
       try {
          const { data } = await getAllInstructors(_page)
@@ -48,11 +52,14 @@ export const Instructors = () => {
 
    const addInstructor = async (data) => {
       try {
-         await instructorPost(data)
+         const response = await instructorPost(data)
          setPage(1)
          await getData(1)
-      } catch (e) {
-         console.log(e)
+         notify('success', response.data.message)
+      } catch (error) {
+         if (error.response) {
+            notify('error', error.response.data.message)
+         }
       }
    }
 
@@ -64,8 +71,7 @@ export const Instructors = () => {
       searchParams.delete('modal')
       setSearchParams(searchParams)
    }
-   const editInstructorHadler = (id) => {
-      console.log(id)
+   const editHadler = (id) => {
       showModalHandler('edit')
       searchParams.set('instuctorId', id)
       setSearchParams(searchParams)
@@ -102,7 +108,7 @@ export const Instructors = () => {
          key: 'actions',
          render: (instructor) => (
             <TableCell>
-               <IconButton onClick={() => editInstructorHadler(instructor.id)}>
+               <IconButton onClick={() => editHadler(instructor.id)}>
                   <EditIcon />
                </IconButton>
                <IconButton onClick={() => handleDeleteItem(instructor.id)}>
@@ -112,25 +118,31 @@ export const Instructors = () => {
          ),
       },
    ]
+   const handleArrowIconClick = () => {
+      setShowLogoutIcon(!showLogoutIcon)
+   }
    const saveHandler = (id, values) => {
-      console.log(id)
       instructorPut(id, values)
+   }
+   const handleLogout = () => {
+      removeItemFromStorage(JWT_TOKEN_KEY)
+      removeItemFromStorage(USER_INFO)
+      window.location.reload()
    }
    const isModalOpen = !!searchParams.get('modal')
    return (
       <Container>
-         <div>
-            <SidBarDiv role="ADMIN" />
-         </div>
+         {Snackbar}
          <Header>
             <AdminIconSpan>
                <AdminIcon />
             </AdminIconSpan>
             <AdminSpan>Администратор</AdminSpan>
             <div>
-               <ArrowIcon />
+               <ArrowIcon onClick={handleArrowIconClick} />
             </div>
          </Header>
+         {showLogoutIcon && <LogOutStyled onClick={handleLogout} />}
          <hr style={{ width: '78%', marginLeft: '20% ' }} />
          <ButtonDiv onClick={() => showModalHandler('add')}>
             <StyleIcon />
@@ -192,10 +204,6 @@ const ButtonDiv = styled(Button)`
    margin-top: 15px;
    margin-bottom: 15px;
 `
-const SidBarDiv = styled(SideBar)`
-   width: 17%;
-   margin: 0%;
-`
 const AppTableDiv = styled.div`
    width: 78%;
    margin-left: 20%;
@@ -203,4 +211,11 @@ const AppTableDiv = styled.div`
 
 const StyleIcon = styled(AddTeacherIcon)`
    margin-right: 8px;
+`
+const LogOutStyled = styled(LogOut)`
+   margin-left: 77rem;
+   width: 200px;
+   height: 100px;
+   margin-top: -1rem;
+   margin-bottom: -1rem;
 `

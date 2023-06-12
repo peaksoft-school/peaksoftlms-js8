@@ -1,21 +1,23 @@
 import { useEffect } from 'react'
 import styled from '@emotion/styled'
 import PhoneInput from 'react-phone-input-2'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useFormik } from 'formik'
 import { useSearchParams } from 'react-router-dom'
 import Input from '../UI/Input'
 import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
-import { getInstructorsById } from '../../api/adminService'
+import { getInstructorById } from '../../api/adminService'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
 const onlyCountries = ['kg', 'ru', 'kz']
 export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
    const [searchParams] = useSearchParams()
+   const { notify, Snackbar } = useSnackbar()
    const onSubmitHandler = (values) => {
       if (searchParams.get('modal') === 'edit') {
-         onSubmit(values.id, values)
+         const instructorId = searchParams.get('instuctorId')
+         onSubmit(instructorId, values)
          onClose()
       } else {
          const newData = {
@@ -43,11 +45,10 @@ export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
    const { handleChange, handleSubmit, values, setValues, setFieldValue } =
       formik
    useEffect(() => {
-      const instructorId = searchParams.get('instructorId')
+      const instructorId = searchParams.get('instuctorId')
       if (open && searchParams.get('modal') === 'edit' && instructorId) {
-         getInstructorsById(instructorId)
+         getInstructorById(instructorId)
             .then(({ data }) => {
-               console.log(data, 'dataIn')
                return setValues({
                   firstName: data.fullName,
                   lastName: data.fullName,
@@ -57,11 +58,12 @@ export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
                })
             })
             .catch((error) => {
-               console.log(error, 'oшибка в сети')
+               if (error.response) {
+                  notify('error', error.response.data.message)
+               }
             })
       }
    }, [open])
-
    const isEmailValid = () => {
       return (
          values.email?.length === 0 ||
@@ -71,6 +73,7 @@ export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
 
    return (
       <ModalWindowStyled>
+         {Snackbar}
          <ModalStyled open={open} onClose={onClose}>
             <ContentH3>
                <h3>Добавить учителя</h3>
