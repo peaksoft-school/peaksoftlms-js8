@@ -50,7 +50,7 @@ const columns = [
       ),
    },
 ]
-export const Courses = () => {
+export const CoursesInstructor = () => {
    const [openModal, setOpenModal] = useState(false)
    const [data, setData] = useState([])
 
