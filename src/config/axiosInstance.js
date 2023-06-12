@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { store } from '../redux/store'
 
-const BASE_URL = 'http://peaksoftlms.peaksoftprojects.com/api/'
+const BASE_URL = 'http://peaksoftlms.peaksoftprojects.com/api'
 
 export const axiosInstance = axios.create({
    baseURL: BASE_URL,
