@@ -2,12 +2,11 @@ import React, { forwardRef } from 'react'
 import styled from '@emotion/styled'
 import Input from './Input'
 
-const TextArea = forwardRef(({ value, onChange, ...rest }, ref) => {
+const TextArea = forwardRef(({ value, onChange, rows, ...rest }, ref) => {
    return (
       <StyledInput
          ref={ref}
-         multiline
-         rows={3}
+         rows={rows}
          placeholder="Oписание курса"
          value={value}
          onChange={onChange}

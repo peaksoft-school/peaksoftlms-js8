@@ -12,20 +12,17 @@ const CourseHeader = () => {
       setShowText(!showText)
    }
    return (
-      <div>
-         {' '}
-         <MenuStyled>
-            <IconButton icon={<Profile />} />
-            <h4>Администратор</h4>
-            <IconButton icon={<Vector />} onClick={handleIconClick} />
-            {showText && (
-               <StyledDropDown>
-                  <IconButton icon={<Vectore />} />
-                  <h2>Выйти</h2>
-               </StyledDropDown>
-            )}
-         </MenuStyled>
-      </div>
+      <MenuStyled>
+         <IconButton icon={<Profile />} />
+         <p>Администратор</p>
+         <IconButton icon={<Vector />} onClick={handleIconClick} />
+         {showText && (
+            <StyledDropDown>
+               <IconButton icon={<Vectore />} />
+               <span>Выйти</span>
+            </StyledDropDown>
+         )}
+      </MenuStyled>
    )
 }
 
@@ -33,9 +30,8 @@ export default CourseHeader
 
 const MenuStyled = styled('div')({
    display: 'flex',
-   marginTop: '-80px',
-   marginLeft: '1040px',
-   '& h4': {
+   justifyContent: 'flex-end',
+   '& p': {
       fontWeight: '400',
    },
 })
@@ -52,7 +48,7 @@ const StyledDropDown = styled('h3')({
    border: '1px solid #3772FF',
    padding: '8px 90px 16px 0px',
    borderRadius: '10px',
-   '& h2': {
+   '& span': {
       fontSize: '18px',
       color: '#3772FF',
       marginTop: '-4px',

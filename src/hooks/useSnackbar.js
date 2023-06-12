@@ -1,14 +1,17 @@
 import styled from '@emotion/styled'
+import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export const useSnackbar = () => {
-   const notify = (type, message) => {
-      return toast[type](<div>{message}</div>)
+   const [type, setType] = useState()
+   const notify = (types, message) => {
+      toast[types](message)
+      setType(types)
    }
    return {
       notify,
-      Snackbar: <SnackBox />,
+      Snackbar: <SnackBox type={type} autoClose={1500} />,
    }
 }
 
@@ -18,12 +21,10 @@ const SnackBox = styled(ToastContainer)`
    .Toastify__toast {
       width: fit-content;
       padding: 0;
+      background-color: ${(props) =>
+         props.type === 'success' ? '#36AC0C' : '#C91E1E'};
       color: white;
       border-radius: 10px;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 22px;
-      color: #ffffff;
    }
    .Toastify__toast-body {
       flex-direction: row-reverse;
@@ -33,13 +34,11 @@ const SnackBox = styled(ToastContainer)`
    .Toastify__toast-icon > svg {
       fill: white;
    }
-   .Toastify__toast--success {
-      background-color: #36ac0c;
-   }
-   .Toastify__toast--error {
-      background-color: #c91e1e;
-   }
    .Toastify__close-button {
       display: none;
+   }
+   .Toastify__progress-bar {
+      background-color: ${(props) =>
+         props.type === 'success' ? '#36AC0C' : '#C91E1E'};
    }
 `

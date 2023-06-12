@@ -2,39 +2,41 @@ import styled from '@emotion/styled'
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useForm } from 'react-hook-form'
 import GroupModal from '../../../components/UI/GroupModal'
+import CourseHeader from './CourseHeader'
 import Button from '../../../components/UI/Button'
-import { ReactComponent as Profile } from '../../../assets/icons/Profile.svg'
-import { ReactComponent as Vector } from '../../../assets/icons/Vector (1).svg'
-import { ReactComponent as Vectore } from '../../../assets/icons/Vector (2).svg'
-import IconButton from '../../../components/UI/IconButton'
 import { PaginationRounded } from '../../../components/UI/PaginationRounded'
 import Input from '../../../components/UI/Input'
 import Cards from '../../../components/UI/Card'
 import { axiosInstance } from '../../../config/axiosInstance'
+import Spinner from '../../../components/UI/Spinner'
 import { asyncGetCourses } from '../../../redux/reducers/course/CourseThunk'
 
 export const Courses = () => {
    const dispatch = useDispatch()
+   const { course, isLoading } = useSelector((state) => state.course)
    const [showModal, setShowModal] = useState(false)
-   const [showText, setShowText] = useState(false)
    const [pagination, setPagination] = useState(1)
-   const [pageSize, setPageSize] = useState(8)
    const [page, setPage] = useState(1)
    const [searchParams, setSearchParams] = useSearchParams()
    const navigate = useNavigate()
-   const { course } = useSelector((state) => state.course)
+   const [pageSize, setPageSize] = useState(8)
+   const [count, setCount] = useState(1)
 
-   const navigateToDetailPage = (id) => {
-      navigate(`${id}`)
+   const {
+      register,
+      handleSubmit,
+      formState: { errors },
+   } = useForm()
+
+   const navigateToDetailPage = ({ id, title }) => {
+      navigate(`${id}`, { state: { title } })
    }
 
-   console.log(course)
-
-   const getCourses = () => {
+   const getCourses = async () => {
       dispatch(asyncGetCourses({ pageSize, pagination }))
    }
-
    useEffect(() => {
       getCourses()
    }, [searchParams, showModal])
@@ -47,15 +49,15 @@ export const Courses = () => {
    }
 
    const pageSizeChangeHandler = (e) => {
-      setPageSize(+e.target.value)
+      const selectedPageSize = +e.target.value
+      setPageSize(selectedPageSize)
+      setCount(Math.ceil(course.courseResponses.length / selectedPageSize))
    }
-   const handleIconClick = () => {
-      setShowText(!showText)
-   }
-
    const postCourse = async (data) => {
+      data.finishDate = '2023-05-31'
       try {
-         await axiosInstance.post('api/courses', data)
+         await axiosInstance.post('courses', data)
+         setShowModal(false)
       } catch (error) {
          console.log(error)
       }
@@ -67,8 +69,7 @@ export const Courses = () => {
       setShowModal(false)
    }
 
-   const submitSearchParams = (e) => {
-      e.preventDefault()
+   const submitSearchParams = () => {
       setSearchParams((prevSearchParams) => {
          const updatedSearchParams = new URLSearchParams(prevSearchParams)
          updatedSearchParams.set('pagination', String(pagination))
@@ -90,17 +91,7 @@ export const Courses = () => {
 
    return (
       <Container>
-         <MenuStyled>
-            <IconButton icon={<Profile />} />
-            <h4>Администратор</h4>
-            <IconButton icon={<Vector />} onClick={handleIconClick} />
-            {showText && (
-               <StyledDropDown>
-                  <IconButton icon={<Vectore />} />
-                  <h2>Выйти</h2>
-               </StyledDropDown>
-            )}
-         </MenuStyled>
+         <CourseHeader />
          <StyledHr />
          <Styledbtn>
             <ButtonStyled onClick={() => setShowModal(true)}>
@@ -108,7 +99,11 @@ export const Courses = () => {
             </ButtonStyled>
          </Styledbtn>
          <StyledContainer>
-            {course !== null ? (
+            {isLoading ? (
+               <StyledSpinner>
+                  <Spinner />
+               </StyledSpinner>
+            ) : (
                course.courseResponses?.map((item) => (
                   <Cards
                      key={item.id}
@@ -120,11 +115,8 @@ export const Courses = () => {
                      navigate={navigateToDetailPage}
                   />
                ))
-            ) : (
-               <p>Null</p>
             )}
          </StyledContainer>
-
          <GroupModal
             data={submitHandler}
             open={showModal}
@@ -132,26 +124,38 @@ export const Courses = () => {
             title="Создать курс"
             placeholder="курса"
          />
-         <StyledFormPagination onSubmit={submitSearchParams}>
+         <StyledFormPagination onSubmit={handleSubmit(submitSearchParams)}>
             <InputContainers>
-               <h3>Перейти на страницу</h3>
+               <p>Перейти на страницу</p>
                <InputStyled
+                  {...register('page', { required: true, min: 1 })}
                   onChange={pageChangeHandler}
                   value={page}
                   onKeyPress={handleKeyPress}
+                  error={errors.page}
+                  helperText={errors.page && 'Введите страницу'}
                />
             </InputContainers>
             <PaginationRounded
                onChange={paginationChangeHandler}
                value={pagination}
                type="submit"
+               count={count}
             />
             <InputContainers>
-               <h4>Показать</h4>
+               <p>Показать</p>
                <InputStyled
+                  {...register('pageSize', {
+                     required: true,
+                     min: 1,
+                     max: course.courseResponses?.length,
+                  })}
                   onChange={pageSizeChangeHandler}
                   value={pageSize}
+                  max={course.courseResponses?.length}
                   onKeyPress={handleKeyPress}
+                  error={errors.pageSize}
+                  helperText={errors.pageSize && 'Введите размер страницы'}
                />
                <p>из {course.courseResponses?.length}</p>
             </InputContainers>
@@ -159,15 +163,22 @@ export const Courses = () => {
       </Container>
    )
 }
+
+const StyledSpinner = styled('div')({
+   margin: 'auto',
+   marginTop: '150px',
+})
 const InputStyled = styled(Input)({
    width: '40px',
    borderRadius: 'none',
+   marginTop: '20px',
    '& .MuiOutlinedInput-input': {
       padding: '0 5px',
       textAlign: 'center',
    },
    fieldset: {
       borderRadius: '1px',
+      height: '10px',
    },
    '& .MuiOutlinedInput-input:focus': {
       border: 'none',
@@ -176,58 +187,24 @@ const InputStyled = styled(Input)({
 
 const InputContainers = styled('div')(() => ({
    display: 'flex',
-   alignItems: 'center',
+   marginLeft: '-20px',
    gap: '10px',
-   '& h3': {
-      marginLeft: '40px',
-   },
 }))
 
 const StyledFormPagination = styled('form')({
-   marginLeft: '-90px',
    display: 'flex',
-   justifyContent: 'center',
-   gap: '50px',
-   marginTop: '20px',
+   justifyContent: 'space-around',
+   gap: '180px',
+   marginTop: '50px',
    alignItems: 'center',
-   '& h3': {
-      marginLeft: '80px',
-      fontWeight: '300',
-   },
-   '& h4': {
-      fontWeight: '300',
-      marginLeft: '130px',
-      fontSize: '20px',
+   '& p': {
+      fontWeight: '350',
+      fontSize: '18px',
    },
 })
 const StyledHr = styled('hr')({
    width: '99%',
    marginTop: '-6px',
-})
-const StyledDropDown = styled('h3')({
-   display: 'flex',
-   zIndex: 1,
-   position: 'absolute',
-   top: '22px',
-   right: '20px',
-   width: '40px',
-   height: '10px',
-   background: '#DDE9F9',
-   cursor: 'pointer',
-   border: '1px solid #3772FF',
-   padding: '8px 90px 16px 0px',
-   borderRadius: '10px',
-   '& h2': {
-      fontSize: '18px',
-      color: '#3772FF',
-      marginTop: '-4px',
-      marginLeft: '6px',
-   },
-})
-const MenuStyled = styled('div')({
-   display: 'flex',
-   justifyContent: 'flex-end',
-   marginTop: '-12px',
 })
 const Styledbtn = styled('div')({
    display: 'flex',
@@ -248,4 +225,5 @@ const StyledContainer = styled('div')({
    flexWrap: 'wrap',
    gap: 20,
    margin: '20px 0',
+   alignItems: 'flex-start',
 })

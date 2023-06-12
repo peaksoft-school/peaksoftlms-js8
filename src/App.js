@@ -31,7 +31,7 @@ const Loader = styled.div`
    display: grid;
    position: absolute;
    top: 40%;
-   left: 50%;
+   left: 46%;
    border: 4.5px solid #0000;
    border-radius: 50%;
    border-color: #dbdcef #0000;

@@ -49,19 +49,21 @@ export const Meatballs = ({
 }) => {
    const dispatch = useDispatch()
    const [openModal, setOpenModal] = useState(false)
+   const [groupModal, setGroupModal] = useState(false)
    const [courseData, setCourseData] = useState({})
 
    const finallyArrayIcons = propsIcons || arrayIcon
 
    const closeModal = () => {
       setOpenModal(false)
+      setGroupModal(false)
    }
 
    const submitHandler = async (data) => {
-      data.id = courseData.id
+      data.courseId = courseData.id
       try {
          await putCourses(data)
-         dispatch(asyncGetCourses({ pageSize: '9', pagination: '1' }))
+         dispatch(asyncGetCourses({ pageSize: '8', pagination: '1' }))
          closeModal()
       } catch (error) {
          console.log(error)
@@ -76,6 +78,14 @@ export const Meatballs = ({
             onClose={closeModal}
             title="Редактирование курса"
             placeholder="курса"
+            courseId={courseData.id}
+         />
+         <GroupModal
+            data={submitHandler}
+            open={groupModal}
+            onClose={closeModal}
+            title="Редактирование группы"
+            placeholder="группы"
             courseId={courseData.id}
          />
          <Button
@@ -100,7 +110,13 @@ export const Meatballs = ({
                return (
                   <StyledMenuItem
                      onClick={() =>
-                        item.func(items, dispatch, setOpenModal, setCourseData)
+                        item.func(
+                           items,
+                           dispatch,
+                           setOpenModal,
+                           setCourseData,
+                           setGroupModal
+                        )
                      }
                      key={item.title}
                   >

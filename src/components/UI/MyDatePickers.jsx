@@ -24,4 +24,10 @@ export default MyDatePickers
 
 const StyledDatePicker = styled(DatePicker)(() => ({
    width: '100px',
+   border: '1px solid #D4D4D4',
+   borderRadius: '10px',
+
+   '& .MuiOutlinedInput-notchedOutline': {
+      border: 'none',
+   },
 }))

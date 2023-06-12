@@ -1,4 +1,4 @@
-import { axiosInstance } from '../config/axiosInstance'
+import { axiosInstance, fileInstance } from '../config/axiosInstance'
 
 export const getCoursesRequest = ({ pageSize, pagination }) => {
    return axiosInstance.get(
@@ -14,7 +14,7 @@ export const putCourses = (data) => {
 }
 
 export const imagePostService = (payload) => {
-   return axiosInstance.post('file', payload)
+   return fileInstance.post('file', payload)
 }
 
 export const getStudentsRequest = (id) => {
