@@ -1,19 +1,5 @@
-<<<<<<< HEAD
-import { BrowserRouter } from 'react-router-dom'
-import { Instructors } from './pages/admin/Instructors'
-// import { Courses } from './pages/admin/Courses'
-
-function App() {
-   return (
-      <BrowserRouter>
-         <Instructors />
-         {/* <Courses /> */}
-      </BrowserRouter>
-   )
-}
-
-=======
 import { useEffect, useState } from 'react'
+
 import { useDispatch } from 'react-redux'
 import styled from '@emotion/styled'
 import { authActions } from './redux/reducers/auth/auth.slice'
@@ -78,5 +64,4 @@ const Loader = styled.div`
    }
 `
 
->>>>>>> e0c288f8e2449d9aa9fe4631f4cd964ab63e86c8
 export default App

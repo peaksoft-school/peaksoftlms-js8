@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
@@ -15,4 +13,3 @@ export const userSlice = createSlice({
    reducers: {},
 })
 export const userActions = userSlice.actions
->>>>>>> e0c288f8e2449d9aa9fe4631f4cd964ab63e86c8

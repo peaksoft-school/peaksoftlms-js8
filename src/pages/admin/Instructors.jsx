@@ -18,6 +18,8 @@ import {
    instructorPost,
    instructorPut,
 } from '../../api/adminService'
+import { removeItemFromStorage } from '../../utlis/helpers/storageHelper'
+import { JWT_TOKEN_KEY, USER_INFO } from '../../utlis/constants/commons'
 
 export const Instructors = () => {
    const [page, setPage] = useState(1)
@@ -118,8 +120,8 @@ export const Instructors = () => {
       instructorPut(id, values)
    }
    const handleLogout = () => {
-      // removeItemFromStorage(JWT_TOKEN_KEY)
-      // removeItemFromStorage(USER_INFO)
+      removeItemFromStorage(JWT_TOKEN_KEY)
+      removeItemFromStorage(USER_INFO)
       window.location.reload()
    }
    const isModalOpen = !!searchParams.get('modal')
