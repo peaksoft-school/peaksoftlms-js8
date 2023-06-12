@@ -4,7 +4,6 @@ import styled from '@emotion/styled'
 import { useSearchParams } from 'react-router-dom'
 import { AppTable } from '../../utlis/constants/Table'
 import Button from '../../components/UI/Button'
-import { SideBar } from '../../layout/SideBar'
 import { ReactComponent as AdminIcon } from '../../assets/icons/adminIcon.svg'
 import { ReactComponent as ArrowIcon } from '../../assets/icons/arrow.svg'
 import { ModalInstructor } from '../../components/addModal/ModalInstructor'
@@ -20,12 +19,14 @@ import {
 } from '../../api/adminService'
 import { removeItemFromStorage } from '../../utlis/helpers/storageHelper'
 import { JWT_TOKEN_KEY, USER_INFO } from '../../utlis/constants/commons'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
 export const Instructors = () => {
    const [page, setPage] = useState(1)
    const [searchParams, setSearchParams] = useSearchParams()
    const [instructors, setInstructors] = useState([])
    const [showLogoutIcon, setShowLogoutIcon] = useState(false)
+   const { notify, Snackbar } = useSnackbar()
    const getData = async (_page) => {
       try {
          const { data } = await getAllInstructors(_page)
@@ -50,11 +51,14 @@ export const Instructors = () => {
 
    const addInstructor = async (data) => {
       try {
-         await instructorPost(data)
+         const response = await instructorPost(data)
          setPage(1)
          await getData(1)
-      } catch (e) {
-         console.log(e)
+         notify('success', response.data.message)
+      } catch (error) {
+         if (error.response) {
+            notify('error', error.response.data.message)
+         }
       }
    }
 
@@ -127,9 +131,7 @@ export const Instructors = () => {
    const isModalOpen = !!searchParams.get('modal')
    return (
       <Container>
-         <div>
-            <SidBarDiv role="ADMIN" />
-         </div>
+         {Snackbar}
          <Header>
             <AdminIconSpan>
                <AdminIcon />
@@ -200,10 +202,6 @@ const ButtonDiv = styled(Button)`
    line-height: 20px;
    margin-top: 15px;
    margin-bottom: 15px;
-`
-const SidBarDiv = styled(SideBar)`
-   width: 17%;
-   margin: 0%;
 `
 const AppTableDiv = styled.div`
    width: 78%;

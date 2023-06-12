@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import styled from '@emotion/styled'
 import PhoneInput from 'react-phone-input-2'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useFormik } from 'formik'
 import { useSearchParams } from 'react-router-dom'
 import Input from '../UI/Input'
@@ -9,10 +8,12 @@ import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
 import { getInstructorById } from '../../api/adminService'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
 const onlyCountries = ['kg', 'ru', 'kz']
 export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
    const [searchParams] = useSearchParams()
+   const { notify, Snackbar } = useSnackbar()
    const onSubmitHandler = (values) => {
       if (searchParams.get('modal') === 'edit') {
          const instructorId = searchParams.get('instuctorId')
@@ -57,7 +58,9 @@ export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
                })
             })
             .catch((error) => {
-               console.log(error, 'oшибка в сети')
+               if (error.response) {
+                  notify('error', error.response.data.message)
+               }
             })
       }
    }, [open])
@@ -70,6 +73,7 @@ export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
 
    return (
       <ModalWindowStyled>
+         {Snackbar}
          <ModalStyled open={open} onClose={onClose}>
             <ContentH3>
                <h3>Добавить учителя</h3>
