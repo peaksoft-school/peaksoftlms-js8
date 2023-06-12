@@ -1,32 +1,41 @@
 import styled from '@emotion/styled'
 import { useForm } from 'react-hook-form'
-import { Box, InputLabel, Link, Typography } from '@mui/material'
+import { Box, InputLabel, Typography } from '@mui/material'
+import { useDispatch } from 'react-redux'
+import { NavLink, useNavigate } from 'react-router-dom'
 import Grid from '@mui/material/Grid'
 import Input from '../components/UI/Input'
 import Button from '../components/UI/Button'
 import Img from '../assets/images/signIn.png'
 import Password from '../components/UI/Password'
+import { asyncSignIn } from '../redux/reducers/auth/authActions'
+import { CURRENT_PATH } from '../utlis/constants/commons'
+import { useSnackbar } from '../hooks/useSnackbar'
 
 const SignInSide = () => {
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
+   const { notify, Snackbar } = useSnackbar()
    const {
       register,
       handleSubmit,
       formState: { errors },
    } = useForm()
 
-   const onSubmit = (data) => {
-      console.log(data)
+   const onSubmit = (email) => {
+      dispatch(asyncSignIn({ email, navigate, notify }))
    }
 
    return (
       <GridContainerStyle container>
+         {Snackbar}
          <GridStyle1>
             <BoxStyle>
                <img src={Img} alt="" />
             </BoxStyle>
          </GridStyle1>
          <GridStyle2>
-            <Box container>
+            <Box container={toString(true)}>
                <TypographyStyle align="center">
                   Добро пожаловать в <span>PEAKSOFT LMS</span> !
                </TypographyStyle>
@@ -67,7 +76,9 @@ const SignInSide = () => {
                      />
                   </Box>
 
-                  <LinkStyle to="/">Забыли пароль?</LinkStyle>
+                  <LinkStyle to={CURRENT_PATH.auth.FORGOT_PASSWORD}>
+                     Забыли пароль?
+                  </LinkStyle>
 
                   <Box>
                      <ButtonStyle type="submit">Войти</ButtonStyle>
@@ -128,7 +139,7 @@ const InputStyle = styled(Input)`
    border-radius: 10px;
    padding: 10px, 8px, 10px, 22px;
 `
-const LinkStyle = styled(Link)`
+const LinkStyle = styled(NavLink)`
    margin-left: 65%;
    margin-top: 9px;
 `
