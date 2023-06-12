@@ -79,19 +79,20 @@ export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
                <h3>Добавить учителя</h3>
             </ContentH3>
             <Container onSubmit={handleSubmit} name="form">
-               <Input
+               <InputStyle
                   placeholder="Имя"
                   value={values.firstName}
                   onChange={handleChange}
                   name="firstName"
                />
-               <Input
+               <InputStyle
                   placeholder="Фамилия"
                   value={values.lastName}
                   onChange={handleChange}
                   name="lastName"
                />
-               <PhoneInput
+               <PhoneInputStyle
+                  containerStyle={{ height: '80px' }}
                   country="kg"
                   onlyCountries={onlyCountries}
                   value={values.phoneNumber}
@@ -99,7 +100,7 @@ export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
                   name="phoneNumber"
                   type="tel"
                />
-               <Input
+               <InputStyle
                   placeholder="Email"
                   type="email"
                   error={!isEmailValid()}
@@ -107,14 +108,14 @@ export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
                   onChange={handleChange}
                   name="email"
                />
-               <Input
+               {/* <Input
                   style={{ display: 'none' }}
                   type="password"
                   value={values.password}
                   onChange={handleChange}
                   name="password"
-               />
-               <Input
+               /> */}
+               <InputStyle
                   placeholder="Специализация"
                   value={values.special}
                   onChange={handleChange}
@@ -139,6 +140,25 @@ const ModalStyled = styled(ModalWindow)`
       border-radius: 10px;
    }
 `
+
+const InputStyle = styled(Input)`
+   margin-bottom: 16px;
+`
+const PhoneInputStyle = styled(PhoneInput)`
+   fieldset {
+      border-radius: 10px;
+      padding: 10px 8px 10px 18px;
+   }
+   /* width: 30%; */
+   input:focus {
+      border-radius: 10px;
+      border: 2px solid #1f6ed4;
+   }
+   input:invalid {
+      border-radius: 10px;
+      border: 2px solid #c91e1e;
+   }
+`
 const ContentH3 = styled.div`
    background: #1f6ed4;
    padding-top: 25px;
@@ -155,9 +175,7 @@ const Container = styled.form`
    margin-right: 25px;
    margin-top: 16px;
    margin-bottom: 16px;
-   Input {
-      margin-bottom: 20px;
-   }
+
    .form-control {
       width: 491px;
       margin-bottom: 12px !important;
