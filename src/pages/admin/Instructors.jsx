@@ -20,6 +20,7 @@ import {
 import { removeItemFromStorage } from '../../utlis/helpers/storageHelper'
 import { JWT_TOKEN_KEY, USER_INFO } from '../../utlis/constants/commons'
 import { useSnackbar } from '../../hooks/useSnackbar'
+import { CoursesInstructor } from './CoursesInstructor'
 
 export const Instructors = () => {
    const [page, setPage] = useState(1)
@@ -132,6 +133,7 @@ export const Instructors = () => {
    return (
       <Container>
          {Snackbar}
+         <CoursesInstructor />
          <Header>
             <AdminIconSpan>
                <AdminIcon />
