@@ -13,7 +13,7 @@ axiosInstance.interceptors.request.use(
       const newConfig = {
          ...config,
          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHVkZW50QGdtYWlsLmNvbSIsImlhdCI6MTY4NjExNTgxNywiZXhwIjoxNjg3NTU1ODE3fQ.qNQAGCVftgK3ztbKu3bqrDfzVj2L6gz_kHZJWZOokl8`,
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHVkZW50QGdtYWlsLmNvbSIsImlhdCI6MTY4NjI4NzYyMywiZXhwIjoxNjg3NzI3NjIzfQ.fcdX0pWOiz3SsCs8LDUd6nKBajlrh3q3qK8iH19KnE4`,
             // Authorization: `Bearer ${store.getState().auth.accessToken}`,
             ...config.headers,
             'Content-Type': 'application/json',

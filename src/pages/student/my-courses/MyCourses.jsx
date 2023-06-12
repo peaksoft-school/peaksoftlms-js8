@@ -8,6 +8,7 @@ import { asyncGetCourses } from '../../../redux/reducers/course/CourseThunk'
 import Spinner from '../../../components/UI/Spinner'
 import { PaginationRounded } from '../../../components/UI/PaginationRounded'
 import Input from '../../../components/UI/Input'
+import Header from '../../../components/UI/Header'
 
 export const MyCourses = () => {
    const dispatch = useDispatch()
@@ -71,6 +72,7 @@ export const MyCourses = () => {
 
    return (
       <>
+         <Header />
          <StyledContainer>
             {isLoading ? (
                <StyledSpinner>

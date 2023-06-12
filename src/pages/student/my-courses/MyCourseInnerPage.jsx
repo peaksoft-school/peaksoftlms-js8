@@ -8,6 +8,7 @@ import { getLessonByCourseId } from '../../../api/lessonService'
 import Spinner from '../../../components/UI/Spinner'
 import Input from '../../../components/UI/Input'
 import { PaginationRounded } from '../../../components/UI/PaginationRounded'
+import Header from '../../../components/UI/Header'
 
 const MyCourseInnerPage = () => {
    const [pageSize, setPageSize] = useState(8)
@@ -77,6 +78,7 @@ const MyCourseInnerPage = () => {
 
    return (
       <>
+         <Header />
          {isLoading ? (
             <StyledSpinner>
                <Spinner />
@@ -114,7 +116,7 @@ const MyCourseInnerPage = () => {
                   {...register('pageSize', {
                      required: true,
                      min: 1,
-                     max: course.courseResponses?.length,
+                     max: course?.courseResponses.length,
                   })}
                   onChange={pageSizeChangeHandler}
                   value={pageSize}
