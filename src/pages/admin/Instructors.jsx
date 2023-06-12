@@ -27,6 +27,7 @@ export const Instructors = () => {
    const [instructors, setInstructors] = useState([])
    const [showLogoutIcon, setShowLogoutIcon] = useState(false)
    const { notify, Snackbar } = useSnackbar()
+
    const getData = async (_page) => {
       try {
          const { data } = await getAllInstructors(_page)
