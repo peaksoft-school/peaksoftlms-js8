@@ -274,9 +274,12 @@ const Container = styled.div`
    background-color: #eff0f4;
    width: 100%;
    height: 100vh;
-   .css-gv27rd-MuiPaper-root-MuiTableContainer-root {
+   /* .css-gv27rd-MuiPaper-root-MuiTableContainer-root {
       width: 78%;
+   } */
+   .css-1mftfee-MuiPaper-root-MuiTableContainer-root {
       margin-left: 18%;
+      width: 78%;
    }
 `
 const AddModalStudentAndFile = styled.div`

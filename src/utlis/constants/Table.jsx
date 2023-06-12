@@ -48,6 +48,7 @@ export const AppTable = ({ columns, rows, getUniqueId }) => {
 }
 
 const TableContainerStyled = styled(TableContainer)`
+   width: 990px;
    border-radius: 10px;
    min-height: 405px;
    margin-top: 30px;

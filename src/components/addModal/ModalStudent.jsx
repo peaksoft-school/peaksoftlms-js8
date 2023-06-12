@@ -136,7 +136,7 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
                      style={{ display: 'none' }}
                      placeholder="Пароль"
                      type="password"
-                     value={values.password}
+                     value={values.password || ''}
                      onChange={handleChange}
                      name="password"
                   />
