@@ -73,61 +73,67 @@ export const MyCourses = () => {
    return (
       <>
          <Header />
-         <StyledContainer>
-            {isLoading ? (
-               <StyledSpinner>
-                  <Spinner />
-               </StyledSpinner>
-            ) : (
-               course.courseResponses?.map((item) => (
-                  <Cards
-                     key={item.id}
-                     title={item.name}
-                     image={item.image}
-                     content={item.description}
-                     date={item.createdAt}
-                     id={item.id}
-                     navigate={navigateToDetailPage}
+         {isLoading ? (
+            <StyledSpinner>
+               <Spinner />
+            </StyledSpinner>
+         ) : (
+            <>
+               <StyledContainer>
+                  {course.courseResponses?.map((item) => (
+                     <Cards
+                        key={item.id}
+                        title={item.name}
+                        image={item.image}
+                        content={item.description}
+                        date={item.createdAt}
+                        id={item.id}
+                        navigate={navigateToDetailPage}
+                     />
+                  ))}
+               </StyledContainer>
+               <StyledFormPagination
+                  onSubmit={handleSubmit(submitSearchParams)}
+               >
+                  <InputContainers>
+                     <p>Перейти на страницу</p>
+                     <InputStyled
+                        {...register('page', { required: true, min: 1 })}
+                        onChange={pageChangeHandler}
+                        value={page}
+                        onKeyPress={handleKeyPress}
+                        error={errors.page}
+                        helperText={errors.page && 'Введите страницу'}
+                     />
+                  </InputContainers>
+                  <PaginationRounded
+                     onChange={paginationChangeHandler}
+                     value={pagination}
+                     type="submit"
+                     count={count}
                   />
-               ))
-            )}
-         </StyledContainer>
-         <StyledFormPagination onSubmit={handleSubmit(submitSearchParams)}>
-            <InputContainers>
-               <p>Перейти на страницу</p>
-               <InputStyled
-                  {...register('page', { required: true, min: 1 })}
-                  onChange={pageChangeHandler}
-                  value={page}
-                  onKeyPress={handleKeyPress}
-                  error={errors.page}
-                  helperText={errors.page && 'Введите страницу'}
-               />
-            </InputContainers>
-            <PaginationRounded
-               onChange={paginationChangeHandler}
-               value={pagination}
-               type="submit"
-               count={count}
-            />
-            <InputContainers>
-               <p>Показать</p>
-               <InputStyled
-                  {...register('pageSize', {
-                     required: true,
-                     min: 1,
-                     max: course.courseResponses?.length,
-                  })}
-                  onChange={pageSizeChangeHandler}
-                  value={pageSize}
-                  max={course.courseResponses?.length}
-                  onKeyPress={handleKeyPress}
-                  error={errors.pageSize}
-                  helperText={errors.pageSize && 'Введите размер страницы'}
-               />
-               <p>из {course.courseResponses?.length}</p>
-            </InputContainers>
-         </StyledFormPagination>
+                  <InputContainers>
+                     <p>Показать</p>
+                     <InputStyled
+                        {...register('pageSize', {
+                           required: true,
+                           min: 1,
+                           max: course.courseResponses?.length,
+                        })}
+                        onChange={pageSizeChangeHandler}
+                        value={pageSize}
+                        max={course.courseResponses?.length}
+                        onKeyPress={handleKeyPress}
+                        error={errors.pageSize}
+                        helperText={
+                           errors.pageSize && 'Введите размер страницы'
+                        }
+                     />
+                     <p>из {course.courseResponses?.length}</p>
+                  </InputContainers>
+               </StyledFormPagination>
+            </>
+         )}
       </>
    )
 }
@@ -160,17 +166,16 @@ const InputStyled = styled(Input)({
       border: 'none',
    },
 })
-
 const InputContainers = styled('div')(() => ({
    display: 'flex',
-   marginLeft: '-20px',
+   marginLeft: '220px',
    gap: '10px',
 }))
 
 const StyledFormPagination = styled('form')({
    display: 'flex',
    justifyContent: 'space-around',
-   gap: '180px',
+   gap: '60px',
    marginTop: '50px',
    alignItems: 'center',
    '& p': {

@@ -1,7 +1,14 @@
 import styled from '@emotion/styled'
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
+import Breadcrumbs from '@mui/material/Breadcrumbs'
+import Link from '@mui/material/Link'
+import {
+   useLocation,
+   useNavigate,
+   useParams,
+   useSearchParams,
+} from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import CardLesson from '../../../components/UI/CardLesson'
 import { getLessonByCourseId } from '../../../api/lessonService'
@@ -13,19 +20,22 @@ import Header from '../../../components/UI/Header'
 const MyCourseInnerPage = () => {
    const [pageSize, setPageSize] = useState(8)
    const { course } = useSelector((state) => state.course)
-   const [searchParams, setSearchParams] = useSearchParams()
+   const [searchParams] = useSearchParams()
    const [pagination, setPagination] = useState(1)
    const [page] = useState(1)
    const [count, setCount] = useState(1)
    const { coursesId } = useParams()
    const [lessons, setLessons] = useState([])
    const [isLoading, setIsLoading] = useState(false)
-
+   const navigate = useNavigate()
+   const { state } = useLocation()
    const {
       register,
       handleSubmit,
       formState: { errors },
    } = useForm()
+
+   console.log(state)
 
    const getCourses = async () => {
       try {
@@ -35,9 +45,10 @@ const MyCourseInnerPage = () => {
             size: pageSize,
             courseId: coursesId,
          })
-         setIsLoading()
+         setIsLoading(false)
          return setLessons(data)
       } catch (error) {
+         setIsLoading(false)
          return error
       }
    }
@@ -57,17 +68,17 @@ const MyCourseInnerPage = () => {
    }
 
    const submitSearchParams = () => {
-      setSearchParams((prevSearchParams) => {
-         const updatedSearchParams = new URLSearchParams(prevSearchParams)
-         updatedSearchParams.set('pagination', String(pagination))
-         updatedSearchParams.set('page', String(page))
-         updatedSearchParams.set('pageSize', String(pageSize))
-         return updatedSearchParams
-      })
+      // setSearchParams((prevSearchParams) => {
+      //    const updatedSearchParams = new URLSearchParams(prevSearchParams)
+      //    updatedSearchParams.set('pagination', String(pagination))
+      //    updatedSearchParams.set('page', String(page))
+      //    updatedSearchParams.set('pageSize', String(pageSize))
+      //    return updatedSearchParams
+      // })
    }
    useEffect(() => {
-      searchParams.set('pagination', pagination)
-      setSearchParams(searchParams)
+      // searchParams.set('pagination', pagination)
+      // setSearchParams(searchParams)
    }, [pagination])
 
    const handleKeyPress = (e) => {
@@ -75,59 +86,91 @@ const MyCourseInnerPage = () => {
          submitSearchParams(e)
       }
    }
+   const handleClick = (event) => {
+      event.preventDefault()
+   }
+   const navigateToCourse = () => {
+      navigate('/student/mycourses')
+   }
 
    return (
       <>
          <Header />
+         <TableContainer role="presentation" onClick={handleClick}>
+            <Breadcrumbs aria-label="breadcrumb">
+               <Link
+                  underline="hover"
+                  color="inherit"
+                  href="/"
+                  onClick={navigateToCourse}
+               >
+                  Курсы
+               </Link>
+               <Link
+                  underline="hover"
+                  color="inherit"
+                  href="/material-ui/getting-started/installation/"
+                  onClick={navigateToCourse}
+               >
+                  {state.title}
+               </Link>
+            </Breadcrumbs>
+         </TableContainer>
          {isLoading ? (
             <StyledSpinner>
                <Spinner />
             </StyledSpinner>
          ) : (
-            <StyledLesson>
-               {lessons?.lessonResponses?.map((card) => (
-                  <CardLessonStyled>
-                     <CardLesson role="STUDENT" title={card.name} />
-                  </CardLessonStyled>
-               ))}
-            </StyledLesson>
+            <>
+               <StyledLesson>
+                  {lessons?.lessonResponses?.map((card) => (
+                     <CardLessonStyled>
+                        <CardLesson role="STUDENT" title={card.name} />
+                     </CardLessonStyled>
+                  ))}
+               </StyledLesson>
+               <StyledFormPagination
+                  onSubmit={handleSubmit(submitSearchParams)}
+               >
+                  <InputContainers>
+                     <p>Перейти на страницу</p>
+                     <InputStyled
+                        {...register('page', { required: true, min: 1 })}
+                        onChange={pageChangeHandler}
+                        value={page}
+                        onKeyPress={handleKeyPress}
+                        error={errors.page}
+                        helperText={errors.page && 'Введите страницу'}
+                     />
+                  </InputContainers>
+                  <PaginationRounded
+                     onChange={paginationChangeHandler}
+                     value={pagination}
+                     type="submit"
+                     count={count}
+                  />
+                  <InputContainers>
+                     <p>Показать</p>
+                     <InputStyled
+                        {...register('pageSize', {
+                           required: true,
+                           min: 1,
+                           max: course?.courseResponses.length,
+                        })}
+                        onChange={pageSizeChangeHandler}
+                        value={pageSize}
+                        max={course.courseResponses?.length}
+                        onKeyPress={handleKeyPress}
+                        error={errors.pageSize}
+                        helperText={
+                           errors.pageSize && 'Введите размер страницы'
+                        }
+                     />
+                     <p>из {lessons.lessonResponses?.length}</p>
+                  </InputContainers>
+               </StyledFormPagination>
+            </>
          )}
-         <StyledFormPagination onSubmit={handleSubmit(submitSearchParams)}>
-            <InputContainers>
-               <p>Перейти на страницу</p>
-               <InputStyled
-                  {...register('page', { required: true, min: 1 })}
-                  onChange={pageChangeHandler}
-                  value={page}
-                  onKeyPress={handleKeyPress}
-                  error={errors.page}
-                  helperText={errors.page && 'Введите страницу'}
-               />
-            </InputContainers>
-            <PaginationRounded
-               onChange={paginationChangeHandler}
-               value={pagination}
-               type="submit"
-               count={count}
-            />
-            <InputContainers>
-               <p>Показать</p>
-               <InputStyled
-                  {...register('pageSize', {
-                     required: true,
-                     min: 1,
-                     max: course?.courseResponses.length,
-                  })}
-                  onChange={pageSizeChangeHandler}
-                  value={pageSize}
-                  max={course.courseResponses?.length}
-                  onKeyPress={handleKeyPress}
-                  error={errors.pageSize}
-                  helperText={errors.pageSize && 'Введите размер страницы'}
-               />
-               <p>из {lessons.lessonResponses?.length}</p>
-            </InputContainers>
-         </StyledFormPagination>
       </>
    )
 }
@@ -146,9 +189,9 @@ const StyledLesson = styled('div')({
    display: 'flex',
    flexWrap: 'wrap',
    gap: '10px',
-   marginLeft: '240px',
+   marginLeft: '250px',
+   minHeight: '375px',
    marginTop: '20px',
-   justifyContent: 'center',
 })
 
 const InputStyled = styled(Input)({
@@ -170,18 +213,22 @@ const InputStyled = styled(Input)({
 
 const InputContainers = styled('div')(() => ({
    display: 'flex',
-   marginLeft: '-20px',
+   marginLeft: '220px',
    gap: '10px',
 }))
 
 const StyledFormPagination = styled('form')({
    display: 'flex',
    justifyContent: 'space-around',
-   gap: '180px',
+   gap: '60px',
    marginTop: '50px',
    alignItems: 'center',
    '& p': {
       fontWeight: '350',
       fontSize: '18px',
    },
+})
+const TableContainer = styled('div')({
+   marginLeft: '260px',
+   marginTop: '20px',
 })
