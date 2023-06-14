@@ -20,6 +20,7 @@ import InstructorLayout from '../layout/InstructorLayout'
 import StudentLayout from '../layout/StudentLayout'
 import { AuthManagementRoute } from './AuthManagementRoute'
 import { Groups } from '../pages/admin/groups/Groups'
+import GroupsInnerPage from '../pages/admin/groups/GroupsInnerPage'
 
 export const AppRoutes = () => {
    const role = useSelector((state) => state.auth.role)
@@ -56,6 +57,10 @@ export const AppRoutes = () => {
                }
             >
                <Route path={CURRENT_PATH.admin.GROUPS} element={<Groups />} />
+               <Route
+                  path={CURRENT_PATH.admin.GROUPS_DETAIL}
+                  element={<GroupsInnerPage />}
+               />
                <Route path={CURRENT_PATH.admin.COURSES} element={<Courses />} />
                <Route path="courses/:courseId" element={<BasicTabs />} />
 

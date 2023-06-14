@@ -1,12 +1,14 @@
+import { useEffect, useState } from 'react'
 import { styled } from '@mui/material'
-// import { useState } from 'react'
+import { format, isValid } from 'date-fns'
 import Input from '../UI/Input'
 import TextArea from '../UI/TextArea'
 import AvatarUpload from '../UI/Avatar'
 import ModalWindow from '../UI/Modal'
-
+import { axiosInstance } from '../../config/axiosInstance'
 import Button from '../UI/Button'
 import MyDatePickers from '../UI/MyDatePickers'
+import { fileRequest } from '../../api/groupService'
 
 const ModalGroup = ({
    children,
@@ -15,36 +17,94 @@ const ModalGroup = ({
    onClose,
    placeholder,
    data,
-   courseId,
+   groupId,
    ...rest
 }) => {
-   //    const [img, setImg] = useState('')
-   //    const [inputName, setInputName] = useState('')
-   //    const [inputDate, setInputDate] = useState('')
-   //    const [inputDescrip, setInputDescrip] = useState('')
+   const [img, setImg] = useState('')
+   const [inputName, setInputName] = useState('')
+   const [inputDate, setInputDate] = useState('')
+   const [inputDescrip, setInputDescrip] = useState('')
 
+   const disabledButton = !img || !inputDate || !inputDate || !inputDescrip
+
+   const nameChangeHandler = (event) => {
+      setInputName(event.target.value)
+   }
+   const dateChangeHandler = (date) => {
+      setInputDate(date)
+   }
+   const descripChangehandler = (event) => {
+      setInputDescrip(event.target.value)
+   }
+
+   const getGroupsById = async (groupId) => {
+      try {
+         const { data } = await axiosInstance.get(`groups?groupId=${groupId}`)
+         setImg(data.img)
+         setInputDate(data.date)
+         setInputName(data.name)
+         setInputDescrip(data.description)
+      } catch (error) {
+         console.log(error)
+      }
+   }
+
+   useEffect(() => {
+      if (groupId !== undefined) {
+         getGroupsById(groupId)
+      }
+   }, [groupId])
+
+   const imageHandler = async (e) => {
+      const image = e.target.files[0]
+      const formData = new FormData()
+      formData.append('file', image)
+      try {
+         const { data } = await fileRequest(formData)
+         return setImg(data.link)
+      } catch (error) {
+         return error
+      }
+   }
+   let date = ''
+   if (inputDate && isValid(new Date(inputDate))) {
+      date = format(new Date(inputDate), 'yyyy-MM-dd')
+   }
+   const addNewData = () => {
+      const newData = {
+         name: inputName,
+         createdAt: date,
+         description: inputDescrip,
+         image: img,
+      }
+      setImg('')
+      setInputDate('')
+      setInputDescrip('')
+      setInputName('')
+      data(newData)
+   }
    return (
       <ModalWindow open={open} onClose={onClose} {...rest}>
          <StyledModalHeader>
             <h1>{title}</h1>
          </StyledModalHeader>
          <AvatarContainer>
-            <AvatarStyled />
+            <AvatarStyled imgLink={img} onChange={imageHandler} />
             <p>Нажмите на иконку чтобы загрузить или перетащите фото</p>
          </AvatarContainer>
          <ContainerInput>
             <InputStyled
-               //    value={}
-               //    onChange={nameChangeHandler}
+               value={inputName}
+               onChange={nameChangeHandler}
                placeholder={`название ${'группы'}`}
             />
             <StyledDataPicker>
-               <MyDatePickers />
+               <MyDatePickers value={inputDate} onChange={dateChangeHandler} />
             </StyledDataPicker>
          </ContainerInput>
          <StyledInput
-            // value={inputDescrip}
-            // onChange={descripChangeHandler}
+            value={inputDescrip}
+            onChange={descripChangehandler}
             rows={4}
             multiline
             placeholder={`описание ${placeholder}`}
@@ -53,7 +113,9 @@ const ModalGroup = ({
             <ButtonStyledСancellation variant="outlined" onClick={onClose}>
                Отмена
             </ButtonStyledСancellation>
-            <StyledButtonAdd>Добавить</StyledButtonAdd>
+            <StyledButtonAdd onClick={addNewData} disabled={disabledButton}>
+               Добавить
+            </StyledButtonAdd>
          </ContainerButton>
       </ModalWindow>
    )

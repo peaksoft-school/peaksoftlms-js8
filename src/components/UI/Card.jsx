@@ -84,7 +84,7 @@ const CardContainer = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
    justifyContent: 'space-between',
-   width: '230px',
+   width: '270px',
    backgroundColor: 'white',
    borderRadius: '10px',
    minHeight: '310px',

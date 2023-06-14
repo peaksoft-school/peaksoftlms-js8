@@ -9,6 +9,9 @@ import FixedIcon from '../../assets/icons/fixed.svg'
 import GroupModal from './GroupModal'
 import { deleteCourseById, putCourses } from '../../api/courseService'
 import { asyncGetCourses } from '../../redux/reducers/course/CourseThunk'
+import { putGroupRequest } from '../../api/groupService'
+import { getGroup } from '../../redux/reducers/group/groupThunk'
+import ModalGroup from '../addModal/ModalGroup'
 
 const arrayIcon = [
    {
@@ -51,6 +54,7 @@ export const Meatballs = ({
    const [openModal, setOpenModal] = useState(false)
    const [groupModal, setGroupModal] = useState(false)
    const [courseData, setCourseData] = useState({})
+   const [groups, setGroups] = useState({})
 
    const finallyArrayIcons = propsIcons || arrayIcon
 
@@ -70,6 +74,16 @@ export const Meatballs = ({
       }
    }
 
+   const groupSubmitHandler = async (data) => {
+      data.groupId = groups.id
+      try {
+         await putGroupRequest(data)
+         dispatch(getGroup({ pageSize: '8', pagination: '1' }))
+         closeModal()
+      } catch (error) {
+         console.log(error)
+      }
+   }
    return (
       <div>
          <GroupModal
@@ -80,13 +94,13 @@ export const Meatballs = ({
             placeholder="курса"
             courseId={courseData.id}
          />
-         <GroupModal
-            data={submitHandler}
+         <ModalGroup
+            data={groupSubmitHandler}
             open={groupModal}
             onClose={closeModal}
             title="Редактирование группы"
             placeholder="группы"
-            courseId={courseData.id}
+            groupId={groups.id}
          />
          <Button
             id="demo-positioned-button"
@@ -115,7 +129,8 @@ export const Meatballs = ({
                            dispatch,
                            setOpenModal,
                            setCourseData,
-                           setGroupModal
+                           setGroupModal,
+                           setGroups
                         )
                      }
                      key={item.title}

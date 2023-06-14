@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import styled from '@emotion/styled'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Breadcrumbs } from '@mui/material'
 import { AppTable } from '../../../utlis/constants/Table'
 import CourseHeader from '../course/CourseHeader'
+import { getTableRequest } from '../../../api/groupService'
+import Spinner from '../../../components/UI/Spinner'
 
 const columns = [
    {
@@ -12,8 +17,12 @@ const columns = [
       key: 'fullName',
    },
    {
-      header: 'Специализация',
-      key: 'special',
+      header: 'Группа',
+      key: 'groupName',
+   },
+   {
+      header: 'Формат',
+      key: 'formLearning',
    },
    {
       header: 'Номер телефона',
@@ -24,13 +33,95 @@ const columns = [
       key: 'email',
    },
 ]
-const GroupsInnerPage = () => {
+
+const GroupsInnerPage = ({ id }) => {
+   const [dataInnerPage, setDataInnerPage] = useState([])
+   const [isLoading, setIsLoading] = useState(false)
+   const { state } = useLocation()
+   const navigate = useNavigate()
+
+   console.log(state)
+
+   const getDataTable = async () => {
+      try {
+         setIsLoading(true)
+         const { data } = await getTableRequest(id)
+         setIsLoading(false)
+         return setDataInnerPage(data)
+      } catch (error) {
+         return 'error'
+      }
+   }
+
+   useEffect(() => {
+      getDataTable()
+   }, [])
+   const handleClick = (e) => {
+      e.preventDefault()
+   }
+   const navigateToGroupsPage = () => {
+      navigate(-1)
+   }
    return (
-      <div>
-         <CourseHeader />
-         <AppTable columns={columns} />
-      </div>
+      <StyledContainer>
+         <StyledHeader>
+            <CourseHeader />
+            <StyledBorder />
+         </StyledHeader>
+         <TableContainer role="presentation" onClick={handleClick}>
+            <Breadcrumbs aria-label="breadcrumb">
+               <StyledLink
+                  underline="hover"
+                  color="inherit"
+                  href="/"
+                  onClick={navigateToGroupsPage}
+               >
+                  Группы
+               </StyledLink>
+               <StyledLink
+                  underline="hover"
+                  color="inherit"
+                  href="/material-ui/getting-started/installation/"
+                  onClick={navigateToGroupsPage}
+                  style={{ color: 'black' }}
+               >
+                  {state?.title}
+               </StyledLink>
+            </Breadcrumbs>
+            <StyledTable>
+               {isLoading ? (
+                  <Spinner />
+               ) : (
+                  <AppTable columns={columns} rows={dataInnerPage} />
+               )}
+            </StyledTable>
+         </TableContainer>
+      </StyledContainer>
    )
 }
+
+const StyledTable = styled.div`
+   margin-left: 20px;
+`
+const StyledBorder = styled.hr`
+   margin-top: 10px;
+   border-bottom: 1px solid #c4c4c4;
+   width: 1245px;
+`
+
+const StyledContainer = styled.div`
+   margin-left: 255px;
+`
+const TableContainer = styled.div`
+   margin-top: 20px;
+`
+const StyledLink = styled(Link)`
+   color: #766f6f;
+   margin-left: 10px;
+   text-decoration: none;
+`
+const StyledHeader = styled.div`
+   margin-right: 20px;
+`
 
 export default GroupsInnerPage
