@@ -89,6 +89,7 @@ export const MyCourses = () => {
                         date={item.createdAt}
                         id={item.id}
                         navigate={navigateToDetailPage}
+                        meatballsVisible={false}
                      />
                   ))}
                </StyledContainer>
@@ -106,12 +107,15 @@ export const MyCourses = () => {
                         helperText={errors.page && 'Введите страницу'}
                      />
                   </InputContainers>
-                  <PaginationRounded
-                     onChange={paginationChangeHandler}
-                     value={pagination}
-                     type="submit"
-                     count={count}
-                  />
+                  <PaginationRoundedStyled>
+                     <PaginationRounded
+                        onChange={paginationChangeHandler}
+                        value={pagination}
+                        type="submit"
+                        count={count}
+                     />
+                  </PaginationRoundedStyled>
+
                   <InputContainers>
                      <p>Показать</p>
                      <InputStyled
@@ -138,6 +142,9 @@ export const MyCourses = () => {
    )
 }
 
+const PaginationRoundedStyled = styled('div')({
+   marginLeft: '140px',
+})
 const StyledSpinner = styled('div')({
    margin: 'auto',
    marginTop: '150px',
@@ -175,8 +182,7 @@ const InputContainers = styled('div')(() => ({
 const StyledFormPagination = styled('form')({
    display: 'flex',
    justifyContent: 'space-around',
-   gap: '60px',
-   marginTop: '50px',
+   marginTop: '20px',
    alignItems: 'center',
    '& p': {
       fontWeight: '350',

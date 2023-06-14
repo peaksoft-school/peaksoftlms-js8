@@ -143,12 +143,14 @@ const MyCourseInnerPage = () => {
                         helperText={errors.page && 'Введите страницу'}
                      />
                   </InputContainers>
-                  <PaginationRounded
-                     onChange={paginationChangeHandler}
-                     value={pagination}
-                     type="submit"
-                     count={count}
-                  />
+                  <PaginationRoundedStyled>
+                     <PaginationRounded
+                        onChange={paginationChangeHandler}
+                        value={pagination}
+                        type="submit"
+                        count={count}
+                     />
+                  </PaginationRoundedStyled>
                   <InputContainers>
                      <p>Показать</p>
                      <InputStyled
@@ -174,6 +176,10 @@ const MyCourseInnerPage = () => {
       </>
    )
 }
+
+const PaginationRoundedStyled = styled('div')({
+   marginLeft: '140px',
+})
 export default MyCourseInnerPage
 
 const CardLessonStyled = styled('div')({
@@ -220,7 +226,6 @@ const InputContainers = styled('div')(() => ({
 const StyledFormPagination = styled('form')({
    display: 'flex',
    justifyContent: 'space-around',
-   gap: '60px',
    marginTop: '50px',
    alignItems: 'center',
    '& p': {

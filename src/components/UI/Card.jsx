@@ -4,7 +4,16 @@ import { useState } from 'react'
 import { Tooltip, Zoom } from '@mui/material'
 import { Meatballs } from './Meatballs'
 
-const Cards = ({ title, content, image, date, id, navigate, openModal }) => {
+const Cards = ({
+   title,
+   content,
+   image,
+   date,
+   id,
+   navigate,
+   openModal,
+   meatballsVisible = true,
+}) => {
    const [anchorEl, setAnchorEl] = useState(null)
 
    const item = {
@@ -54,14 +63,16 @@ const Cards = ({ title, content, image, date, id, navigate, openModal }) => {
          </DescriptionContainer>
 
          <MeatballsContainer>
-            <Meatballs
-               items={item}
-               open={Boolean(anchorEl)}
-               onClick={handleClick}
-               onClose={handleClose}
-               anchorEl={anchorEl}
-               openModal={openModal}
-            />
+            {meatballsVisible ? (
+               <Meatballs
+                  items={item}
+                  open={Boolean(anchorEl)}
+                  onClick={handleClick}
+                  onClose={handleClose}
+                  anchorEl={anchorEl}
+                  openModal={openModal}
+               />
+            ) : null}
          </MeatballsContainer>
       </CardContainer>
    )
