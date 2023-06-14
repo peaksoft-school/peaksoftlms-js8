@@ -23,8 +23,12 @@ const useGetAllGroup = () => {
    const refetchHandle = () => {
       setRefetch((prevRefetch) => !prevRefetch)
    }
+   const groupOptions = groups.map((group) => ({
+      value: group.id,
+      label: group.name,
+   }))
    return {
-      groups,
+      groupOptions,
       Snackbar,
       refetchHandle,
       selectedGroupID,

@@ -1,5 +1,4 @@
 import styled from '@emotion/styled'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useFormik } from 'formik'
 import { useEffect, useState } from 'react'
 import Select from 'react-select/creatable'
@@ -20,14 +19,10 @@ const optionsFormat = [
 ]
 export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
    const [searchParams] = useSearchParams()
-   const { groups, selectedGroupID, setSelectedGroupID, refetchHandle } =
+   const { groupOptions, selectedGroupID, setSelectedGroupID, refetchHandle } =
       useGetAllGroup()
    const { notify, Snackbar } = useSnackbar()
    const [formLearning, setFormLearning] = useState(null)
-   const groupOptions = groups.map((group) => ({
-      value: group.id,
-      label: group.name,
-   }))
    const onSubmitHandler = (values) => {
       if (searchParams.get('modal') === 'edit') {
          onSubmit(values.id, values)
@@ -78,7 +73,7 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
                )
                setFormLearning(selectedOption)
                const selectedGroup = groupOptions.find(
-                  (option) => option.label === data.groupName
+                  (option) => option.value === data.groupId
                )
                setSelectedGroupID(selectedGroup)
                return setValues({

@@ -38,7 +38,7 @@ export const Students = () => {
    const [file, setFile] = useState(null)
    const [filterValue, setFilterValue] = useState('все')
    const [showLogoutIcon, setShowLogoutIcon] = useState(false)
-   const { groups, selectedGroupID, handleGroupChange } = useGetAllGroup()
+   const { groupOptions, selectedGroupID, handleGroupChange } = useGetAllGroup()
    const { notify, Snackbar } = useSnackbar()
    const fetchStudent = async () => {
       try {
@@ -78,10 +78,6 @@ export const Students = () => {
       searchParams.set('studentId', id)
       setSearchParams(searchParams)
    }
-   const groupOptions = groups.map((group) => ({
-      value: group.id,
-      label: group.name,
-   }))
    const btnHandler2 = () => {
       setOpenModal((prevState) => !prevState)
    }
@@ -274,9 +270,6 @@ const Container = styled.div`
    background-color: #eff0f4;
    width: 100%;
    height: 100vh;
-   /* .css-gv27rd-MuiPaper-root-MuiTableContainer-root {
-      width: 78%;
-   } */
    .css-1mftfee-MuiPaper-root-MuiTableContainer-root {
       margin-left: 18%;
       width: 78%;
