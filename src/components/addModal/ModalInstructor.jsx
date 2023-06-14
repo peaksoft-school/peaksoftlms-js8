@@ -92,7 +92,7 @@ export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
                   name="lastName"
                />
                <PhoneInputStyle
-                  containerStyle={{ height: '80px' }}
+                  style={{ height: '50px' }}
                   country="kg"
                   onlyCountries={onlyCountries}
                   value={values.phoneNumber}
@@ -108,13 +108,13 @@ export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
                   onChange={handleChange}
                   name="email"
                />
-               {/* <Input
+               <Input
                   style={{ display: 'none' }}
                   type="password"
                   value={values.password}
                   onChange={handleChange}
                   name="password"
-               /> */}
+               />
                <InputStyle
                   placeholder="Специализация"
                   value={values.special}
