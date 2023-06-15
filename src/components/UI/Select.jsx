@@ -15,8 +15,8 @@ const MenuProps = {
       },
    },
 }
+
 const MultiSelect = ({ array, value, onChange, ...rest }) => {
-   console.log(array)
    return (
       <FormControl sx={{ m: 1 }}>
          <Select

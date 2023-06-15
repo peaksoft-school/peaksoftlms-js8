@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import styled from '@emotion/styled'
+/* eslint-disable import/no-extraneous-dependencies */
 import PhoneInput from 'react-phone-input-2'
 import { useFormik } from 'formik'
 import { useSearchParams } from 'react-router-dom'
