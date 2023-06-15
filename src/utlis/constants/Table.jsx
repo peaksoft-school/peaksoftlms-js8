@@ -9,7 +9,7 @@ import {
    TableRow,
 } from '@mui/material'
 
-export const AppTable = ({ columns, rows }) => {
+export const AppTable = ({ columns, rows, getUniqueId }) => {
    return (
       <TableContainerStyled component={Paper}>
          <Table aria-label="simple table">
@@ -23,7 +23,7 @@ export const AppTable = ({ columns, rows }) => {
             <TableBody>
                {rows?.map((row, index) => {
                   return (
-                     <TableRowStyled key={row.id}>
+                     <TableRowStyled key={getUniqueId(row)}>
                         {columns?.map((column) => {
                            if (column.render) {
                               return column.render(row)
@@ -32,7 +32,11 @@ export const AppTable = ({ columns, rows }) => {
                               ? index + 1
                               : row[column.key]
 
-                           return <TableCell key={column.id}>{value}</TableCell>
+                           return (
+                              <TableCell key={`row - ${column.key}`}>
+                                 {value}
+                              </TableCell>
+                           )
                         })}
                      </TableRowStyled>
                   )

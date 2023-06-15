@@ -1,162 +1,171 @@
 import styled from '@emotion/styled'
 import { useFormik } from 'formik'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Select from 'react-select/creatable'
 import PhoneInput from 'react-phone-input-2'
+import { useSearchParams } from 'react-router-dom'
 import Input from '../UI/Input'
 import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
+import useGetAllGroup from '../../hooks/getAllGroup'
+import { getStudentById } from '../../api/studentService'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
-export const ModalStudent = ({ addNewData, open, onClose }) => {
-   const [selectedValue, setSelectedValue] = useState([])
-   const [selectedValue2, setSelectedValue2] = useState([])
-   const onChangeSelect = (newValue) => {
-      setSelectedValue(newValue)
-   }
-   const onChangeSelect2 = (newValue) => {
-      setSelectedValue2(newValue)
-   }
-   const optionsGroup = [
-      { value: 'option1', label: 'js-8' },
-      { value: 'option2', label: 'js-9' },
-      { value: 'option3', label: 'js-10' },
-   ]
-   const optionsFormat = [
-      { value: 'option1', label: 'Online' },
-      { value: 'option2', label: 'Offline' },
-   ]
-   const onSubmitHandler = ({
-      name,
-      lastName,
-      phoneNumber,
-      email,
-      password,
-   }) => {
-      const newData = {
-         name,
-         lastName,
-         phoneNumber,
-         email,
-         password,
+const onlyCountries = ['kg', 'ru', 'kz']
+const optionsFormat = [
+   { value: 'ONLINE', label: 'ONLINE' },
+   { value: 'OFFLINE', label: 'OFFLINE' },
+]
+export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
+   const [searchParams] = useSearchParams()
+   const { groupOptions, selectedGroupID, setSelectedGroupID, refetchHandle } =
+      useGetAllGroup()
+   const { notify, Snackbar } = useSnackbar()
+   const [formLearning, setFormLearning] = useState(null)
+   const onSubmitHandler = (values) => {
+      if (searchParams.get('modal') === 'edit') {
+         onSubmit(values.id, values)
+         onClose()
+      } else {
+         const newData = {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            phoneNumber: values.phoneNumber,
+            email: values.email,
+            password: values.password,
+            groupId: selectedGroupID.value,
+            formLearning: formLearning.value,
+         }
+         addNewData(newData)
+         refetchHandle()
       }
-      addNewData(newData)
    }
    const formik = useFormik({
       initialValues: {
-         name: '',
+         firstName: '',
          lastName: '',
-         phoneNumber: '',
          email: '',
-         password: '',
+         password: 'Здесь будет линк create password',
+         phoneNumber: '',
       },
       onSubmit: onSubmitHandler,
    })
-   const { handleChange, handleSubmit, values } = formik
-   const onlyCountries = ['kg', 'ru', 'kz']
+   const { handleChange, handleSubmit, values, setValues, setFieldValue } =
+      formik
    const isEmailValid = () => {
       return (
          values.email.length === 0 ||
          (values.email.length > 0 && values.email.includes('@'))
       )
    }
-   const isPasswordValid = () => {
-      return (
-         values.password.length === 0 ||
-         (values.password.length > 0 && values.password >= 6)
-      )
+   const handlePhoneChange = (value) => {
+      setFieldValue('phoneNumber', value)
    }
+   useEffect(() => {
+      const studentId = searchParams.get('studentId')
+      if (open && searchParams.get('modal') === 'edit' && studentId) {
+         getStudentById(studentId)
+            .then(({ data }) => {
+               const splittedUsername = data?.fullName.split(' ')
+               const selectedOption = optionsFormat.find(
+                  (option) => option.value === data.formLearning
+               )
+               setFormLearning(selectedOption)
+               const selectedGroup = groupOptions.find(
+                  (option) => option.value === data.groupId
+               )
+               setSelectedGroupID(selectedGroup)
+               return setValues({
+                  ...data,
+                  phoneNumber: data.phoneNumber,
+                  firstName: splittedUsername[0],
+                  lastName: splittedUsername[1],
+               })
+            })
+            .catch((error) => {
+               if (error.response) {
+                  notify('error', error.response.data.message)
+               }
+            })
+      }
+   }, [open])
    return (
-      <ModalWindowStyled>
+      <div>
+         {Snackbar}
          <ModalStyled open={open} onClose={onClose}>
-            <ContentH3>
-               <h3>Добавить студента</h3>
-            </ContentH3>
-            <Container onSubmit={handleSubmit}>
-               <Input
-                  placeholder="Имя"
-                  value={values.name}
-                  onChange={handleChange}
-                  name="name"
-               />
-               <Input
-                  placeholder="Фамилия"
-                  value={values.lastName}
-                  onChange={handleChange}
-                  name="lastName"
-               />
-               <PhoneInput
-                  onlyCountries={onlyCountries}
-                  value={values.phoneNumber}
-                  onChange={handleChange}
-                  name="phoneNumber"
-                  type="tel"
-               />
-               <Input
-                  placeholder="Email"
-                  type="email"
-                  error={!isEmailValid()}
-                  value={values.email}
-                  onChange={handleChange}
-                  name="email"
-               />
-               <Input
-                  placeholder="Пароль"
-                  type="password"
-                  error={!isPasswordValid()}
-                  value={values.password}
-                  onChange={handleChange}
-                  name="password"
-               />
-               <Select
-                  isClearable
-                  isMulti
-                  options={optionsGroup}
-                  value={selectedValue}
-                  onChange={onChangeSelect}
-                  placeholder="Группа"
-                  onCreateOption={(inputValue) => {
-                     setSelectedValue([
-                        ...selectedValue,
-                        { value: inputValue, label: inputValue },
-                     ])
-                  }}
-               />
-               <Select
-                  isClearable
-                  isMulti
-                  options={optionsFormat}
-                  value={selectedValue2}
-                  onChange={onChangeSelect2}
-                  placeholder="Формат обучения"
-                  onCreateOption={(inputValue) => {
-                     setSelectedValue2([
-                        ...selectedValue,
-                        { value: inputValue, label: inputValue },
-                     ])
-                  }}
-               />
-            </Container>
-            <BtnContainer>
-               <Button variant="outlined" onClick={onClose}>
-                  Отмена
-               </Button>
-               <Button
-                  variant="contained"
-                  type="submit"
-                  onClick={onSubmitHandler}
-               >
-                  Добавить
-               </Button>
-            </BtnContainer>
+            <>
+               <ContentH3>
+                  <h3>Добавить студента</h3>
+               </ContentH3>
+               <Container onSubmit={handleSubmit}>
+                  <Input
+                     placeholder="Имя"
+                     value={values.firstName || ''}
+                     onChange={handleChange}
+                     name="firstName"
+                  />
+                  <Input
+                     placeholder="Фамилия"
+                     value={values.lastName || ''}
+                     onChange={handleChange}
+                     name="lastName"
+                  />
+                  <PhoneInput
+                     country="kg"
+                     onlyCountries={onlyCountries}
+                     value={values.phoneNumber}
+                     onChange={handlePhoneChange}
+                     name="phoneNumber"
+                     type="tel"
+                  />
+                  <Input
+                     placeholder="Email"
+                     type="email"
+                     error={!isEmailValid()}
+                     value={values.email}
+                     onChange={handleChange}
+                     name="email"
+                  />
+                  <Input
+                     style={{ display: 'none' }}
+                     placeholder="Пароль"
+                     type="password"
+                     value={values.password || ''}
+                     onChange={handleChange}
+                     name="password"
+                  />
+                  <Select
+                     options={groupOptions}
+                     value={selectedGroupID}
+                     placeholder="Группа"
+                     onChange={(selectedOption) => {
+                        setSelectedGroupID(selectedOption)
+                     }}
+                  />
+                  <Select
+                     options={optionsFormat}
+                     value={formLearning}
+                     placeholder="Формат обучения"
+                     onChange={(selectedOption) => {
+                        setFormLearning(selectedOption)
+                     }}
+                  />
+                  <BtnContainer>
+                     <Button variant="outlined" onClick={onClose}>
+                        Отмена
+                     </Button>
+                     <Button variant="contained" type="submit">
+                        Добавить
+                     </Button>
+                  </BtnContainer>
+               </Container>
+            </>
          </ModalStyled>
-      </ModalWindowStyled>
+      </div>
    )
 }
-const ModalWindowStyled = styled.div`
-   width: 541px;
-   height: 481px;
-`
+
 const ModalStyled = styled(ModalWindow)`
    .css-ybr8he {
       border-radius: 10px;
@@ -173,21 +182,23 @@ const ContentH3 = styled.div`
 const Container = styled.form`
    display: flex;
    flex-direction: column;
+   align-items: space-between;
    width: 491px;
    margin-left: 25px;
    margin-right: 25px;
    margin-top: 16px;
-   margin-bottom: 16px;
-   Input {
-      margin-bottom: 12px;
+   margin-bottom: 12px;
+   .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+      margin-bottom: 11px;
    }
-   .css-b62m3t-container {
+   .css-1qaaf9z-MuiFormControl-root-MuiTextField-root fieldset {
       margin-bottom: 12px;
    }
    .css-13cymwt-control {
       display: flex;
       padding: 0.5rem;
       border-radius: 10px;
+      margin-bottom: 12px;
    }
    .form-control {
       width: 491px;
@@ -205,6 +216,9 @@ const Container = styled.form`
    .flag-dropdown {
       border: none;
    }
+   Select {
+      margin-bottom: 20px;
+   }
 `
 const BtnContainer = styled.div`
    display: flex;
@@ -212,6 +226,5 @@ const BtnContainer = styled.div`
    Button {
       margin-left: -5px;
       margin-right: 25px;
-      margin-bottom: 25px;
    }
 `

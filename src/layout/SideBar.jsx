@@ -74,7 +74,7 @@ const Sidebar = styled.aside({
    right: '0%',
    top: '0%',
    bottom: '0%',
-   backgroundColor: 'white',
+   backgroundColor: '#ffff',
 })
 
 const InfoBox = styled.div({
