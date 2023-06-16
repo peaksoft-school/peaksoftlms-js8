@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Breadcrumbs } from '@mui/material'
 import { AppTable } from '../../../utlis/constants/Table'
 import CourseHeader from '../course/CourseHeader'
 import { getTableRequest } from '../../../api/groupService'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 import Spinner from '../../../components/UI/Spinner'
+// import Spinner from '../../../components/UI/Spinner'
 
 const columns = [
    {
@@ -34,22 +36,24 @@ const columns = [
    },
 ]
 
-const GroupsInnerPage = ({ id }) => {
+const GroupsInnerPage = () => {
    const [dataInnerPage, setDataInnerPage] = useState([])
    const [isLoading, setIsLoading] = useState(false)
    const { state } = useLocation()
    const navigate = useNavigate()
+   const { notify, Snackbar } = useSnackbar()
 
-   console.log(state)
+   const { groupId } = useParams()
 
    const getDataTable = async () => {
       try {
          setIsLoading(true)
-         const { data } = await getTableRequest(id)
+         const { data } = await getTableRequest(groupId)
          setIsLoading(false)
          return setDataInnerPage(data)
       } catch (error) {
-         return 'error'
+         setIsLoading(false)
+         return notify('error', 'FAILED NOT FOUND')
       }
    }
 
@@ -89,11 +93,13 @@ const GroupsInnerPage = ({ id }) => {
                </StyledLink>
             </Breadcrumbs>
             <StyledTable>
-               {isLoading ? (
-                  <Spinner />
+               {isLoading && <Spinner />}
+               {dataInnerPage.length === 0 ? (
+                  <StyledText>Student list is empty</StyledText>
                ) : (
                   <AppTable columns={columns} rows={dataInnerPage} />
                )}
+               {Snackbar}
             </StyledTable>
          </TableContainer>
       </StyledContainer>
@@ -123,5 +129,8 @@ const StyledLink = styled(Link)`
 const StyledHeader = styled.div`
    margin-right: 20px;
 `
-
+const StyledText = styled.p`
+   color: red;
+   font-weight: 700;
+`
 export default GroupsInnerPage

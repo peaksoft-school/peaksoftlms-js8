@@ -16,7 +16,7 @@ export const AppTable = ({ columns, rows }) => {
             <TableHead>
                <TableRow>
                   {columns?.map((column) => (
-                     <TableCell key={column.id}>{column.header}</TableCell>
+                     <TableCell key={column.key}>{column.header}</TableCell>
                   ))}
                </TableRow>
             </TableHead>
@@ -32,7 +32,9 @@ export const AppTable = ({ columns, rows }) => {
                               ? index + 1
                               : row[column.key]
 
-                           return <TableCell key={column.id}>{value}</TableCell>
+                           return (
+                              <TableCell key={column.key}>{value}</TableCell>
+                           )
                         })}
                      </TableRowStyled>
                   )

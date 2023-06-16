@@ -59,7 +59,6 @@ export const Groups = () => {
 
    const navigateToInnerPage = ({ id, title }) => {
       navigate(`${id}`, { state: { title } })
-      console.log(title)
    }
    const {
       register,
@@ -121,6 +120,7 @@ export const Groups = () => {
    const submitDataHandler = async (data) => {
       postGroups(data)
    }
+
    return (
       <StyledContainer>
          <StyledHeader>

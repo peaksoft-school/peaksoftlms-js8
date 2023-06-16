@@ -15,8 +15,8 @@ export const fileRequest = (file) => {
    return fileInstance.post('file', file)
 }
 export const putGroupRequest = (data) => {
-   return axiosInstance.put(`groups`, data)
+   return axiosInstance.put(`groups?groupId=${data.groupId}`, data)
 }
-export const getTableRequest = () => {
-   return axiosInstance.get(`students?courseId=3`)
+export const getTableRequest = (id) => {
+   return axiosInstance.get(`students/groupId?groupId=${id}`, id)
 }
