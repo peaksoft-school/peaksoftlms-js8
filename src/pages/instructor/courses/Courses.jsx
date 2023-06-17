@@ -2,13 +2,32 @@ import { styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { SideBar } from '../../../layout/SideBar'
+import { ReactComponent as IconChevrons } from '../../../assets/icons/Chevrons.svg'
+
 import { USER_ROLES } from '../../../utlis/constants/commons'
 import IconButton from '../../../components/UI/IconButton'
 import { ReactComponent as IconProfil } from '../../../assets/icons/Profile (1).svg'
-// import { ReactComponent as IconDot } from '../../../assets/icons/tri tochka.svg'
+// import/no-named-as-default import/no-named-as-default-member
 import Cards from '../../../components/UI/Card'
+import DeleteIcon from '../../../assets/icons/delete.svg'
 import { getCourses } from '../../../redux/reducers/instructor/instructorThunk'
+import { deleteCourseId } from '../../../api/instructorServis'
 
+const arrayIcon = [
+   {
+      icon: DeleteIcon,
+      title: 'Удалить',
+      func: async (items, dispatch) => {
+         try {
+            await deleteCourseId(items.id)
+            console.log(items.id)
+            dispatch(getCourses())
+         } catch (error) {
+            console.log(error)
+         }
+      },
+   },
+]
 export const Courses = () => {
    const dispatch = useDispatch()
    const courses = useSelector((state) => state.instructor.course)
@@ -23,8 +42,11 @@ export const Courses = () => {
          <ContainerContent>
             <div>
                <HeaderContainer>
-                  <IconButton icon={<IconProfil />} />
-                  <InstructorContent>Инструктор </InstructorContent>
+                  <ContainerHeaderContent>
+                     <IconButton icon={<IconProfil />} />
+                     <InstructorContent>Инструктор </InstructorContent>
+                     <IconButton icon={<IconChevrons />} />
+                  </ContainerHeaderContent>
                </HeaderContainer>
 
                {/* <Hr /> */}
@@ -36,7 +58,9 @@ export const Courses = () => {
                         <Cards
                            image={date.img}
                            content={date.title}
+                           id={date.id}
                            title={date.name}
+                           arrayIcon={arrayIcon}
                         />
                      </LessonCard>
                   )
@@ -52,6 +76,10 @@ const Container = styled('div')`
    .css-c51ge6-MuiButtonBase-root-MuiButton-root {
       margin-left: -22px;
    }
+`
+const ContainerHeaderContent = styled('div')`
+   display: flex;
+   /* width: 1100px; */
 `
 const CardContainer = styled('div')`
    display: flex;
@@ -75,8 +103,8 @@ const HeaderContainer = styled('div')`
    padding-right: 35px;
    margin-top: 23px;
    border-bottom: 2px solid #c4c4c4;
-   /* width: 1140px; */
 `
 const InstructorContent = styled('p')`
-   padding-left: 23px;
+   padding-left: 15px;
+   padding-right: 15px;
 `

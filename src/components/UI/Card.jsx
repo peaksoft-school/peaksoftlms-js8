@@ -1,62 +1,157 @@
 import styled from '@emotion/styled'
-import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
-import CardContent from '@mui/material/CardContent'
-import CardActions from '@mui/material/CardActions'
-import { ReactComponent as Icons } from '../../assets/icons/frames.svg'
+// import CardContent from '@mui/material/CardContent'
+// import CardActions from '@mui/material/CardActions'
+// import { ReactComponent as Icons } from '../../assets/icons/frames.svg'
+import { useState } from 'react'
+import { Tooltip, Zoom } from '@mui/material'
 import { Meatballs } from './Meatballs'
 
-const Cards = ({ title, content, image, date }) => {
-   return (
-      <CardStyled>
-         <CardMedia component="img" alt="projects" height="171" image={image} />
-         <DivStyled>
-            <CardContent>{title}</CardContent>
-            <CardContent>{date}</CardContent>
-         </DivStyled>
+const Cards = ({
+   title,
+   content,
+   image,
+   date,
+   id,
+   navigate,
+   openModal,
+   arrayIcon,
+   meatballsVisible = true,
+}) => {
+   const [anchorEl, setAnchorEl] = useState(null)
 
-         <StyledCartContent>{content}</StyledCartContent>
-         <CardActionStyled>
-            <Icons />
-            <Meatballs />
-            okn;olknljkfdniskjv;n fdkj, jasnmdfnxjcklsn xlk.f,mvdfl kc.,
-         </CardActionStyled>
-      </CardStyled>
+   const item = {
+      title,
+      content,
+      image,
+      date,
+      id,
+   }
+   function truncateText(text, maxLength) {
+      if (text?.length > maxLength) {
+         return `${text.slice(0, maxLength)}...`
+      }
+      return text
+   }
+
+   const truncatedDescription = truncateText(content, 70)
+
+   const handleClick = (event) => {
+      setAnchorEl(event.currentTarget)
+   }
+
+   const handleClose = () => {
+      setAnchorEl(null)
+   }
+   return (
+      <CardContainer iner>
+         <CardMedia
+            onClick={() => navigate({ id, title })}
+            component="img"
+            alt="projects"
+            height="171"
+            image={image}
+         />
+         <DateContainer>
+            <DataEngineer>{title}</DataEngineer>
+            <Date>{date}</Date>
+         </DateContainer>
+         <DescriptionContainer>
+            <Tooltip
+               TransitionComponent={Zoom}
+               title={content}
+               placement="right-end"
+            >
+               <Description>{truncatedDescription}</Description>
+            </Tooltip>
+         </DescriptionContainer>
+
+         <MeatballsContainer>
+            {meatballsVisible ? (
+               <Meatballs
+                  items={item}
+                  open={Boolean(anchorEl)}
+                  onClick={handleClick}
+                  onClose={handleClose}
+                  anchorEl={anchorEl}
+                  openModal={openModal}
+                  arrayIcon={arrayIcon}
+               />
+            ) : null}
+         </MeatballsContainer>
+      </CardContainer>
    )
 }
 
 export default Cards
 
-const DivStyled = styled.div({
+const CardContainer = styled('div')(() => ({
    display: 'flex',
-   maxWidth: 234,
-   height: 18,
-   marginLeft: 18,
-   marginRight: 18,
-   marginTop: 16,
-})
+   flexDirection: 'column',
+   justifyContent: 'space-between',
+   width: '230px',
+   borderRadius: '10px',
+   backgroundColor: ' #FFFFFF',
+   minHeight: '310px',
+   maxHeight: 'auto',
+   img: {
+      borderRadius: '10px 10px 0px 0px',
+   },
+   padding: '0 0 21px 0',
+   overflow: 'hidden',
+}))
 
-const CardStyled = styled(Card)({
-   maxWidth: 270,
-   height: 350,
-   borderRadius: 10,
-})
+const DateContainer = styled('div')(() => ({
+   display: 'flex',
+   justifyContent: 'space-between',
+   alignItems: 'center',
+   gap: '20px',
+   padding: '0 10px',
+}))
 
-const CardActionStyled = styled(CardActions)({
-   marginLeft: 228,
-   marginBottom: 8,
-})
+const DataEngineer = styled('span')(() => ({
+   fontFamily: 'Open Sans',
+   fontStyle: 'normal',
+   fontWeight: '600',
+   fontSize: '18px',
+   lineHeight: '25px',
+   color: '#1D293F',
+   margin: '15px 0 0',
+   overflow: 'hidden',
+   whiteSpace: 'nowrap',
+   textOverflow: 'ellipsis',
+}))
 
-const StyledCartContent = styled(CardContent)`
-   display: flex;
-   margin-left: 18px;
-   margin-right: 18px;
-   margin-top: 10px;
-   .MuiTypography-root {
-      white-space: pre-wrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 234;
-      height: 66px;
-   }
-`
+const Date = styled('span')(() => ({
+   fontFamily: 'Open Sans',
+   fontStyle: 'normal',
+   fontWeight: '400',
+   fontSize: '12px',
+   lineHeight: '140.1%',
+   color: '#1D293F',
+   margin: '15px 0 0',
+   marginLeft: '-0px',
+   whiteSpace: 'nowrap',
+}))
+
+const Description = styled('p')(() => ({
+   fontFamily: 'Open Sans',
+   fontStyle: 'normal',
+   fontWeight: '400',
+   fontSize: '14px',
+   lineHeight: '22px',
+   color: '#66666',
+   margin: '10px 0',
+}))
+
+const DescriptionContainer = styled('div')(() => ({
+   whiteSpace: 'pre-wrap',
+   padding: '0px 10px',
+   maxWidth: '230px',
+}))
+
+const MeatballsContainer = styled('div')(() => ({
+   display: 'flex',
+   justifyContent: 'flex-end',
+   alignItems: 'flex-end',
+}))
