@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = 'http://peaksoftlms.peaksoftprojects.com/'
+const BASE_URL = 'http://peaksoftlms.peaksoftprojects.com/api'
 const store = []
 
 export const axiosInstance = axios.create({
@@ -13,7 +13,8 @@ axiosInstance.interceptors.request.use(
          ...config,
          headers: {
             ...config.headers,
-            Authorization: store.getState().auth.token,
+            Authorization:
+               'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbnN0cnVjdG9yQGdtYWlsLmNvbSIsImlhdCI6MTY4Njk4NzE5OSwiZXhwIjoxNjg4NDI3MTk5fQ.IeBElhDoH2DMbMMbSrDKAQ87TLPehl_4Hw96sfcG6VM',
          },
       }
       return newConfig
