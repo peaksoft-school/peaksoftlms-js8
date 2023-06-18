@@ -11,7 +11,7 @@ const Cards = ({
    date,
    id,
    navigate,
-   openModal,
+   // openModal,
    arrayIcon,
 }) => {
    const [anchorEl, setAnchorEl] = useState(null)
@@ -70,7 +70,7 @@ const Cards = ({
                onClick={handleClick}
                onClose={handleClose}
                anchorEl={anchorEl}
-               openModal={openModal}
+               // openModal={openModal}
                arrayIcon={arrayIcon}
             />
          </MeatballsContainer>
