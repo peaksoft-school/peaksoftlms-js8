@@ -1,6 +1,6 @@
+import { useState } from 'react'
 import styled from '@emotion/styled'
 import CardMedia from '@mui/material/CardMedia'
-import { useState } from 'react'
 import { Tooltip, Zoom } from '@mui/material'
 import { Meatballs } from './Meatballs'
 
@@ -86,9 +86,9 @@ const CardContainer = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
    justifyContent: 'space-between',
-   width: '230px',
+   width: '270px',
+   backgroundColor: 'white',
    borderRadius: '10px',
-   backgroundColor: ' #FFFFFF',
    minHeight: '310px',
    maxHeight: 'auto',
    img: {

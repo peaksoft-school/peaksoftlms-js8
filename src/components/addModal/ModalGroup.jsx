@@ -1,23 +1,23 @@
-import { styled } from '@mui/material'
 import { useEffect, useState } from 'react'
+import { styled } from '@mui/material'
 import { format, isValid } from 'date-fns'
-import ModalWindow from './Modal'
-import Input from './Input'
-import Button from './Button'
-import AvatarUpload from './Avatar'
-import MyDatePickers from './MyDatePickers'
-import TextArea from './TextArea'
-import { imagePostService } from '../../api/courseService'
+import Input from '../UI/Input'
+import TextArea from '../UI/TextArea'
+import AvatarUpload from '../UI/Avatar'
+import ModalWindow from '../UI/Modal'
 import { axiosInstance } from '../../config/axiosInstance'
+import Button from '../UI/Button'
+import MyDatePickers from '../UI/MyDatePickers'
+import { fileRequest } from '../../api/groupService'
 
-const GroupModal = ({
+const ModalGroup = ({
    children,
    title,
    open,
    onClose,
    placeholder,
    data,
-   courseId,
+   groupId,
    ...rest
 }) => {
    const [img, setImg] = useState('')
@@ -25,35 +25,51 @@ const GroupModal = ({
    const [inputDate, setInputDate] = useState('')
    const [inputDescrip, setInputDescrip] = useState('')
 
-   const disabledBtn = !img || !inputDate || !inputDate || !inputDescrip
+   const disabledButton = !img || !inputDate || !inputDate || !inputDescrip
 
-   const nameChangeHandler = (e) => {
-      setInputName(e.target.value)
+   const nameChangeHandler = (event) => {
+      setInputName(event.target.value)
    }
    const dateChangeHandler = (date) => {
       setInputDate(date)
    }
-   const descripChangeHandler = (e) => {
-      setInputDescrip(e.target.value)
+   const descripChangehandler = (event) => {
+      setInputDescrip(event.target.value)
    }
 
-   const setImageHandler = async (e) => {
+   const getGroupsById = async (groupId) => {
+      try {
+         const { data } = await axiosInstance.get(`groups?groupId=${groupId}`)
+         setImg(data.img)
+         setInputDate(data.date)
+         setInputName(data.name)
+         setInputDescrip(data.description)
+      } catch (error) {
+         console.log(error)
+      }
+   }
+
+   useEffect(() => {
+      if (groupId !== undefined) {
+         getGroupsById(groupId)
+      }
+   }, [groupId])
+
+   const imageHandler = async (e) => {
       const image = e.target.files[0]
       const formData = new FormData()
       formData.append('file', image)
       try {
-         const { data } = await imagePostService(formData)
+         const { data } = await fileRequest(formData)
          return setImg(data.link)
       } catch (error) {
          return error
       }
    }
-
    let date = ''
    if (inputDate && isValid(new Date(inputDate))) {
       date = format(new Date(inputDate), 'yyyy-MM-dd')
    }
-
    const addNewData = () => {
       const newData = {
          name: inputName,
@@ -67,30 +83,13 @@ const GroupModal = ({
       setInputName('')
       data(newData)
    }
-   const getCoursesById = async (courseId) => {
-      try {
-         const { data } = await axiosInstance.get(`courses/${courseId}`)
-         setInputName(data.name)
-         setImg(data.image)
-         setInputDescrip(data.description)
-         return data
-      } catch (error) {
-         return error
-      }
-   }
-   useEffect(() => {
-      if (courseId !== undefined) {
-         getCoursesById(courseId)
-      }
-   }, [courseId])
-
    return (
       <ModalWindow open={open} onClose={onClose} {...rest}>
          <StyledModalHeader>
             <h1>{title}</h1>
          </StyledModalHeader>
          <AvatarContainer>
-            <AvatarStyled imgLink={img} onChange={setImageHandler} />
+            <AvatarStyled imgLink={img} onChange={imageHandler} />
             <p>Нажмите на иконку чтобы загрузить или перетащите фото</p>
          </AvatarContainer>
          <ContainerInput>
@@ -105,7 +104,7 @@ const GroupModal = ({
          </ContainerInput>
          <StyledInput
             value={inputDescrip}
-            onChange={descripChangeHandler}
+            onChange={descripChangehandler}
             rows={4}
             multiline
             placeholder={`описание ${placeholder}`}
@@ -114,7 +113,7 @@ const GroupModal = ({
             <ButtonStyledСancellation variant="outlined" onClick={onClose}>
                Отмена
             </ButtonStyledСancellation>
-            <StyledButtonAdd onClick={addNewData} disabled={disabledBtn}>
+            <StyledButtonAdd onClick={addNewData} disabled={disabledButton}>
                Добавить
             </StyledButtonAdd>
          </ContainerButton>
@@ -122,7 +121,7 @@ const GroupModal = ({
    )
 }
 
-export default GroupModal
+export default ModalGroup
 
 const StyledDataPicker = styled('div')({
    minWidth: '150px',
