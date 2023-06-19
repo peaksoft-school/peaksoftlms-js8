@@ -1,95 +1,135 @@
-import { Grid, IconButton, TableCell } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+// import { Grid, IconButton, TableCell } from '@mui/material'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
-import { AppTable } from '../../../utlis/constants/Table'
-import { ReactComponent as DeleteIcon } from '../../../assets/icons/deleteIcon.svg'
-import {
-   deleteStudentRequests,
-   getStudentByGroupId,
-} from '../../../api/studentService'
-import { useSnackbar } from '../../../hooks/useSnackbar'
+import Select from 'react-select/creatable'
+// import { AppTable } from '../../../utlis/constants/Table'
+// import { ReactComponent as DeleteIcon } from '../../../assets/icons/deleteIcon.svg'
+// import {
+//    deleteStudentRequests,
+//    getStudentByGroupId,
+// } from '../../../api/studentService'
+// import { useSnackbar } from '../../../hooks/useSnackbar'
+import { Grid } from '@mui/material'
 import InstructorHeader from '../InstructorHeader'
 import Tabs from '../../../components/UI/Tabs'
+import IconButton from '../../../components/UI/IconButton'
+import { ReactComponent as PeopleAltIcon } from '../../../assets/icons/peopleAltIcon.svg'
+import useGetAllGroup from '../../../hooks/getAllGroup'
+import ModalWindow from '../../../components/UI/Modal'
+import Button from '../../../components/UI/Button'
 
 const InstructorStudents = () => {
-   const [students, setStudents] = useState([])
-   const { notify, Snackbar } = useSnackbar()
-   const fetchStudent = async () => {
-      try {
-         const response = await getStudentByGroupId(1)
-         setStudents(response.data)
-      } catch (error) {
-         notify('error', error.response.data.message)
-      }
+   const [openModal, setOpenModal] = useState(false)
+   // const [students, setStudents] = useState([])
+   // const { notify, Snackbar } = useSnackbar()
+   const { groupOptions, selectedGroupID, handleGroupChange } = useGetAllGroup()
+   const btnHandler = () => {
+      setOpenModal((prevState) => !prevState)
    }
-   const deleteStudent = async (id) => {
-      try {
-         await deleteStudentRequests(id)
-      } catch (error) {
-         if (error.response) {
-            notify('error', error.response.data.message)
-         }
-      }
-   }
-   useEffect(() => {
-      fetchStudent()
-   }, [])
-   const columns = [
-      {
-         header: 'ID',
-         key: 'id',
-         id: 11,
-      },
-      {
-         header: 'Имя Фамилия',
-         key: 'fullName',
-         id: 12,
-      },
-      {
-         header: 'Группа',
-         key: 'groupName',
-         id: 13,
-      },
-      {
-         header: 'Формат обучения',
-         key: 'formLearning',
-         id: 14,
-      },
-      {
-         header: 'Номер телефона',
-         key: 'phoneNumber',
-         id: 15,
-      },
-      {
-         header: 'E-mail',
-         key: 'email',
-         id: 16,
-      },
-      {
-         header: 'Действия',
-         key: 'action',
-         render: (student) => (
-            <TableCell key={student.id}>
-               <IconButton onClick={() => deleteStudent(student.id)}>
-                  <DeleteIcon />
-               </IconButton>
-            </TableCell>
-         ),
-      },
-   ]
+   // const fetchStudent = async () => {
+   //    try {
+   //       const response = await getStudentByGroupId(1)
+   //       setStudents(response.data)
+   //    } catch (error) {
+   //       notify('error', error.response.data.message)
+   //    }
+   // }
+   // const deleteStudent = async (id) => {
+   //    try {
+   //       await deleteStudentRequests(id)
+   //    } catch (error) {
+   //       if (error.response) {
+   //          notify('error', error.response.data.message)
+   //       }
+   //    }
+   // }
+   // useEffect(() => {
+   //    fetchStudent()
+   // }, [])
+   // const columns = [
+   //    {
+   //       header: 'ID',
+   //       key: 'id',
+   //       id: 11,
+   //    },
+   //    {
+   //       header: 'Имя Фамилия',
+   //       key: 'fullName',
+   //       id: 12,
+   //    },
+   //    {
+   //       header: 'Группа',
+   //       key: 'groupName',
+   //       id: 13,
+   //    },
+   //    {
+   //       header: 'Формат обучения',
+   //       key: 'formLearning',
+   //       id: 14,
+   //    },
+   //    {
+   //       header: 'Номер телефона',
+   //       key: 'phoneNumber',
+   //       id: 15,
+   //    },
+   //    {
+   //       header: 'E-mail',
+   //       key: 'email',
+   //       id: 16,
+   //    },
+   //    {
+   //       header: 'Действия',
+   //       key: 'action',
+   //       render: (student) => (
+   //          <TableCell key={student.id}>
+   //             <IconButton onClick={() => deleteStudent(student.id)}>
+   //                <DeleteIcon />
+   //             </IconButton>
+   //          </TableCell>
+   //       ),
+   //    },
+   // ]
    return (
       <Grid display="flex">
-         {Snackbar}
          <StyledContainerContent>
             <StyledHeaderContainer>
                <Tabs role="INSTRUCTOR" />
                <InstructorHeader />
             </StyledHeaderContainer>
-            <AppTable
+            <StyledButtonContainer>
+               <IconButton icon={<PeopleAltIcon />} />
+               <StyledButtonText onClick={btnHandler}>
+                  Добавить группу в курс
+               </StyledButtonText>
+            </StyledButtonContainer>
+            {openModal && (
+               <div>
+                  <ModalStyled open={openModal} onClose={btnHandler}>
+                     <ContentH3>
+                        <h3>Добавить студентов группы в курс</h3>
+                     </ContentH3>
+                     <form>
+                        <Select
+                           options={groupOptions}
+                           value={selectedGroupID}
+                           onChange={handleGroupChange}
+                           placeholder="Группа"
+                        />
+                        <ContainerBtn>
+                           <Button variant="outlined" onClick={btnHandler}>
+                              Отмена
+                           </Button>
+                           <Button variant="contained">Добавить</Button>
+                        </ContainerBtn>
+                     </form>
+                  </ModalStyled>
+               </div>
+            )}
+            {/* <AppTable
                columns={columns}
                rows={students}
                getUniqueId={(val) => val.id}
-            />
+            /> */}
          </StyledContainerContent>
       </Grid>
    )
@@ -115,5 +155,52 @@ const StyledHeaderContainer = styled('div')`
    }
    .css-8ydgtm {
       margin-left: 20rem;
+   }
+`
+const StyledButtonContainer = styled('div')`
+   display: flex;
+   background: #3772ff;
+   border-radius: 8px;
+   width: 236px;
+   height: 42px;
+   margin-top: 34px;
+   margin-left: 80%;
+`
+const StyledButtonText = styled('p')`
+   color: #ffffff;
+   font-size: 14px;
+   line-height: 20px;
+   font-weight: 600;
+   letter-spacing: 0.001em;
+`
+const ModalStyled = styled(ModalWindow)`
+   .css-13cymwt-control {
+      margin: 25px 25px;
+   }
+   .css-se7fw1 {
+      width: 541px;
+   }
+   .css-ybr8he {
+      border-radius: 10px;
+   }
+   .css-1xfcnn5-MuiFormControl-root-MuiTextField-root fieldset {
+      margin-top: 12px;
+      margin-left: 25px;
+      height: 30px;
+   }
+`
+const ContentH3 = styled.div`
+   background: #1f6ed4;
+   padding-top: 25px;
+   padding-bottom: 16px;
+   color: #fff;
+   text-align: center;
+   border-radius: 10px 10px 0 0;
+`
+const ContainerBtn = styled.div`
+   display: flex;
+   justify-content: flex-end;
+   > Button {
+      margin-right: 25px;
    }
 `
