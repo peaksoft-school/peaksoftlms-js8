@@ -2,9 +2,8 @@ import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Groups } from '../pages/admin/Groups'
-import { Courses } from '../pages/admin/course/Courses'
+
 // eslint-disable-next-line import/named
-import { InstructorCourses } from '../pages/instructor/courses/Courses'
 import { Instructors } from '../pages/admin/Instructors'
 import { Students } from '../pages/admin/Students'
 import { AdminLayout } from '../layout/AdminLayout'
@@ -16,6 +15,8 @@ import SignInSide from '../containers/SignIn'
 import InstructorLayout from '../layout/InstructorLayout'
 import StudentLayout from '../layout/StudentLayout'
 import { AuthManagementRoute } from './AuthManagementRoute'
+import { CoursesInstructor } from '../pages/admin/CoursesInstructor'
+import { Courses } from '../pages/admin/course/Courses'
 
 export const AppRoutes = () => {
    const role = useSelector((state) => state.auth.role)
@@ -73,7 +74,7 @@ export const AppRoutes = () => {
          >
             <Route
                path={CURRENT_PATH.instructor.COURSES}
-               element={<InstructorCourses />}
+               element={<CoursesInstructor />}
             />
          </Route>
 

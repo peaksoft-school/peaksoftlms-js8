@@ -6,47 +6,13 @@ import { ReactComponent as IconDeleteTeacher } from '../../assets/icons/deleteTe
 import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
 import MultiSelect from '../UI/Select'
-import { getAllInstructors } from '../../api/adminService'
-
-// const array = [
-//    {
-//       id: 1,
-//       name: 'Omina Mamatalieva',
-//       spets: 'teacher',
-//       phone: '0865434567',
-//       email: 'omina@gmail.com',
-//       action: 'delete',
-//    },
-//    {
-//       id: 2,
-//       name: 'ilya',
-//       spets: 'teacher',
-//       phone: '0865434567',
-//       email: 'omina@gmail.com',
-//       action: 'delete',
-//    },
-//    {
-//       id: 3,
-//       name: 'Asel',
-//       spets: 'teacher',
-//       phone: '0865434567',
-//       email: 'omina@gmail.com',
-//       action: 'delete',
-//    },
-//    {
-//       id: 4,
-//       name: 'Aibek',
-//       spets: 'teacher',
-//       phone: '0865434567',
-//       email: 'omina@gmail.com',
-//       action: 'delete',
-//    },
-// ]
+import { getAllInstructors, instructorPost } from '../../api/adminService'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
 export const ModalCourses = ({ open, onClose }) => {
    const [name, setName] = useState('')
    const [teacher, setTeacher] = useState([])
-
+   const { notify, Snackbar } = useSnackbar()
    const [data, setData] = useState([])
 
    const getData = async () => {
@@ -66,8 +32,21 @@ export const ModalCourses = ({ open, onClose }) => {
    const changeName = (e) => {
       setName(e.target.value)
    }
-   const onSubmitHandler = () => {
-      setTeacher((prev) => [...prev, { ...prev, teacherName: name }])
+   // const onSubmitHandler = () => {
+   //    setTeacher((prev) => [...prev, { ...prev, teacherName: name }])
+   // }
+
+   const onSubmitHandler = async (data) => {
+      try {
+         const response = await instructorPost(data)
+         console.log(response)
+         notify('success', response.data.message)
+      } catch (error) {
+         if (error.response) {
+            console.log(error)
+            notify('error', error.response.data.message)
+         }
+      }
    }
 
    const handleDelete = (itemToDelete) => {
@@ -77,6 +56,7 @@ export const ModalCourses = ({ open, onClose }) => {
 
    return (
       <ModalWindowStyled>
+         {Snackbar}
          <ModalStyled open={open} onClose={onClose}>
             <ContentH3>
                <h3>Назначить учителя</h3>
