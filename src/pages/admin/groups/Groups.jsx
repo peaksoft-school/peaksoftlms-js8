@@ -3,8 +3,6 @@ import styled from '@emotion/styled'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-// import { useNavigate } from 'react-router-dom'
-import Cards from '../../../components/UI/Card'
 import Button from '../../../components/UI/Button'
 import EditIcon from '../../../assets/icons/edit.svg'
 import DeleteIcon from '../../../assets/icons/delete.svg'
@@ -16,6 +14,7 @@ import Input from '../../../components/UI/Input'
 import { deleteGroupsId } from '../../../api/groupService'
 import ModalGroup from '../../../components/addModal/ModalGroup'
 import { axiosInstance } from '../../../config/axiosInstance'
+import Cards from '../../../components/UI/Card'
 
 const arrayIcon = [
    {

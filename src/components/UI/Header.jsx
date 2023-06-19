@@ -1,20 +1,22 @@
 import styled from '@emotion/styled'
 import React, { useState } from 'react'
-import IconButton from '../../../components/UI/IconButton'
-import { ReactComponent as Profile } from '../../../assets/icons/profile.svg'
-import { ReactComponent as Vector } from '../../../assets/icons/Vector (1).svg'
-import { ReactComponent as Vectore } from '../../../assets/icons/Vector (2).svg'
+import IconButton from './IconButton'
+import { ReactComponent as Profile } from '../../assets/icons/profile.svg'
+import { ReactComponent as Vector } from '../../assets/icons/Vector (1).svg'
+import { ReactComponent as Vectore } from '../../assets/icons/Vector (2).svg'
+import { ReactComponent as Vectore3 } from '../../assets/icons/Vector (3).svg'
 
-const CourseHeader = () => {
+const Header = () => {
    const [showText, setShowText] = useState(false)
 
    const handleIconClick = () => {
       setShowText(!showText)
    }
    return (
-      <MenuStyled>
+      <HeaderStyled>
+         <IconButton icon={<Vectore3 />} />
          <IconButton icon={<Profile />} />
-         <p>Администратор</p>
+         <p>Студент</p>
          <IconButton icon={<Vector />} onClick={handleIconClick} />
          {showText && (
             <StyledDropDown>
@@ -22,15 +24,17 @@ const CourseHeader = () => {
                <span>Выйти</span>
             </StyledDropDown>
          )}
-      </MenuStyled>
+      </HeaderStyled>
    )
 }
 
-export default CourseHeader
+export default Header
 
-const MenuStyled = styled('div')({
+const HeaderStyled = styled('div')({
    display: 'flex',
+   gap: '5px',
    justifyContent: 'flex-end',
+   borderBottom: '1px solid #000',
    '& p': {
       fontWeight: '400',
    },
@@ -39,8 +43,8 @@ const StyledDropDown = styled('h3')({
    display: 'flex',
    zIndex: 1,
    position: 'absolute',
-   top: '35px',
-   right: '30px',
+   top: '30px',
+   right: '10px',
    width: '40px',
    height: '10px',
    background: '#DDE9F9',

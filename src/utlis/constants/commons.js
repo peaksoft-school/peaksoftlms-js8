@@ -23,6 +23,7 @@ export const CURRENT_PATH = {
    student: {
       STUDENT: 'student',
       COURSES: 'mycourses',
+      COURSES_DETAIL: 'mycourses/:coursesId',
    },
    auth: {
       FORGOT_PASSWORD: 'forgot_password',

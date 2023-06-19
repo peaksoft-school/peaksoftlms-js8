@@ -11,8 +11,9 @@ const Cards = ({
    date,
    id,
    navigate,
-   // openModal,
+   openModal,
    arrayIcon,
+   meatballsVisible = true,
 }) => {
    const [anchorEl, setAnchorEl] = useState(null)
 
@@ -23,7 +24,6 @@ const Cards = ({
       date,
       id,
    }
-
    function truncateText(text, maxLength) {
       if (text.length > maxLength) {
          return `${text.slice(0, maxLength)}...`
@@ -64,15 +64,17 @@ const Cards = ({
          </DescriptionContainer>
 
          <MeatballsContainer>
-            <Meatballs
-               items={item}
-               open={Boolean(anchorEl)}
-               onClick={handleClick}
-               onClose={handleClose}
-               anchorEl={anchorEl}
-               // openModal={openModal}
-               arrayIcon={arrayIcon}
-            />
+            {meatballsVisible ? (
+               <Meatballs
+                  items={item}
+                  open={Boolean(anchorEl)}
+                  onClick={handleClick}
+                  onClose={handleClose}
+                  anchorEl={anchorEl}
+                  openModal={openModal}
+                  arrayIcon={arrayIcon}
+               />
+            ) : null}
          </MeatballsContainer>
       </CardContainer>
    )
@@ -98,6 +100,7 @@ const CardContainer = styled('div')(() => ({
 
 const DateContainer = styled('div')(() => ({
    display: 'flex',
+   justifyContent: 'space-between',
    alignItems: 'center',
    gap: '20px',
    padding: '0 10px',
@@ -112,6 +115,7 @@ const DataEngineer = styled('span')(() => ({
    color: '#1D293F',
    margin: '15px 0 0',
    overflow: 'hidden',
+   whiteSpace: 'nowrap',
    textOverflow: 'ellipsis',
 }))
 
@@ -123,15 +127,17 @@ const Date = styled('span')(() => ({
    lineHeight: '140.1%',
    color: '#1D293F',
    margin: '15px 0 0',
+   marginLeft: '-0px',
+   whiteSpace: 'nowrap',
 }))
 
 const Description = styled('p')(() => ({
    fontFamily: 'Open Sans',
    fontStyle: 'normal',
    fontWeight: '400',
-   fontSize: '16px',
+   fontSize: '14px',
    lineHeight: '22px',
-   color: '#1D293F',
+   color: '#66666',
    margin: '10px 0',
 }))
 
