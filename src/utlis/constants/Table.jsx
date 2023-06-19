@@ -16,7 +16,7 @@ export const AppTable = ({ columns, rows, getUniqueId }) => {
             <TableHead>
                <TableRow>
                   {columns?.map((column) => (
-                     <TableCell key={column.id}>{column.header}</TableCell>
+                     <TableCell key={column.key}>{column.header}</TableCell>
                   ))}
                </TableRow>
             </TableHead>
