@@ -1,131 +1,119 @@
-import { Grid } from '@mui/material'
-import React from 'react'
+import { Grid, IconButton, TableCell } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
-import { SideBar } from '../../../layout/SideBar'
-import { USER_ROLES } from '../../../utlis/constants/commons'
 import { AppTable } from '../../../utlis/constants/Table'
-import IconButton from '../../../components/UI/IconButton'
-import { ReactComponent as IconProfil } from '../../../assets/icons/Profile (1).svg'
-import { ReactComponent as IconChevrons } from '../../../assets/icons/Chevrons.svg'
-import { ReactComponent as PeopleAltIcon } from '../../../assets/icons/peopleAltIcon.svg'
+import { ReactComponent as DeleteIcon } from '../../../assets/icons/deleteIcon.svg'
+import {
+   deleteStudentRequests,
+   getStudentByGroupId,
+} from '../../../api/studentService'
+import { useSnackbar } from '../../../hooks/useSnackbar'
+import InstructorHeader from '../InstructorHeader'
+import Tabs from '../../../components/UI/Tabs'
 
-const Students = () => {
-   //    const data = [
-   //       {
-   //          title: 'iorkldf',
-   //          titl: 'iorkldf',
-   //          tit: 'iorkldf',
-   //       },
-   //       {
-   //          title: 'iorkldf',
-   //          titl: 'iorkldf',
-   //          tit: 'iorkldf',
-   //       },
-   //    ]
+const InstructorStudents = () => {
+   const [students, setStudents] = useState([])
+   const { notify, Snackbar } = useSnackbar()
+   const fetchStudent = async () => {
+      try {
+         const response = await getStudentByGroupId(1)
+         setStudents(response.data)
+      } catch (error) {
+         notify('error', error.response.data.message)
+      }
+   }
+   const deleteStudent = async (id) => {
+      try {
+         await deleteStudentRequests(id)
+      } catch (error) {
+         if (error.response) {
+            notify('error', error.response.data.message)
+         }
+      }
+   }
+   useEffect(() => {
+      fetchStudent()
+   }, [])
+   const columns = [
+      {
+         header: 'ID',
+         key: 'id',
+         id: 11,
+      },
+      {
+         header: 'Имя Фамилия',
+         key: 'fullName',
+         id: 12,
+      },
+      {
+         header: 'Группа',
+         key: 'groupName',
+         id: 13,
+      },
+      {
+         header: 'Формат обучения',
+         key: 'formLearning',
+         id: 14,
+      },
+      {
+         header: 'Номер телефона',
+         key: 'phoneNumber',
+         id: 15,
+      },
+      {
+         header: 'E-mail',
+         key: 'email',
+         id: 16,
+      },
+      {
+         header: 'Действия',
+         key: 'action',
+         render: (student) => (
+            <TableCell key={student.id}>
+               <IconButton onClick={() => deleteStudent(student.id)}>
+                  <DeleteIcon />
+               </IconButton>
+            </TableCell>
+         ),
+      },
+   ]
    return (
       <Grid display="flex">
-         <StyledContainerSidebar>
-            <SideBar role={USER_ROLES.INSTRUCTOR} />
-         </StyledContainerSidebar>
+         {Snackbar}
          <StyledContainerContent>
             <StyledHeaderContainer>
-               <ContainerMaterialAndStudents>
-                  <MaterialAndStudentsParagraf>
-                     Материалы
-                  </MaterialAndStudentsParagraf>
-
-                  <MaterialAndStudentsParagraf>
-                     Студенты
-                  </MaterialAndStudentsParagraf>
-               </ContainerMaterialAndStudents>
-               <ContainerIcons>
-                  <IconButton icon={<IconProfil />} />
-                  <InstructorParagraf>Инструктор</InstructorParagraf>
-                  <IconButton icon={<IconChevrons />} />
-               </ContainerIcons>
+               <Tabs role="INSTRUCTOR" />
+               <InstructorHeader />
             </StyledHeaderContainer>
-            <div>
-               <p>uifdhjbvuidjkzhfnoiejld</p>
-               <StyledButtonContainer>
-                  <IconButton icon={<PeopleAltIcon />} />
-                  <StyledButtonText>Добавить группу в курс</StyledButtonText>
-               </StyledButtonContainer>
-            </div>
-
-            <StyledTableContainet>
-               table
-               <AppTable />
-            </StyledTableContainet>
+            <AppTable
+               columns={columns}
+               rows={students}
+               getUniqueId={(val) => val.id}
+            />
          </StyledContainerContent>
       </Grid>
    )
 }
 
-export default Students
-
-const StyledButtonContainer = styled('div')`
-   display: flex;
-   padding: 10px 24px 10px 16px;
-   gap: 8px;
-   background: #3772ff;
-   border-radius: 8px;
-   width: 236px;
-   margin-top: 34px;
-`
-const StyledButtonText = styled('p')`
-   color: #ffffff;
-   font-size: 14px;
-   line-height: 20px;
-   font-weight: 600;
-   letter-spacing: 0.001em;
-`
-const StyledContainerSidebar = styled(Grid)`
-   /* margin-right: 260px; */
-   /* margin-left: 40px; */
-`
+export default InstructorStudents
 const StyledContainerContent = styled(Grid)`
    font-family: 'Open Sans';
    font-style: normal;
    margin-right: 40px;
    margin-left: 260px;
-   width: 1140vw;
-   border: 2px solid red;
-   /* border: 1px solid red; */
-`
-const StyledTableContainet = styled('div')`
-   background-color: #ffffff;
-   margin-top: 24px;
+   .css-1mftfee-MuiPaper-root-MuiTableContainer-root {
+      width: 1140px;
+   }
 `
 const StyledHeaderContainer = styled('div')`
    display: flex;
-   justify-content: end;
+   justify-content: flex-start;
    margin-top: 23px;
-   /* width: 1240px; */
    border-bottom: 2px solid #c4c4c4;
-`
-const ContainerMaterialAndStudents = styled('div')`
-   display: flex;
-   width: 14.125rem;
-   justify-content: space-between;
-`
-const ContainerIcons = styled('div')`
-   display: flex;
-   margin-left: 379px;
-   margin-bottom: 22px;
-   width: 10.6875rem;
-   justify-content: space-between;
-`
-const MaterialAndStudentsParagraf = styled('p')`
-   font-weight: 600;
-   font-size: 16px;
-   line-height: 22px;
-
-   color: #000000;
-`
-const InstructorParagraf = styled('p')`
-   font-weight: 400;
-   font-size: 16px;
-   line-height: 22px;
-
-   color: #232323;
+   .css-1wlx3d8 {
+      margin-left: 20rem;
+   }
+   .css-8ydgtm {
+      margin-left: 20rem;
+   }
 `

@@ -15,6 +15,7 @@ import BasicTabs from '../pages/admin/course/Tabs'
 import SignInSide from '../containers/SignIn'
 import StudentLayout from '../layout/StudentLayout'
 import { AuthManagementRoute } from './AuthManagementRoute'
+import InstructorStudents from '../pages/instructor/courses/Students'
 
 export const AppRoutes = () => {
    const role = useSelector((state) => state.auth.role)
@@ -73,8 +74,11 @@ export const AppRoutes = () => {
                path={CURRENT_PATH.instructor.COURSES}
                element={<InstructorCourses />}
             />
+            <Route
+               path={CURRENT_PATH.instructor.COURSES_DETAIL}
+               element={<InstructorStudents />}
+            />
          </Route>
-
          <Route
             path={CURRENT_PATH.admin.INSTRUCTOR}
             element={

@@ -33,3 +33,8 @@ export const fileUploadDeleteRequest = (data) => {
 export const fileUploadPostRequest = (fileLink) => {
    return axiosInstance.post(`/file/${fileLink}`)
 }
+export const getStudentByGroupId = (id) => {
+   return axiosInstance.get('/students/groupId', {
+      params: { groupId: `${id}` },
+   })
+}

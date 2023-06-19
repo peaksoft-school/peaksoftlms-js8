@@ -1,8 +1,5 @@
 import styled from '@emotion/styled'
 import CardMedia from '@mui/material/CardMedia'
-// import CardContent from '@mui/material/CardContent'
-// import CardActions from '@mui/material/CardActions'
-// import { ReactComponent as Icons } from '../../assets/icons/frames.svg'
 import { useState } from 'react'
 import { Tooltip, Zoom } from '@mui/material'
 import { Meatballs } from './Meatballs'
