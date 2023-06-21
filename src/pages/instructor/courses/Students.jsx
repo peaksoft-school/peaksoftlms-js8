@@ -1,96 +1,102 @@
-// import { Grid, IconButton, TableCell } from '@mui/material'
-import React, { useState } from 'react'
+import { Grid, IconButton, TableCell } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import Select from 'react-select/creatable'
-// import { AppTable } from '../../../utlis/constants/Table'
-// import { ReactComponent as DeleteIcon } from '../../../assets/icons/deleteIcon.svg'
-// import {
-//    deleteStudentRequests,
-//    getStudentByGroupId,
-// } from '../../../api/studentService'
-// import { useSnackbar } from '../../../hooks/useSnackbar'
-import { Grid } from '@mui/material'
+import { AppTable } from '../../../utlis/constants/Table'
+import { ReactComponent as DeleteIcon } from '../../../assets/icons/deleteIcon.svg'
+import {
+   deleteStudentRequests,
+   getStudentByGroupId,
+} from '../../../api/studentService'
+import { useSnackbar } from '../../../hooks/useSnackbar'
 import InstructorHeader from '../InstructorHeader'
 import Tabs from '../../../components/UI/Tabs'
-import IconButton from '../../../components/UI/IconButton'
+// import IconButton from '../../../components/UI/IconButton'
 import { ReactComponent as PeopleAltIcon } from '../../../assets/icons/peopleAltIcon.svg'
 import useGetAllGroup from '../../../hooks/getAllGroup'
 import ModalWindow from '../../../components/UI/Modal'
 import Button from '../../../components/UI/Button'
+import { groupPostAssignRequest } from '../../../api/groupService'
 
 const InstructorStudents = () => {
    const [openModal, setOpenModal] = useState(false)
-   // const [students, setStudents] = useState([])
-   // const { notify, Snackbar } = useSnackbar()
+   const [students, setStudents] = useState([])
+   const { notify, Snackbar } = useSnackbar()
    const { groupOptions, selectedGroupID, handleGroupChange } = useGetAllGroup()
    const btnHandler = () => {
       setOpenModal((prevState) => !prevState)
    }
-   // const fetchStudent = async () => {
-   //    try {
-   //       const response = await getStudentByGroupId(1)
-   //       setStudents(response.data)
-   //    } catch (error) {
-   //       notify('error', error.response.data.message)
-   //    }
-   // }
-   // const deleteStudent = async (id) => {
-   //    try {
-   //       await deleteStudentRequests(id)
-   //    } catch (error) {
-   //       if (error.response) {
-   //          notify('error', error.response.data.message)
-   //       }
-   //    }
-   // }
-   // useEffect(() => {
-   //    fetchStudent()
-   // }, [])
-   // const columns = [
-   //    {
-   //       header: 'ID',
-   //       key: 'id',
-   //       id: 11,
-   //    },
-   //    {
-   //       header: 'Имя Фамилия',
-   //       key: 'fullName',
-   //       id: 12,
-   //    },
-   //    {
-   //       header: 'Группа',
-   //       key: 'groupName',
-   //       id: 13,
-   //    },
-   //    {
-   //       header: 'Формат обучения',
-   //       key: 'formLearning',
-   //       id: 14,
-   //    },
-   //    {
-   //       header: 'Номер телефона',
-   //       key: 'phoneNumber',
-   //       id: 15,
-   //    },
-   //    {
-   //       header: 'E-mail',
-   //       key: 'email',
-   //       id: 16,
-   //    },
-   //    {
-   //       header: 'Действия',
-   //       key: 'action',
-   //       render: (student) => (
-   //          <TableCell key={student.id}>
-   //             <IconButton onClick={() => deleteStudent(student.id)}>
-   //                <DeleteIcon />
-   //             </IconButton>
-   //          </TableCell>
-   //       ),
-   //    },
-   // ]
+   const fetchStudent = async () => {
+      try {
+         const response = await getStudentByGroupId(selectedGroupID.value)
+         console.log(selectedGroupID.value)
+         setStudents(response.data)
+      } catch (error) {
+         notify('error', error.response.data.message)
+      }
+   }
+   const handleSubmite = (id) => {
+      console.log(id)
+      groupPostAssignRequest(id)
+   }
+   const deleteStudent = async (id) => {
+      try {
+         await deleteStudentRequests(id)
+      } catch (error) {
+         if (error.response) {
+            notify('error', error.response.data.message)
+         }
+      }
+   }
+   useEffect(() => {
+      fetchStudent()
+   }, [])
+   const columns = [
+      {
+         header: 'ID',
+         key: 'id',
+         id: 11,
+      },
+      {
+         header: 'Имя Фамилия',
+         key: 'fullName',
+         id: 12,
+      },
+      {
+         header: 'Группа',
+         key: 'groupName',
+         id: 13,
+      },
+      {
+         header: 'Формат обучения',
+         key: 'formLearning',
+         id: 14,
+      },
+      {
+         header: 'Номер телефона',
+         key: 'phoneNumber',
+         id: 15,
+      },
+      {
+         header: 'E-mail',
+         key: 'email',
+         id: 16,
+      },
+      {
+         header: 'Действия',
+         key: 'action',
+         render: (student) => (
+            <TableCell key={student.id}>
+               <IconButton onClick={() => deleteStudent(student.id)}>
+                  <DeleteIcon />
+               </IconButton>
+            </TableCell>
+         ),
+      },
+   ]
    return (
       <Grid display="flex">
+         {Snackbar}
          <StyledContainerContent>
             <StyledHeaderContainer>
                <Tabs role="INSTRUCTOR" />
@@ -119,17 +125,22 @@ const InstructorStudents = () => {
                            <Button variant="outlined" onClick={btnHandler}>
                               Отмена
                            </Button>
-                           <Button variant="contained">Добавить</Button>
+                           <Button
+                              variant="contained"
+                              onClick={handleSubmite(selectedGroupID)}
+                           >
+                              Добавить
+                           </Button>
                         </ContainerBtn>
                      </form>
                   </ModalStyled>
                </div>
             )}
-            {/* <AppTable
+            <AppTable
                columns={columns}
                rows={students}
                getUniqueId={(val) => val.id}
-            /> */}
+            />
          </StyledContainerContent>
       </Grid>
    )

@@ -20,3 +20,6 @@ export const putGroupRequest = (data) => {
 export const getTableRequest = (id) => {
    return axiosInstance.get(`students/groupId?groupId=${id}`, id)
 }
+export const groupPostAssignRequest = (id) => {
+   return axiosInstance.post(`/groups/assign?groupId=${id}&courseId=${id}`)
+}

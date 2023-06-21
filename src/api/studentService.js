@@ -1,6 +1,7 @@
 import { axiosInstance } from '../config/axiosInstance'
 
 export const studentPostRequests = (data) => {
+   console.log(data.groupId)
    return axiosInstance.post('/students', {
       ...data,
       phoneNumber: `+${data.phoneNumber}`,

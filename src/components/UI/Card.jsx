@@ -40,6 +40,9 @@ const Cards = ({
    const handleClose = () => {
       setAnchorEl(null)
    }
+   // const openModalHandler = (courseId) => {
+   //    navigate(`/instructor-students`, { state: { courseId } })
+   // }
    return (
       <CardContainer iner>
          <CardMedia
