@@ -1,7 +1,7 @@
 import React from 'react'
 
-const nstructorCourses = () => {
+const InstructorCourses = () => {
    return <div>Courses</div>
 }
 
-export default nstructorCourses
+export default InstructorCourses

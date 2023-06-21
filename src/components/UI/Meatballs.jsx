@@ -9,6 +9,9 @@ import FixedIcon from '../../assets/icons/fixed.svg'
 import GroupModal from './GroupModal'
 import { deleteCourseById, putCourses } from '../../api/courseService'
 import { asyncGetCourses } from '../../redux/reducers/course/CourseThunk'
+import { putGroupRequest } from '../../api/groupService'
+import { getGroup } from '../../redux/reducers/group/groupThunk'
+import ModalGroup from '../addModal/ModalGroup'
 
 const arrayIcon = [
    {
@@ -49,12 +52,15 @@ export const Meatballs = ({
 }) => {
    const dispatch = useDispatch()
    const [openModal, setOpenModal] = useState(false)
+   const [groupModal, setGroupModal] = useState(false)
    const [courseData, setCourseData] = useState({})
+   const [groups, setGroups] = useState({})
 
    const finallyArrayIcons = propsIcons || arrayIcon
 
    const closeModal = () => {
       setOpenModal(false)
+      setGroupModal(false)
    }
 
    const submitHandler = async (data) => {
@@ -68,6 +74,16 @@ export const Meatballs = ({
       }
    }
 
+   const groupSubmitHandler = async (data) => {
+      data.groupId = groups.id
+      try {
+         await putGroupRequest(data)
+         dispatch(getGroup({ pageSize: '8', pagination: '1' }))
+         closeModal()
+      } catch (error) {
+         console.log(error)
+      }
+   }
    return (
       <div>
          <GroupModal
@@ -77,6 +93,14 @@ export const Meatballs = ({
             title="Редактирование курса"
             placeholder="курса"
             courseId={courseData.id}
+         />
+         <ModalGroup
+            data={groupSubmitHandler}
+            open={groupModal}
+            onClose={closeModal}
+            title="Редактирование группы"
+            placeholder="группы"
+            groupId={groups.id}
          />
          <Button
             id="demo-positioned-button"
@@ -100,7 +124,14 @@ export const Meatballs = ({
                return (
                   <StyledMenuItem
                      onClick={() =>
-                        item.func(items, dispatch, setOpenModal, setCourseData)
+                        item.func(
+                           items,
+                           dispatch,
+                           setOpenModal,
+                           setCourseData,
+                           setGroupModal,
+                           setGroups
+                        )
                      }
                      key={item.title}
                   >

@@ -8,6 +8,7 @@ export const CURRENT_PATH = {
    admin: {
       ADMIN: 'admin',
       GROUPS: 'groups',
+      GROUPS_DETAIL: 'groups/:groupId',
       COURSES: 'courses',
       COURSES_DETAIL: 'courses/:coursesId/detail',
       STUDENTS_DETAIL: 'courses/:coursesId/detail/:studentId/students',

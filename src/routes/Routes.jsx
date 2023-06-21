@@ -2,9 +2,10 @@ import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Groups } from '../pages/admin/Groups'
-
+import { Courses } from '../pages/admin/course/Courses'
 // eslint-disable-next-line import/named
 import { Instructors } from '../pages/admin/Instructors'
+import InstructorCourses from '../pages/instructor/courses/Courses'
 import { Students } from '../pages/admin/Students'
 import { AdminLayout } from '../layout/AdminLayout'
 import { ProtectedRoute } from './ProtectedRoute'
@@ -15,8 +16,6 @@ import SignInSide from '../containers/SignIn'
 import InstructorLayout from '../layout/InstructorLayout'
 import StudentLayout from '../layout/StudentLayout'
 import { AuthManagementRoute } from './AuthManagementRoute'
-import { CoursesInstructor } from '../pages/admin/CoursesInstructor'
-import { Courses } from '../pages/admin/course/Courses'
 
 export const AppRoutes = () => {
    const role = useSelector((state) => state.auth.role)
@@ -52,6 +51,10 @@ export const AppRoutes = () => {
             }
          >
             <Route path={CURRENT_PATH.admin.GROUPS} element={<Groups />} />
+            <Route
+               path={CURRENT_PATH.admin.GROUPS_DETAIL}
+               element={<GroupsInnerPage />}
+            />
             <Route path={CURRENT_PATH.admin.COURSES} element={<Courses />} />
             <Route path="courses/:courseId" element={<BasicTabs />} />
 

@@ -1,10 +1,14 @@
 import styled from '@emotion/styled'
+<<<<<<< HEAD
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useFormik } from 'formik'
+=======
+>>>>>>> 75380154080d46c1aa8acec9675d4b7a0ed53838
 import { useEffect, useState } from 'react'
 import Select from 'react-select/creatable'
 import PhoneInput from 'react-phone-input-2'
 import { useSearchParams } from 'react-router-dom'
+import { useFormik } from 'formik'
 import Input from '../UI/Input'
 import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
