@@ -8,7 +8,7 @@ import { ReactComponent as InstructorCourses } from '../assets/icons/InstrCourse
 import { ReactComponent as Teachers } from '../assets/icons/teachers.svg'
 import { CURRENT_PATH } from '../utlis/constants/commons'
 
-export const SideBar = ({ role }) => {
+export const SideBar = ({ role = 'STUDENT' }) => {
    let path
    if (role === 'STUDENT') {
       path = CURRENT_PATH.student.COURSES
@@ -74,7 +74,7 @@ const Sidebar = styled.aside({
    right: '0%',
    top: '0%',
    bottom: '0%',
-   backgroundColor: ' #ffffff',
+   backgroundColor: 'white',
 })
 
 const InfoBox = styled.div({

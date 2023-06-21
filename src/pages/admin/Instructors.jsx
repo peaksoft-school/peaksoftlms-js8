@@ -28,6 +28,7 @@ export const Instructors = () => {
    const [instructors, setInstructors] = useState([])
    const [showLogoutIcon, setShowLogoutIcon] = useState(false)
    const { notify, Snackbar } = useSnackbar()
+
    const getData = async (_page) => {
       try {
          const { data } = await getAllInstructors(_page)
@@ -44,6 +45,7 @@ export const Instructors = () => {
    const handleDeleteItem = async (id) => {
       try {
          await instructorDelete(id)
+         console.log(id)
          getData(1)
       } catch (error) {
          console.log(error)

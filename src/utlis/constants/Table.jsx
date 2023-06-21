@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 
-export const AppTable = ({ columns, rows, onChangePage, page }) => {
+export const AppTable = ({ columns, rows, onChangePage, page, getUniqueId = () => {} }) => {
    const [rowsPerPage, setRowsPerPage] = useState(2)
 
    const handleChangePage = (newPage) => {
@@ -35,21 +35,19 @@ export const AppTable = ({ columns, rows, onChangePage, page }) => {
                </TableRow>
             </TableHead>
             <TableBody>
-               {rows
-                  // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                     return (
-                        <TableRowStyled key={row.id}>
+               {rows?.map((row, index) => {
+                  return (
+                        <TableRowStyled key={getUniqueId(row)}>
                            {columns?.map((column) => {
                               if (column.render) {
-                                 return column.render(row)
+                              return column.render(row)
                               }
                               const value = column.index
                                  ? index + 1
                                  : row[column.key]
 
                               return (
-                                 <TableCell key={column.id}>{value}</TableCell>
+                                 <TableCell key={`row - ${column.key}`}>{value}</TableCell>
                               )
                            })}
                         </TableRowStyled>
@@ -71,11 +69,7 @@ export const AppTable = ({ columns, rows, onChangePage, page }) => {
 }
 
 const TableContainerStyled = styled(TableContainer)`
-<<<<<<< HEAD
-   /* width: 71.25rem; */
-=======
    width: 990px;
->>>>>>> e0c288f8e2449d9aa9fe4631f4cd964ab63e86c8
    border-radius: 10px;
    min-height: 405px;
    margin-top: 30px;
