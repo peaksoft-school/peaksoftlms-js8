@@ -26,14 +26,15 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
    const onSubmitHandler = (values) => {
       if (searchParams.get('modal') === 'edit') {
          onSubmit(values.id, values)
-         onClose()
+         console.log(values.link)
+         // onClose()
       } else {
          const newData = {
             firstName: values.firstName,
             lastName: values.lastName,
             phoneNumber: values.phoneNumber,
             email: values.email,
-            password: values.password,
+            link: values.link,
             groupId: selectedGroupID.value,
             formLearning: formLearning.value,
          }
@@ -46,7 +47,7 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
          firstName: '',
          lastName: '',
          email: '',
-         password: 'Здесь будет линк create password',
+         link: 'Здесь будет линк create password',
          phoneNumber: '',
       },
       onSubmit: onSubmitHandler,
@@ -131,9 +132,9 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
                      style={{ display: 'none' }}
                      placeholder="Пароль"
                      type="password"
-                     value={values.password || ''}
+                     value={values.link || ''}
                      onChange={handleChange}
-                     name="password"
+                     name="link"
                   />
                   <Select
                      options={groupOptions}

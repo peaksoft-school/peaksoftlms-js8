@@ -16,7 +16,7 @@ import ModalWindow from '../../components/UI/Modal'
 import { AppTable } from '../../utlis/constants/Table'
 import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg'
 import { ReactComponent as DeleteIcon } from '../../assets/icons/deleteIcon.svg'
-import { ReactComponent as AdminIcon } from '../../assets/icons/profile.svg'
+import { ReactComponent as AdminIcon } from '../../assets/icons/Profile.svg'
 import { ReactComponent as ArrowIcon } from '../../assets/icons/arrow.svg'
 import { ReactComponent as LogOut } from '../../assets/icons/logout.svg'
 import {
