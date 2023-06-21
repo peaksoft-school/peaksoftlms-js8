@@ -57,8 +57,6 @@ export const ModalCourses = ({ open, onClose }) => {
          return error
       }
    }
-   console.log(data)
-
    useEffect(() => {
       getData()
    }, [])

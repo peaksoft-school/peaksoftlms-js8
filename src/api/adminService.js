@@ -9,10 +9,13 @@ export const getAllInstructors = (page = 1, size = 10) => {
    return axiosInstance.get(`/instructors?size=${size}&page=${page}`)
 }
 export const instructorPost = (data) => {
-   return axiosInstance.post('/instructors', data)
+   console.log(data)
+   return axiosInstance.post('/instructors', {
+      ...data,
+      phoneNumber: `+${data.phoneNumber}`,
+   })
 }
 export const instructorPut = (id, values) => {
-   console.log(values, 'put')
    return axiosInstance.put(`/instructors?instructorId=${id}`, values)
 }
 export const instructorDelete = (id) => {

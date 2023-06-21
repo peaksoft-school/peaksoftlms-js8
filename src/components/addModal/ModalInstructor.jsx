@@ -25,7 +25,7 @@ export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
             lastName: values.lastName,
             phoneNumber: values.phoneNumber,
             email: values.email,
-            password: values.password,
+            link: values.link,
             special: values.special,
          }
          addNewData(newData)
@@ -37,7 +37,7 @@ export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
          lastName: '',
          phoneNumber: '',
          email: '',
-         password: 'здесь будет link',
+         link: 'здесь будет link',
          special: '',
       },
       onSubmit: onSubmitHandler,
@@ -81,13 +81,13 @@ export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
             <Container onSubmit={handleSubmit} name="form">
                <Input
                   placeholder="Имя"
-                  value={values.firstName}
+                  value={values.firstName || ''}
                   onChange={handleChange}
                   name="firstName"
                />
                <Input
                   placeholder="Фамилия"
-                  value={values.lastName}
+                  value={values.lastName || ''}
                   onChange={handleChange}
                   name="lastName"
                />
@@ -110,13 +110,13 @@ export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
                <Input
                   style={{ display: 'none' }}
                   type="password"
-                  value={values.password}
+                  value={values.link}
                   onChange={handleChange}
                   name="password"
                />
                <Input
                   placeholder="Специализация"
-                  value={values.special}
+                  value={values.special || ''}
                   onChange={handleChange}
                   name="special"
                />
@@ -155,6 +155,23 @@ const Container = styled.form`
    margin-right: 25px;
    margin-top: 16px;
    margin-bottom: 16px;
+   .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+      margin-bottom: 11px;
+   }
+   .css-1qaaf9z-MuiFormControl-root-MuiTextField-root fieldset {
+      margin-bottom: 12px;
+   }
+   .css-13cymwt-control {
+      display: flex;
+      padding: 0.5rem;
+      border-radius: 10px;
+      margin-bottom: 12px;
+   }
+   .form-control {
+      width: 491px;
+      margin-bottom: 12px !important;
+      height: 42px;
+   }
    Input {
       margin-bottom: 20px;
    }
