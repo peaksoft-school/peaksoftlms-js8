@@ -5,6 +5,7 @@ import { ReactComponent as Profile } from '../../assets/icons/profile.svg'
 import { ReactComponent as Vector } from '../../assets/icons/Vector (1).svg'
 import { ReactComponent as Vectore } from '../../assets/icons/Vector (2).svg'
 import { ReactComponent as Vectore3 } from '../../assets/icons/Vector (3).svg'
+import { JWT_TOKEN_KEY, USER_INFO } from '../../utlis/constants/commons'
 
 const Header = () => {
    const [showText, setShowText] = useState(false)
@@ -12,6 +13,12 @@ const Header = () => {
    const handleIconClick = () => {
       setShowText(!showText)
    }
+
+   const logOut = () => {
+      localStorage.removeItem(JWT_TOKEN_KEY)
+      localStorage.removeItem(USER_INFO)
+   }
+
    return (
       <HeaderStyled>
          <IconButton icon={<Vectore3 />} />
@@ -21,7 +28,9 @@ const Header = () => {
          {showText && (
             <StyledDropDown>
                <IconButton icon={<Vectore />} />
-               <span>Выйти</span>
+               <button type="button" onClick={logOut}>
+                  Выйти
+               </button>
             </StyledDropDown>
          )}
       </HeaderStyled>
