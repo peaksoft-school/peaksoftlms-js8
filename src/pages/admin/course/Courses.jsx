@@ -54,7 +54,6 @@ export const Courses = () => {
       setCount(Math.ceil(course.courseResponses.length / selectedPageSize))
    }
    const postCourse = async (data) => {
-      data.finishDate = '2023-05-31'
       try {
          await axiosInstance.post('courses', data)
          setShowModal(false)

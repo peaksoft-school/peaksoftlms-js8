@@ -57,10 +57,11 @@ const GroupModal = ({
    const addNewData = () => {
       const newData = {
          name: inputName,
-         createdAt: date,
+         finishDate: date,
          description: inputDescrip,
          image: img,
       }
+      console.log(newData)
       setImg('')
       setInputDate('')
       setInputDescrip('')

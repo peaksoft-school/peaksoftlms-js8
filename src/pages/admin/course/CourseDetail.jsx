@@ -61,7 +61,6 @@ const CourseDetail = ({ id }) => {
    }, [])
    return (
       <Container>
-         {/* {Snackbar} */}
          <CourseHeaderStyled>
             <CourseHeader />
          </CourseHeaderStyled>
