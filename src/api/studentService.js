@@ -1,7 +1,6 @@
 import { axiosInstance } from '../config/axiosInstance'
 
 export const studentPostRequests = (data) => {
-   console.log(data.groupId)
    return axiosInstance.post('/students', {
       ...data,
       phoneNumber: `+${data.phoneNumber}`,
@@ -26,6 +25,11 @@ export const updateStudents = (id, values) => {
 export const getStudentById = (id) => {
    return axiosInstance.get('/students/getById', {
       params: { studentId: `${id}` },
+   })
+}
+export const getStudentByCourseId = (id) => {
+   return axiosInstance.get('/students', {
+      params: { courseId: `${id}` },
    })
 }
 export const fileUploadDeleteRequest = (data) => {

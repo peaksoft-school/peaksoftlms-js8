@@ -42,7 +42,8 @@ export const Courses = () => {
       dispatch(asyncGetCourses({ pageSize, pagination }))
    }, [])
    const navigateToDetailPage = ({ id, title }) => {
-      navigate(`${id}`, { state: { title } })
+      navigate(`${id}`, { state: { title }, replace: true })
+      navigate(`/instructor-students?courseId=${id}`, { replace: true })
    }
    const pageChangeHandler = (e) => {
       setPage(+e.target.value)

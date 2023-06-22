@@ -2,11 +2,12 @@ import { Grid, IconButton, TableCell } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import Select from 'react-select/creatable'
+import { useLocation } from 'react-router-dom'
 import { AppTable } from '../../../utlis/constants/Table'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/deleteIcon.svg'
 import {
    deleteStudentRequests,
-   getStudentByGroupId,
+   getStudentByCourseId,
 } from '../../../api/studentService'
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import InstructorHeader from '../InstructorHeader'
@@ -22,22 +23,28 @@ const InstructorStudents = () => {
    const [openModal, setOpenModal] = useState(false)
    const [students, setStudents] = useState([])
    const { notify, Snackbar } = useSnackbar()
-   const { groupOptions, selectedGroupID, handleGroupChange } = useGetAllGroup()
+   const location = useLocation()
+   const searchParams = new URLSearchParams(location.search)
+   const courseId = searchParams.get('courseId')
+   const { groupOptions, selectedGroupID, setSelectedGroupID } =
+      useGetAllGroup()
    const btnHandler = () => {
       setOpenModal((prevState) => !prevState)
    }
+   const handleSubmite = () => {
+      groupPostAssignRequest({
+         courseId,
+         groupId: selectedGroupID,
+      })
+   }
    const fetchStudent = async () => {
       try {
-         const response = await getStudentByGroupId(selectedGroupID.value)
-         console.log(selectedGroupID.value)
+         const response = await getStudentByCourseId(courseId)
+         console.log(response.data)
          setStudents(response.data)
       } catch (error) {
          notify('error', error.response.data.message)
       }
-   }
-   const handleSubmite = (id) => {
-      console.log(id)
-      groupPostAssignRequest(id)
    }
    const deleteStudent = async (id) => {
       try {
@@ -118,17 +125,16 @@ const InstructorStudents = () => {
                         <Select
                            options={groupOptions}
                            value={selectedGroupID}
-                           onChange={handleGroupChange}
                            placeholder="Группа"
+                           onChange={(selectedOption) => {
+                              setSelectedGroupID(selectedOption)
+                           }}
                         />
                         <ContainerBtn>
                            <Button variant="outlined" onClick={btnHandler}>
                               Отмена
                            </Button>
-                           <Button
-                              variant="contained"
-                              onClick={handleSubmite(selectedGroupID)}
-                           >
+                           <Button variant="contained" onClick={handleSubmite}>
                               Добавить
                            </Button>
                         </ContainerBtn>

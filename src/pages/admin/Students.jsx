@@ -16,7 +16,7 @@ import ModalWindow from '../../components/UI/Modal'
 import { AppTable } from '../../utlis/constants/Table'
 import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg'
 import { ReactComponent as DeleteIcon } from '../../assets/icons/deleteIcon.svg'
-import { ReactComponent as AdminIcon } from '../../assets/icons/profile.svg'
+import { ReactComponent as AdminIcon } from '../../assets/icons/Profile.svg'
 import { ReactComponent as ArrowIcon } from '../../assets/icons/arrow.svg'
 import { ReactComponent as LogOut } from '../../assets/icons/logout.svg'
 import {
@@ -38,7 +38,8 @@ export const Students = () => {
    const [file, setFile] = useState(null)
    const [filterValue, setFilterValue] = useState('все')
    const [showLogoutIcon, setShowLogoutIcon] = useState(false)
-   const { groupOptions, selectedGroupID, handleGroupChange } = useGetAllGroup()
+   const { groupOptions, selectedGroupID, setSelectedGroupID } =
+      useGetAllGroup()
    const { notify, Snackbar } = useSnackbar()
    const fetchStudent = async () => {
       try {
@@ -210,8 +211,10 @@ export const Students = () => {
                         <Select
                            options={groupOptions}
                            value={selectedGroupID}
-                           onChange={handleGroupChange}
                            placeholder="Группа"
+                           onChange={(selectedOption) => {
+                              setSelectedGroupID(selectedOption)
+                           }}
                         />
                         <FileUpload>
                            <input
