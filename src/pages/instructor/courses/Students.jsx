@@ -1,8 +1,8 @@
 import { Grid, IconButton, TableCell } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import Select from 'react-select/creatable'
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { AppTable } from '../../../utlis/constants/Table'
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/deleteIcon.svg'
 import {
@@ -12,7 +12,6 @@ import {
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import InstructorHeader from '../InstructorHeader'
 import Tabs from '../../../components/UI/Tabs'
-// import IconButton from '../../../components/UI/IconButton'
 import { ReactComponent as PeopleAltIcon } from '../../../assets/icons/peopleAltIcon.svg'
 import useGetAllGroup from '../../../hooks/getAllGroup'
 import ModalWindow from '../../../components/UI/Modal'
@@ -23,25 +22,24 @@ const InstructorStudents = () => {
    const [openModal, setOpenModal] = useState(false)
    const [students, setStudents] = useState([])
    const { notify, Snackbar } = useSnackbar()
-   const location = useLocation()
-   const searchParams = new URLSearchParams(location.search)
-   const courseId = searchParams.get('courseId')
+   const { courseId } = useParams()
    const { groupOptions, selectedGroupID, setSelectedGroupID } =
       useGetAllGroup()
    const btnHandler = () => {
       setOpenModal((prevState) => !prevState)
    }
-   const handleSubmite = () => {
-      groupPostAssignRequest({
-         courseId,
-         groupId: selectedGroupID,
-      })
-   }
-   const fetchStudent = async () => {
+   async function fetchStudent() {
       try {
          const response = await getStudentByCourseId(courseId)
-         console.log(response.data)
          setStudents(response.data)
+      } catch (error) {
+         notify('error', error.response.data.message)
+      }
+   }
+   const handleSubmite = async () => {
+      try {
+         await groupPostAssignRequest(courseId, selectedGroupID.value)
+         fetchStudent()
       } catch (error) {
          notify('error', error.response.data.message)
       }
@@ -49,15 +47,13 @@ const InstructorStudents = () => {
    const deleteStudent = async (id) => {
       try {
          await deleteStudentRequests(id)
+         fetchStudent()
       } catch (error) {
          if (error.response) {
             notify('error', error.response.data.message)
          }
       }
    }
-   useEffect(() => {
-      fetchStudent()
-   }, [])
    const columns = [
       {
          header: 'ID',
