@@ -1,22 +1,23 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import styled from '@emotion/styled'
 import React, { useState } from 'react'
+// import { useNavigate } from 'react-router-dom'
 import IconButton from './IconButton'
 import { ReactComponent as Profile } from '../../assets/icons/Profile.svg'
 import { ReactComponent as Vector } from '../../assets/icons/Vector (1).svg'
 import { ReactComponent as Vectore } from '../../assets/icons/Vector (2).svg'
 import { ReactComponent as Vectore3 } from '../../assets/icons/Vector (3).svg'
-import { JWT_TOKEN_KEY, USER_INFO } from '../../utlis/constants/commons'
 
 const Header = () => {
    const [showText, setShowText] = useState(false)
+   // const navigate = useNavigate()
+
+   // const navigateToLogin = () => {
+   //    navigate('/login')
+   // }
 
    const handleIconClick = () => {
       setShowText(!showText)
-   }
-
-   const logOut = () => {
-      localStorage.removeItem(JWT_TOKEN_KEY)
-      localStorage.removeItem(USER_INFO)
    }
 
    return (
@@ -28,9 +29,9 @@ const Header = () => {
          {showText && (
             <StyledDropDown>
                <IconButton icon={<Vectore />} />
-               <button type="button" onClick={logOut}>
-                  Выйти
-               </button>
+               {/* <span role="button" onClick={navigateToLogin}> */}
+               {/* Выйти
+               </span> */}
             </StyledDropDown>
          )}
       </HeaderStyled>

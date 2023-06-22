@@ -182,7 +182,7 @@ const InputContainers = styled('div')(() => ({
 const StyledFormPagination = styled('form')({
    display: 'flex',
    justifyContent: 'space-around',
-   marginTop: '20px',
+   marginTop: '100px',
    alignItems: 'center',
    '& p': {
       fontWeight: '350',

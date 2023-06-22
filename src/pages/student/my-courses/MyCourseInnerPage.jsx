@@ -177,10 +177,11 @@ const MyCourseInnerPage = () => {
    )
 }
 
+export default MyCourseInnerPage
+
 const PaginationRoundedStyled = styled('div')({
    marginLeft: '140px',
 })
-export default MyCourseInnerPage
 
 const CardLessonStyled = styled('div')({
    fontSize: '13px',
@@ -226,7 +227,7 @@ const InputContainers = styled('div')(() => ({
 const StyledFormPagination = styled('form')({
    display: 'flex',
    justifyContent: 'space-around',
-   marginTop: '50px',
+   marginTop: '40px',
    alignItems: 'center',
    '& p': {
       fontWeight: '350',
