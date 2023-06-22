@@ -6,20 +6,12 @@ import Link from '@mui/material/Link'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AppTable } from '../../../utlis/constants/Table'
 import { getStudentsRequest } from '../../../api/courseService'
-// import { useSnackbar } from '../../../hooks/useSnackbar'
 import CourseHeader from './CourseHeader'
 
 const CourseDetail = ({ id }) => {
    const [students, setStudents] = useState([])
-   // const { notify, Snackbar } = useSnackbar()
    const navigate = useNavigate()
    const { state } = useLocation()
-   // const [showOtherComponent, setShowOtherComponent] = useState(false)
-
-   // Функция для обработки клика на ссылке
-   // const handleClic = () => {
-   //    setShowOtherComponent(true)
-   // }
 
    const navigateToCourse = () => {
       navigate('/admin/courses')
@@ -59,7 +51,6 @@ const CourseDetail = ({ id }) => {
    const getStudents = async () => {
       try {
          const { data } = await getStudentsRequest(id)
-         // notify('success', 'Successfully get student')
          return setStudents(data)
       } catch (error) {
          return 'error'
@@ -70,7 +61,6 @@ const CourseDetail = ({ id }) => {
    }, [])
    return (
       <Container>
-         {/* {Snackbar} */}
          <CourseHeaderStyled>
             <CourseHeader />
          </CourseHeaderStyled>
