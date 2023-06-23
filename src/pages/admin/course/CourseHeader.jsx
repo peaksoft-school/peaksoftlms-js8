@@ -4,9 +4,16 @@ import IconButton from '../../../components/UI/IconButton'
 import { ReactComponent as Profile } from '../../../assets/icons/profile.svg'
 import { ReactComponent as Vector } from '../../../assets/icons/Vector (1).svg'
 import { ReactComponent as Vectore } from '../../../assets/icons/Vector (2).svg'
+import { removeItemFromStorage } from '../../../utlis/helpers/storageHelper'
+import { JWT_TOKEN_KEY, USER_INFO } from '../../../utlis/constants/commons'
 
 const CourseHeader = () => {
    const [showText, setShowText] = useState(false)
+   const handleLogout = () => {
+      removeItemFromStorage(JWT_TOKEN_KEY)
+      removeItemFromStorage(USER_INFO)
+      window.location.reload()
+   }
 
    const handleIconClick = () => {
       setShowText(!showText)
@@ -17,7 +24,7 @@ const CourseHeader = () => {
          <p>Администратор</p>
          <IconButton icon={<Vector />} onClick={handleIconClick} />
          {showText && (
-            <StyledDropDown>
+            <StyledDropDown onClick={handleLogout}>
                <IconButton icon={<Vectore />} />
                <span>Выйти</span>
             </StyledDropDown>
