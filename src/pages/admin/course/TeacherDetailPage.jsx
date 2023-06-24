@@ -91,7 +91,11 @@ const TeacherDetailPage = () => {
             {isLoading ? (
                <Spinner />
             ) : (
-               <AppTable columns={columns} rows={teacherDetail} />
+               <AppTable
+                  columns={columns}
+                  rows={teacherDetail}
+                  getUniqueId={(val) => val.id}
+               />
             )}
          </TableContainer>
          {Snackbar}
