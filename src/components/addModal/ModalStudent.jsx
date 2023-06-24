@@ -38,6 +38,7 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
             formLearning: formLearning.value,
          }
          addNewData(newData)
+         onClose()
          refetchHandle()
       }
    }

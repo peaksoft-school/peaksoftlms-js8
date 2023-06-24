@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import React, { useState } from 'react'
 import IconButton from './IconButton'
-import { ReactComponent as Profile } from '../../assets/icons/Profile.svg'
+import { ReactComponent as Profile } from '../../assets/icons/profile.svg'
 import { ReactComponent as Vector } from '../../assets/icons/Vector (1).svg'
 import { ReactComponent as Vectore } from '../../assets/icons/Vector (2).svg'
 import { ReactComponent as Vectore3 } from '../../assets/icons/Vector (3).svg'
@@ -14,12 +14,12 @@ const Header = () => {
    const [showText, setShowText] = useState(false)
    const handleIconClick = () => {
       setShowText(!showText)
+   }
    const handleLogout = () => {
       removeItemFromStorage(JWT_TOKEN_KEY)
       removeItemFromStorage(USER_INFO)
       window.location.reload()
    }
-
    return (
       <HeaderStyled>
          <IconButton icon={<Vectore3 />} />
@@ -29,15 +29,12 @@ const Header = () => {
          {showText && (
             <StyledDropDown onClick={handleLogout}>
                <IconButton icon={<Vectore />} />
-               <button type="button" onClick={logOut}>
-                  Выйти
-               </button>
+               <button type="button">Выйти</button>
             </StyledDropDown>
          )}
       </HeaderStyled>
    )
 }
-
 export default Header
 
 const HeaderStyled = styled('div')({

@@ -17,6 +17,7 @@ import { AuthManagementRoute } from './AuthManagementRoute'
 import InstructorStudents from '../pages/instructor/courses/Students'
 import { Groups } from '../pages/admin/groups/Groups'
 import GroupsInnerPage from '../pages/admin/groups/GroupsInnerPage'
+import CreatePassword from '../containers/CreatePassword'
 
 export const AppRoutes = () => {
    const role = useSelector((state) => state.auth.role)
@@ -30,6 +31,7 @@ export const AppRoutes = () => {
    return (
       <Routes>
          <Route path="/" element={<Navigate to="/login" />} />
+         <Route path="login/:userId" element={<CreatePassword />} />
          <Route
             path="/login"
             element={

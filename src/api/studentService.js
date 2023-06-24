@@ -4,6 +4,7 @@ export const studentPostRequests = (data) => {
    return axiosInstance.post('/students', {
       ...data,
       phoneNumber: `+${data.phoneNumber}`,
+      link: 'http://localhost:3000/login/',
    })
 }
 export const getAllStudentRequests = (formStudy) => {

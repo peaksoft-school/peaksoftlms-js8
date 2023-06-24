@@ -81,11 +81,11 @@ export const Courses = () => {
          <ContainerContent>
             <InstructorHeader />
             <CardContainer>
-               {course.map((date) => {
+               {course.courseResponses?.map((date) => {
                   return (
                      <LessonCard>
                         <Cards
-                           image={date.img}
+                           image={date.image}
                            content={date.title}
                            id={date.id}
                            title={date.name}

@@ -33,7 +33,7 @@ const Password = forwardRef(
                            onClick={handleClickShowPassword}
                            onMouseDown={handleMouseDownPassword}
                         >
-                           {showPassword ? <Visibility /> : <VisibilityOff />}
+                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                      </InputAdornment>
                   ),

@@ -97,7 +97,11 @@ const GroupsInnerPage = () => {
                {dataInnerPage.length === 0 ? (
                   <StyledText>Student list is empty</StyledText>
                ) : (
-                  <AppTable columns={columns} rows={dataInnerPage} />
+                  <AppTable
+                     columns={columns}
+                     rows={dataInnerPage}
+                     getUniqueId={(val) => val.id}
+                  />
                )}
                {Snackbar}
             </StyledTable>

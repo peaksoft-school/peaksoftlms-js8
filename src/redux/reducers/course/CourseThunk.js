@@ -6,7 +6,7 @@ export const asyncGetCourses = createAsyncThunk(
    async ({ pageSize, pagination }) => {
       try {
          const { data } = await getCoursesRequest({ pageSize, pagination })
-         return data.courseResponses
+         return data
       } catch (error) {
          return error.response?.data.message
       }
