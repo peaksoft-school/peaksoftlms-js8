@@ -1,16 +1,17 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import styled from '@emotion/styled'
 import { useEffect, useState } from 'react'
 import Select from 'react-select/creatable'
-import PhoneInput from 'react-phone-input-2'
 import { useSearchParams } from 'react-router-dom'
 import { useFormik } from 'formik'
 import Input from '../UI/Input'
 import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
-import 'react-phone-input-2/lib/style.css'
 import useGetAllGroup from '../../hooks/getAllGroup'
 import { getStudentById } from '../../api/studentService'
 import { useSnackbar } from '../../hooks/useSnackbar'
+// eslint-disable-next-line import/order
+import PhoneInput from 'react-phone-input-2'
 
 const onlyCountries = ['kg', 'ru', 'kz']
 const optionsFormat = [
