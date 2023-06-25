@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import Button from '../../../components/UI/Button'
 import InstructorHeader from '../InstructorHeader'
 import MaterialsCardLesson from '../../../components/UI/Materials.CardLesson'
+import { ModalMaterials } from '../../../components/addModal/ModalMaterials'
 
 const lesson = [
    {
@@ -11,8 +12,11 @@ const lesson = [
 ]
 const Materials = () => {
    const [showModal, setShowModal] = useState(false)
-   const modalHandler = () => {
+   const [selectedLessonId, setSelectedLessonId] = useState(null)
+   const modalHandler = (lessonId) => {
+      console.log(lessonId, 'less')
       setShowModal((prevState) => !prevState)
+      setSelectedLessonId(lessonId)
    }
 
    return (
@@ -20,20 +24,24 @@ const Materials = () => {
          <InstructorHeader />
          <hr />
          <StyledButton>
-            <Button onClick={() => setShowModal(true)}>+ Добавить урок</Button>
+            <Button onClick={modalHandler}>+ Добавить урок</Button>
          </StyledButton>
+         {showModal ? (
+            <ModalMaterials open={showModal} onClose={modalHandler} />
+         ) : null}
          <StyledContainer onClick={modalHandler}>
             {lesson.map((card) => (
                <MaterialsCardLesson
+                  key={card.lessonId}
                   role="ADMIN"
                   title={card.title}
                   showModal={showModal}
                   onClose={modalHandler}
+                  lessonId={card.id}
+                  selectedLessonId={selectedLessonId}
                />
             ))}
          </StyledContainer>
-         {/* <ModalPresentation open={showModal} onClose={modalHandler} />
-         {showModal && <ModalLink open={showModal} onClose={modalHandler} />} */}
       </div>
    )
 }
