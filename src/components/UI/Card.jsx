@@ -25,7 +25,7 @@ const Cards = ({
       id,
    }
    function truncateText(text, maxLength) {
-      if (text.length > maxLength) {
+      if (text?.length > maxLength) {
          return `${text.slice(0, maxLength)}...`
       }
       return text
@@ -40,6 +40,9 @@ const Cards = ({
    const handleClose = () => {
       setAnchorEl(null)
    }
+   // const openModalHandler = (courseId) => {
+   //    navigate(`/instructor-students`, { state: { courseId } })
+   // }
    return (
       <CardContainer iner>
          <CardMedia

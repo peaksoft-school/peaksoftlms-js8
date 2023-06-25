@@ -4,6 +4,7 @@ export const studentPostRequests = (data) => {
    return axiosInstance.post('/students', {
       ...data,
       phoneNumber: `+${data.phoneNumber}`,
+      link: 'http://localhost:3000/login/',
    })
 }
 export const getAllStudentRequests = (formStudy) => {
@@ -27,9 +28,19 @@ export const getStudentById = (id) => {
       params: { studentId: `${id}` },
    })
 }
+export const getStudentByCourseId = (id) => {
+   return axiosInstance.get('/students', {
+      params: { courseId: `${id}` },
+   })
+}
 export const fileUploadDeleteRequest = (data) => {
    return axiosInstance.delete('/file', data)
 }
 export const fileUploadPostRequest = (fileLink) => {
    return axiosInstance.post(`/file/${fileLink}`)
+}
+export const getStudentByGroupId = (id) => {
+   return axiosInstance.get('/students/groupId', {
+      params: { groupId: `${id}` },
+   })
 }
