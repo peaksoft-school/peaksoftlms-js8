@@ -2,7 +2,6 @@ import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Courses } from '../pages/admin/course/Courses'
-import { Courses as InstructorCourses } from '../pages/instructor/courses/Courses'
 import { Instructors } from '../pages/admin/Instructors'
 import { Students } from '../pages/admin/Students'
 import { AdminLayout } from '../layout/AdminLayout'
@@ -20,7 +19,6 @@ import GroupsInnerPage from '../pages/admin/groups/GroupsInnerPage'
 import { CoursesInstructor } from '../pages/admin/CoursesInstructor'
 import CreatePassword from '../containers/CreatePassword'
 import MyCourseInnerPage from '../pages/student/my-courses/MyCourseInnerPage'
-
 
 export const AppRoutes = () => {
    const role = useSelector((state) => state.auth.role)

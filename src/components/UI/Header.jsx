@@ -19,6 +19,7 @@ const Header = () => {
    const handleLogout = () => {
       localStorage.removeItem(JWT_TOKEN_KEY)
       localStorage.removeItem(USER_INFO)
+      window.location.reload()
    }
 
    return (
