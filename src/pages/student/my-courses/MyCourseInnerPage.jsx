@@ -3,12 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Link from '@mui/material/Link'
-import {
-   useLocation,
-   useNavigate,
-   useParams,
-   useSearchParams,
-} from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import CardLesson from '../../../components/UI/CardLesson'
 import { getLessonByCourseId } from '../../../api/lessonService'
@@ -20,7 +15,6 @@ import Header from '../../../components/UI/Header'
 const MyCourseInnerPage = () => {
    const [pageSize, setPageSize] = useState(8)
    const { course } = useSelector((state) => state.course)
-   const [searchParams] = useSearchParams()
    const [pagination, setPagination] = useState(1)
    const [page] = useState(1)
    const [count, setCount] = useState(1)
@@ -54,7 +48,7 @@ const MyCourseInnerPage = () => {
    }
    useEffect(() => {
       getCourses()
-   }, [searchParams])
+   }, [])
 
    const pageChangeHandler = () => {}
    const paginationChangeHandler = (value) => {
