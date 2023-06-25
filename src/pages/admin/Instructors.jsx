@@ -20,7 +20,7 @@ import {
 import { removeItemFromStorage } from '../../utlis/helpers/storageHelper'
 import { JWT_TOKEN_KEY, USER_INFO } from '../../utlis/constants/commons'
 import { useSnackbar } from '../../hooks/useSnackbar'
-import { CoursesInstructor } from './CoursesInstructor'
+// import { CoursesInstructor } from './CoursesInstructor'
 
 export const Instructors = () => {
    const [page, setPage] = useState(1)
@@ -34,7 +34,7 @@ export const Instructors = () => {
          const { data } = await getAllInstructors(_page)
          return setInstructors(data.instructorResponses)
       } catch (error) {
-         return error
+         return notify('error', error.response.data.message)
       }
    }
 
@@ -45,10 +45,10 @@ export const Instructors = () => {
    const handleDeleteItem = async (id) => {
       try {
          await instructorDelete(id)
-         console.log(id)
          getData(1)
+         getData()
       } catch (error) {
-         console.log(error)
+         notify('error', error.response.data.message)
       }
    }
 
@@ -58,6 +58,7 @@ export const Instructors = () => {
          setPage(1)
          await getData(1)
          notify('success', response.data.message)
+         getData()
       } catch (error) {
          if (error.response) {
             notify('error', error.response.data.message)
@@ -125,6 +126,7 @@ export const Instructors = () => {
    }
    const saveHandler = (id, values) => {
       instructorPut(id, values)
+      getData()
    }
    const handleLogout = () => {
       removeItemFromStorage(JWT_TOKEN_KEY)
@@ -135,7 +137,7 @@ export const Instructors = () => {
    return (
       <Container>
          {Snackbar}
-         <CoursesInstructor />
+         {/* <CoursesInstructor /> */}
          <Header>
             <AdminIconSpan>
                <AdminIcon />

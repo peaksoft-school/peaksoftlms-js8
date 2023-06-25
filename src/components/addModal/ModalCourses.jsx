@@ -1,20 +1,23 @@
 import styled from '@emotion/styled'
 import { useEffect, useState } from 'react'
 import { IconButton } from '@mui/material'
+import { useParams } from 'react-router-dom'
 import ModalWindow from '../UI/Modal'
 import { ReactComponent as IconDeleteTeacher } from '../../assets/icons/deleteTeacher.svg'
 import Button from '../UI/Button'
 import 'react-phone-input-2/lib/style.css'
 import MultiSelect from '../UI/Select'
 import { getAllInstructors } from '../../api/adminService'
-// import { useSnackbar } from '../../hooks/useSnackbar'
+import { postAsiign } from '../../api/courseService'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
-export const ModalCourses = ({ open, onClose }) => {
+export const ModalCourses = ({ open, onClose, teacherDetail }) => {
    const [name, setName] = useState('')
    const [teacher, setTeacher] = useState([])
-
-   // const { notify, Snackbar } = useSnackbar()
+   const { notify, Snackbar } = useSnackbar()
    const [data, setData] = useState([])
+   const { courseId } = useParams()
+   const [teacherId, setTeacherId] = useState(null)
 
    const getData = async () => {
       try {
@@ -24,6 +27,19 @@ export const ModalCourses = ({ open, onClose }) => {
          return error
       }
    }
+   const instructor = () => {
+      teacherDetail.map((item) => {
+         if (name === item.fullName) {
+            return setTeacherId(item.id)
+         }
+         return item
+      })
+   }
+
+   useEffect(() => {
+      instructor()
+   }, [name])
+
    useEffect(() => {
       getData()
    }, [])
@@ -31,22 +47,16 @@ export const ModalCourses = ({ open, onClose }) => {
    const changeName = (e) => {
       setName(e.target.value)
    }
-   const onSubmitHandler = () => {
-      setTeacher((prev) => [...prev, { ...prev, teacherName: name }])
+   const onSubmitHandler = async () => {
+      try {
+         const response = await postAsiign(teacherId, courseId)
+         notify('success', response.data.message)
+      } catch (error) {
+         if (error.response) {
+            notify('error', error.response.data.message)
+         }
+      }
    }
-
-   // const onSubmitHandler = async (data) => {
-   //    try {
-   //       const response = await instructorPost(data)
-   //       console.log(response)
-   //       notify('success', response.data.message)
-   //    } catch (error) {
-   //       if (error.response) {
-   //          console.log(error)
-   //          notify('error', error.response.data.message)
-   //       }
-   //    }
-   // }
 
    const handleDelete = (itemToDelete) => {
       const updatedItems = teacher.filter((item) => item !== itemToDelete)
@@ -55,7 +65,7 @@ export const ModalCourses = ({ open, onClose }) => {
 
    return (
       <ModalWindowStyled>
-         {/* {Snackbar} */}
+         {Snackbar}
          <ModalStyled open={open} onClose={onClose}>
             <ContentH3>
                <h3>Назначить учителя</h3>

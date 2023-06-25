@@ -11,7 +11,13 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 
-export const AppTable = ({ columns, rows, onChangePage, page, getUniqueId = () => {} }) => {
+export const AppTable = ({
+   columns,
+   rows,
+   onChangePage,
+   page,
+   getUniqueId = () => {},
+}) => {
    const [rowsPerPage, setRowsPerPage] = useState(2)
 
    const handleChangePage = (newPage) => {
@@ -27,44 +33,38 @@ export const AppTable = ({ columns, rows, onChangePage, page, getUniqueId = () =
          <Table aria-label="simple table">
             <TableHead>
                <TableRow>
-<<<<<<< HEAD
-                  {columns?.map((column) => {
-                     return (
-                        <TableCell key={column.id}>{column.header}</TableCell>
-                     )
-                  })}
-=======
                   {columns?.map((column) => (
                      <TableCell key={column.key}>{column.header}</TableCell>
                   ))}
->>>>>>> 75380154080d46c1aa8acec9675d4b7a0ed53838
                </TableRow>
             </TableHead>
             <TableBody>
                {rows?.map((row, index) => {
                   return (
-                        <TableRowStyled key={getUniqueId(row)}>
-                           {columns?.map((column) => {
-                              if (column.render) {
+                     <TableRowStyled key={getUniqueId(row)}>
+                        {columns?.map((column) => {
+                           if (column.render) {
                               return column.render(row)
-                              }
-                              const value = column.index
-                                 ? index + 1
-                                 : row[column.key]
+                           }
+                           const value = column.index
+                              ? index + 1
+                              : row[column.key]
 
-                              return (
-                                 <TableCell key={`row - ${column.key}`}>{value}</TableCell>
-                              )
-                           })}
-                        </TableRowStyled>
-                     )
-                  })}
+                           return (
+                              <TableCell key={`row - ${column.key}`}>
+                                 {value}
+                              </TableCell>
+                           )
+                        })}
+                     </TableRowStyled>
+                  )
+               })}
             </TableBody>
          </Table>
          <TablePagination
             rowsPerPageOptions={[2, 6]}
             component="div"
-            count={rows.length}
+            count={rows?.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={(e, newPage) => handleChangePage(newPage)}

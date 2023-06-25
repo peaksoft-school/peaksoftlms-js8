@@ -67,46 +67,11 @@ export const CoursesInstructor = () => {
       getData()
    }, [])
 
-   // const rows = [
-   //    {
-   //       id: 11,
-   //       userFullName: 'Omina Mamatalieva',
-   //       spets: 'teacher',
-   //       phone: '0865434567',
-   //       email: 'omina@gmail.com',
-   //       action: 'delete',
-   //    },
-   //    {
-   //       id: 11,
-   //       userFullName: 'Omina Mamatalieva',
-   //       spets: 'teacher',
-   //       phone: '0865434567',
-   //       email: 'omina@gmail.com',
-   //       action: 'delete',
-   //    },
-   //    {
-   //       id: 11,
-   //       userFullName: 'Omina Mamatalieva',
-   //       spets: 'teacher',
-   //       phone: '0865434567',
-   //       email: 'omina@gmail.com',
-   //       action: 'delete',
-   //    },
-   //    {
-   //       id: 11,
-   //       userFullName: 'Omina Mamatalieva',
-   //       spets: 'teacher',
-   //       phone: '0865434567',
-   //       email: 'omina@gmail.com',
-   //       action: 'delete',
-   //    },
-   // ]
-
-   const closeModalHandler = () => {
-      setOpenModal(false)
-   }
    const openModalHandler = () => {
       setOpenModal(true)
+   }
+   const closeModalHandler = () => {
+      setOpenModal(false)
    }
    return (
       <Container>
@@ -124,13 +89,18 @@ export const CoursesInstructor = () => {
          </Header>
          <hr style={{ width: '78%', marginLeft: '20% ' }} />
          <ButtonDiv onClick={openModalHandler}>
-            <FixedIcon style={{ marginRight: '4px' }} />
+            <FixedIcon
+               style={{ marginRight: '4px' }}
+               onClick={openModalHandler}
+            />
             Назначить учителя
          </ButtonDiv>
+         {openModal && (
+            <ModalCourses open={openModal} onClose={closeModalHandler} />
+         )}
          <AppTableDiv>
             <AppTable columns={columns} rows={data} />
          </AppTableDiv>
-         <ModalCourses open={openModal} onClose={closeModalHandler} />
       </Container>
    )
 }
