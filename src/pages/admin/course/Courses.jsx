@@ -31,7 +31,7 @@ export const Courses = () => {
    } = useForm()
 
    const navigateToDetailPage = ({ id, title }) => {
-      navigate(`${id}`, { state: { title } })
+      navigate(`${id}`, { state: { title }, replace: true })
    }
 
    const getCourses = async () => {

@@ -17,8 +17,10 @@ import { AuthManagementRoute } from './AuthManagementRoute'
 import InstructorStudents from '../pages/instructor/courses/Students'
 import { Groups } from '../pages/admin/groups/Groups'
 import GroupsInnerPage from '../pages/admin/groups/GroupsInnerPage'
+import { CoursesInstructor } from '../pages/admin/CoursesInstructor'
 import CreatePassword from '../containers/CreatePassword'
 import MyCourseInnerPage from '../pages/student/my-courses/MyCourseInnerPage'
+
 
 export const AppRoutes = () => {
    const role = useSelector((state) => state.auth.role)
@@ -80,7 +82,7 @@ export const AppRoutes = () => {
          >
             <Route
                path={CURRENT_PATH.instructor.COURSES}
-               element={<InstructorCourses />}
+               element={<CoursesInstructor />}
             />
             <Route
                path={CURRENT_PATH.instructor.COURSES_DETAIL}

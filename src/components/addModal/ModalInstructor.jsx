@@ -1,83 +1,106 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
+import { useEffect } from 'react'
 import styled from '@emotion/styled'
+import PhoneInput from 'react-phone-input-2'
 import { useFormik } from 'formik'
+import { useSearchParams } from 'react-router-dom'
 import Input from '../UI/Input'
 import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
+import 'react-phone-input-2/lib/style.css'
+import { getInstructorById } from '../../api/adminService'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
-export const ModalInstructor = ({ addNewData, open, onClose }) => {
-   const onSubmitHandler = ({
-      name,
-      lastName,
-      phoneNumber,
-      email,
-      password,
-      specialization,
-   }) => {
-      const newData = {
-         name,
-         lastName,
-         phoneNumber,
-         email,
-         password,
-         specialization,
+const onlyCountries = ['kg', 'ru', 'kz']
+export const ModalInstructor = ({ addNewData, open, onClose, onSubmit }) => {
+   const [searchParams] = useSearchParams()
+   const { notify, Snackbar } = useSnackbar()
+   const onSubmitHandler = (values) => {
+      if (searchParams.get('modal') === 'edit') {
+         const instructorId = searchParams.get('instuctorId')
+         onSubmit(instructorId, values)
+         onClose()
+      } else {
+         const newData = {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            phoneNumber: values.phoneNumber,
+            email: values.email,
+            link: values.link,
+            special: values.special,
+         }
+         addNewData(newData)
       }
-      addNewData(newData)
    }
    const formik = useFormik({
       initialValues: {
-         name: '',
+         firstName: '',
          lastName: '',
          phoneNumber: '',
          email: '',
-         password: '',
-         specialization: '',
+         link: 'здесь будет link',
+         special: '',
       },
       onSubmit: onSubmitHandler,
    })
-   const { handleChange, handleSubmit, values } = formik
-   const onlyCountries = ['kg', 'ru', 'kz']
+   const { handleChange, handleSubmit, values, setValues, setFieldValue } =
+      formik
+   useEffect(() => {
+      const instructorId = searchParams.get('instuctorId')
+      if (open && searchParams.get('modal') === 'edit' && instructorId) {
+         getInstructorById(instructorId)
+            .then(({ data }) => {
+               return setValues({
+                  firstName: data.fullName,
+                  lastName: data.fullName,
+                  phoneNumber: data.phoneNumber,
+                  email: data.email,
+                  special: data.special,
+               })
+            })
+            .catch((error) => {
+               if (error.response) {
+                  notify('error', error.response.data.message)
+               }
+            })
+      }
+   }, [open])
    const isEmailValid = () => {
       return (
-         values.email.length === 0 ||
-         (values.email.length > 0 && values.email.includes('@'))
+         values.email?.length === 0 ||
+         (values.email?.length > 0 && values.email.includes('@'))
       )
    }
-   const isPasswordValid = () => {
-      return (
-         values.password.length === 0 ||
-         (values.password.length > 0 && values.password >= 6)
-      )
-   }
+
    return (
       <ModalWindowStyled>
+         {Snackbar}
          <ModalStyled open={open} onClose={onClose}>
             <ContentH3>
                <h3>Добавить учителя</h3>
             </ContentH3>
-            <Container onSubmit={handleSubmit}>
-               <Input
+            <Container onSubmit={handleSubmit} name="form">
+               <InputStyle
                   placeholder="Имя"
-                  value={values.name}
+                  value={values.firstName || ''}
                   onChange={handleChange}
-                  name="name"
+                  name="firstName"
                />
-               <Input
+               <InputStyle
                   placeholder="Фамилия"
-                  value={values.lastName}
+                  value={values.lastName || ''}
                   onChange={handleChange}
                   name="lastName"
                />
-               <PhoneInput
+               <PhoneInputStyle
+                  style={{ height: '50px' }}
+                  country="kg"
                   onlyCountries={onlyCountries}
                   value={values.phoneNumber}
-                  onChange={handleChange}
+                  onChange={(value) => setFieldValue('phoneNumber', value)}
                   name="phoneNumber"
                   type="tel"
                />
-               <Input
+               <InputStyle
                   placeholder="Email"
                   type="email"
                   error={!isEmailValid()}
@@ -86,43 +109,54 @@ export const ModalInstructor = ({ addNewData, open, onClose }) => {
                   name="email"
                />
                <Input
-                  placeholder="Пароль"
+                  style={{ display: 'none' }}
                   type="password"
-                  error={!isPasswordValid()}
-                  value={values.password}
+                  value={values.link}
                   onChange={handleChange}
                   name="password"
                />
-               <Input
+               <InputStyle
                   placeholder="Специализация"
-                  value={values.specialization}
+                  value={values.special || ''}
                   onChange={handleChange}
-                  name="specialization"
+                  name="special"
                />
+               <BtnContainer>
+                  <Button variant="outlined" onClick={onClose}>
+                     Отмена
+                  </Button>
+                  <Button variant="contained" type="submit">
+                     Добавить
+                  </Button>
+               </BtnContainer>
             </Container>
-            <BtnContainer>
-               <Button variant="outlined" onClick={onClose}>
-                  Отмена
-               </Button>
-               <Button
-                  variant="contained"
-                  type="submit"
-                  onClick={onSubmitHandler}
-               >
-                  Добавить
-               </Button>
-            </BtnContainer>
          </ModalStyled>
       </ModalWindowStyled>
    )
 }
-const ModalWindowStyled = styled.div`
-   width: 541px;
-   height: 481px;
-`
+const ModalWindowStyled = styled.div``
 const ModalStyled = styled(ModalWindow)`
    .css-ybr8he {
       border-radius: 10px;
+   }
+`
+
+const InputStyle = styled(Input)`
+   margin-bottom: 16px;
+`
+const PhoneInputStyle = styled(PhoneInput)`
+   fieldset {
+      border-radius: 10px;
+      padding: 10px 8px 10px 18px;
+   }
+   /* width: 30%; */
+   input:focus {
+      border-radius: 10px;
+      border: 2px solid #1f6ed4;
+   }
+   input:invalid {
+      border-radius: 10px;
+      border: 2px solid #c91e1e;
    }
 `
 const ContentH3 = styled.div`
@@ -141,6 +175,23 @@ const Container = styled.form`
    margin-right: 25px;
    margin-top: 16px;
    margin-bottom: 16px;
+   .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+      margin-bottom: 11px;
+   }
+   .css-1qaaf9z-MuiFormControl-root-MuiTextField-root fieldset {
+      margin-bottom: 12px;
+   }
+   .css-13cymwt-control {
+      display: flex;
+      padding: 0.5rem;
+      border-radius: 10px;
+      margin-bottom: 12px;
+   }
+   .form-control {
+      width: 491px;
+      margin-bottom: 12px !important;
+      height: 42px;
+   }
    Input {
       margin-bottom: 20px;
    }

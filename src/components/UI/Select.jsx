@@ -16,28 +16,26 @@ const MenuProps = {
    },
 }
 
-const MultiSelect = ({ array, onChange, value, ...rest }) => {
+const MultiSelect = ({ array, value, onChange, ...rest }) => {
    return (
       <FormControl sx={{ m: 1 }}>
          <Select
-            multiple
             value={value}
             onChange={onChange}
-            renderValue={(selected) => selected.join(', ')}
+            renderValue={(selected) => selected}
             MenuProps={MenuProps}
             {...rest}
          >
             {array.map((item) => (
-               <MenuItem key={item.id} value={item.id}>
-                  <StyledListItem primary={item.name} />
-                  <Checkbox checked={value.indexOf(item.id) > -1} />
+               <MenuItem key={item.id} value={item.fullName}>
+                  <StyledListItem primary={item.fullName} />
+                  <Checkbox checked={value.indexOf(item.fullName) > -1} />
                </MenuItem>
             ))}
          </Select>
       </FormControl>
    )
 }
-
 const StyledListItem = styled(ListItemText)(() => ({
    '&:hover': {
       color: '#1A237E',

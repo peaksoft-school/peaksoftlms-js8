@@ -1,9 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import styled from '@emotion/styled'
+import { useFormik } from 'formik'
 import { useEffect, useState } from 'react'
 import Select from 'react-select/creatable'
 import { useSearchParams } from 'react-router-dom'
-import { useFormik } from 'formik'
 import Input from '../UI/Input'
 import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
