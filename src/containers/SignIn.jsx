@@ -2,20 +2,23 @@ import styled from '@emotion/styled'
 import { useForm } from 'react-hook-form'
 import { Box, InputLabel, Typography } from '@mui/material'
 import { useDispatch } from 'react-redux'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Grid from '@mui/material/Grid'
+import { useState } from 'react'
 import Input from '../components/UI/Input'
 import Button from '../components/UI/Button'
 import Img from '../assets/images/signIn.png'
 import Password from '../components/UI/Password'
 import { asyncSignIn } from '../redux/reducers/auth/authActions'
-import { CURRENT_PATH } from '../utlis/constants/commons'
+// import { CURRENT_PATH } from '../utlis/constants/commons'
 import { useSnackbar } from '../hooks/useSnackbar'
+import ForgotPassword from '../components/UI/ForgotPassword'
 
 const SignInSide = () => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const { notify, Snackbar } = useSnackbar()
+   const [open, setOpen] = useState(false)
    const {
       register,
       handleSubmit,
@@ -26,67 +29,77 @@ const SignInSide = () => {
       dispatch(asyncSignIn({ email, navigate, notify }))
    }
 
+   const openModal = () => {
+      setOpen(true)
+   }
+
+   const closeModal = () => {
+      setOpen(false)
+   }
+
    return (
-      <GridContainerStyle container>
-         {Snackbar}
-         <GridStyle1>
-            <BoxStyle>
-               <img src={Img} alt="" />
-            </BoxStyle>
-         </GridStyle1>
-         <GridStyle2>
-            <Box container={toString(true)}>
-               <TypographyStyle align="center">
-                  Добро пожаловать в <span>PEAKSOFT LMS</span> !
-               </TypographyStyle>
-               <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-                  <Box>
-                     <LoginInputLabelStyle htmlFor="outlined-adornment-password">
-                        Логин:
-                     </LoginInputLabelStyle>
-                     <InputStyle
-                        helperText={errors.email?.message}
-                        error={errors.email}
-                        type="email"
-                        placeholder="Введите логин"
-                        {...register('email', {
-                           required: 'Электронная почта обязательна',
-                           pattern: {
-                              value: /\S+@\S+\.\S+/,
-                              message: 'Неверный формат электронной почты',
-                           },
-                        })}
-                     />
-                  </Box>
-                  <Box>
-                     <Password
-                        helperText={errors.password?.message}
-                        error={errors.password}
-                        title="Пароль:"
-                        type="password"
-                        placeholder="Введите пароль"
-                        {...register('password', {
-                           required: 'Необходим пароль',
-                           minLength: {
-                              value: 8,
-                              message:
-                                 'Пароль должен содержать не менее 8 символов',
-                           },
-                        })}
-                     />
-                  </Box>
+      <>
+         <GridContainerStyle container>
+            {Snackbar}
+            <GridStyle1>
+               <BoxStyle>
+                  <img src={Img} alt="" />
+               </BoxStyle>
+            </GridStyle1>
+            <GridStyle2>
+               <Box container={toString(true)}>
+                  <TypographyStyle align="center">
+                     Добро пожаловать в <span>PEAKSOFT LMS</span> !
+                  </TypographyStyle>
+                  <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+                     <Box>
+                        <LoginInputLabelStyle htmlFor="outlined-adornment-password">
+                           Логин:
+                        </LoginInputLabelStyle>
+                        <InputStyle
+                           helperText={errors.email?.message}
+                           error={errors.email}
+                           type="email"
+                           placeholder="Введите логин"
+                           {...register('email', {
+                              required: 'Электронная почта обязательна',
+                              pattern: {
+                                 value: /\S+@\S+\.\S+/,
+                                 message: 'Неверный формат электронной почты',
+                              },
+                           })}
+                        />
+                     </Box>
+                     <Box>
+                        <Password
+                           helperText={errors.password?.message}
+                           error={errors.password}
+                           title="Пароль:"
+                           placeholder="Введите пароль"
+                           {...register('password', {
+                              required: 'Необходим пароль',
+                              minLength: {
+                                 value: 8,
+                                 message:
+                                    'Пароль должен содержать не менее 8 символов',
+                              },
+                           })}
+                        />
+                     </Box>
 
-                  <LinkStyle to={CURRENT_PATH.auth.FORGOT_PASSWORD}>
-                     Забыли пароль?
-                  </LinkStyle>
+                     <ButtonStyle onClick={openModal}>
+                        Забыли пароль?
+                     </ButtonStyle>
 
-                  <Box>
-                     <ButtonStyle type="submit">Войти</ButtonStyle>
+                     <Box>
+                        <ButtonStyle type="submit">Войти</ButtonStyle>
+                     </Box>
                   </Box>
                </Box>
-            </Box>
-         </GridStyle2>
-      </GridContainerStyle>
+            </GridStyle2>
+         </GridContainerStyle>
+         <ForgotPassword open={open} onClose={closeModal} />
+      </>
    )
 }
 
@@ -139,10 +152,10 @@ const InputStyle = styled(Input)`
    border-radius: 10px;
    padding: 10px, 8px, 10px, 22px;
 `
-const LinkStyle = styled(NavLink)`
-   margin-left: 65%;
-   margin-top: 9px;
-`
+// const LinkStyle = styled(Button)`
+//    margin-left: 65%;
+//    margin-top: 9px;
+// `
 const ButtonStyle = styled(Button)`
    margin-left: 36%;
    margin-top: 28px;

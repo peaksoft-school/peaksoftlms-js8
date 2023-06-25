@@ -8,3 +8,7 @@ export const signInRequest = (userData) => {
 export const resetPassword = (data) => {
    return axiosInstance.post(`authentication/reset_password`, data)
 }
+
+export const forgotPassword = (data) => {
+   return axiosInstance.post('authentication/forgot_password', data)
+}
