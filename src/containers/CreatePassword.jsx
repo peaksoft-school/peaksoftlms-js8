@@ -1,12 +1,38 @@
 import styled from '@emotion/styled'
 import { Box, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect } from 'react'
 import Button from '../components/UI/Button'
 import Img from '../assets/images/signIn.png'
 import Password from '../components/UI/Password'
 import { useConfirmPassword } from '../hooks/confirmPassword'
+import { resetPassword } from '../api/authService'
+import { removeItemFromStorage } from '../utlis/helpers/storageHelper'
+import { JWT_TOKEN_KEY, USER_INFO } from '../utlis/constants/commons'
 
 const CreatePassword = () => {
+   const { userId } = useParams()
+   const navigate = useNavigate()
+   useEffect(() => {
+      removeItemFromStorage(JWT_TOKEN_KEY)
+      removeItemFromStorage(USER_INFO)
+   }, [])
+
+   const submitHandler = async (password) => {
+      const data = {
+         password,
+         id: userId,
+      }
+
+      try {
+         await resetPassword(data)
+         return navigate('/login')
+      } catch (error) {
+         return error
+      }
+   }
+
    const [
       password,
       confirmPassword,
@@ -14,7 +40,7 @@ const CreatePassword = () => {
       handlePasswordChange,
       handleConfirmPasswordChange,
       handleSubmit,
-   ] = useConfirmPassword()
+   ] = useConfirmPassword(submitHandler)
 
    return (
       <GridContainerStyle container>

@@ -4,14 +4,15 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import GroupModal from '../../../components/UI/GroupModal'
-import CourseHeader from './CourseHeader'
+
 import Button from '../../../components/UI/Button'
 import { PaginationRounded } from '../../../components/UI/PaginationRounded'
 import Input from '../../../components/UI/Input'
-import Cards from '../../../components/UI/Card'
 import { axiosInstance } from '../../../config/axiosInstance'
 import Spinner from '../../../components/UI/Spinner'
 import { asyncGetCourses } from '../../../redux/reducers/course/CourseThunk'
+import Cards from '../../../components/UI/Card'
+import CourseHeader from './CourseHeader'
 
 export const Courses = () => {
    const dispatch = useDispatch()
@@ -31,7 +32,7 @@ export const Courses = () => {
    } = useForm()
 
    const navigateToDetailPage = ({ id, title }) => {
-      navigate(`${id}`, { state: { title } })
+      navigate(`${id}`, { state: { title }, replace: true })
    }
 
    const getCourses = async () => {

@@ -35,7 +35,7 @@ export const ModalPresentation = ({
       <ModalWindowStyled>
          <ModalWindow open={open} onClose={onClose} {...rest}>
             <Styledtext>
-               <h3>Добавить урок</h3>
+               <h3>Добавить презентацию</h3>
             </Styledtext>
             <InputStyled placeholder="Введите название презентации" />
             <InputStyled placeholder="Введите описание презентации" />

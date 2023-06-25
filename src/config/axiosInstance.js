@@ -1,8 +1,7 @@
-/* eslint-disable import/no-cycle */
 import axios from 'axios'
 import { store } from '../redux/store'
 
-const BASE_URL = 'http://peaksoftlms.peaksoftprojects.com/api/'
+const BASE_URL = 'http://peaksoftlms.peaksoftprojects.com/api'
 
 export const axiosInstance = axios.create({
    baseURL: BASE_URL,
@@ -53,18 +52,7 @@ fileInstance.interceptors.request.use(
       }
       return newConfig
    },
-   function (error) {
-      return Promise.reject(error)
-   }
-)
-fileInstance.interceptors.response.use(
-   function (response) {
-      return response
-   },
-   function (error) {
-      if (error.response && error.response.status === 401) {
-         throw new Error('401 unauthorized')
-      }
+   (error) => {
       return Promise.reject(error)
    }
 )

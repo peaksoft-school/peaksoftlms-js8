@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export const useConfirmPassword = () => {
+export const useConfirmPassword = (submitHandler) => {
    const [password, setPassword] = useState('')
    const [confirmPassword, setConfirmPassword] = useState('')
    const [error, setError] = useState('')
@@ -17,7 +17,7 @@ export const useConfirmPassword = () => {
       event.preventDefault()
       if (password.trim().length > 8) {
          if (password === confirmPassword) {
-            // continue with form submission
+            submitHandler(password)
          } else {
             setError('Passwords do not match')
          }

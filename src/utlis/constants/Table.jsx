@@ -6,10 +6,28 @@ import {
    TableCell,
    TableContainer,
    TableHead,
+   TablePagination,
    TableRow,
 } from '@mui/material'
+import { useState } from 'react'
 
-export const AppTable = ({ columns, rows, getUniqueId }) => {
+export const AppTable = ({
+   columns,
+   rows,
+   onChangePage,
+   page,
+   getUniqueId = () => {},
+}) => {
+   const [rowsPerPage, setRowsPerPage] = useState(2)
+
+   const handleChangePage = (newPage) => {
+      onChangePage(newPage)
+   }
+
+   const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(event.target.value)
+   }
+
    return (
       <TableContainerStyled component={Paper}>
          <Table aria-label="simple table">
@@ -43,6 +61,15 @@ export const AppTable = ({ columns, rows, getUniqueId }) => {
                })}
             </TableBody>
          </Table>
+         <TablePagination
+            rowsPerPageOptions={[2, 6]}
+            component="div"
+            count={rows?.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={(e, newPage) => handleChangePage(newPage)}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+         />
       </TableContainerStyled>
    )
 }

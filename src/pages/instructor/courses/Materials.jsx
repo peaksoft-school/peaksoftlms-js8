@@ -1,10 +1,8 @@
 import { useState } from 'react'
 import styled from '@emotion/styled'
 import Button from '../../../components/UI/Button'
-import CardLesson from '../../../components/UI/CardLesson'
-import { ModalPresentation } from '../../../components/UI/modals.instructors/ModalPresentation'
-// import { ModalMaterials } from '../../../components/addModal/ModalMaterials'
-// import { ModalLink } from '../../../components/UI/modals.instructors/ModalLink'
+import InstructorHeader from '../InstructorHeader'
+import MaterialsCardLesson from '../../../components/UI/Materials.CardLesson'
 
 const lesson = [
    {
@@ -13,24 +11,29 @@ const lesson = [
 ]
 const Materials = () => {
    const [showModal, setShowModal] = useState(false)
-   const closeModalHandler = () => {
-      setShowModal(false)
+   const modalHandler = () => {
+      setShowModal((prevState) => !prevState)
    }
 
    return (
       <div>
+         <InstructorHeader />
          <hr />
          <StyledButton>
             <Button onClick={() => setShowModal(true)}>+ Добавить урок</Button>
          </StyledButton>
-         <StyledContainer>
+         <StyledContainer onClick={modalHandler}>
             {lesson.map((card) => (
-               <CardLesson role="ADMIN" title={card.title} />
+               <MaterialsCardLesson
+                  role="ADMIN"
+                  title={card.title}
+                  showModal={showModal}
+                  onClose={modalHandler}
+               />
             ))}
          </StyledContainer>
-         <ModalPresentation open={showModal} onClose={closeModalHandler} />
-         {/* <ModalLink open={showModal} onClose={closeModalHandler} /> */}
-         {/* <ModalMaterials open={showModal} onClose={closeModalHandler} /> */}
+         {/* <ModalPresentation open={showModal} onClose={modalHandler} />
+         {showModal && <ModalLink open={showModal} onClose={modalHandler} />} */}
       </div>
    )
 }

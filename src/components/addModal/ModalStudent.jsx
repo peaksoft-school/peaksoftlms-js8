@@ -1,9 +1,9 @@
 import styled from '@emotion/styled'
+import { useFormik } from 'formik'
 import { useEffect, useState } from 'react'
 import Select from 'react-select/creatable'
 import PhoneInput from 'react-phone-input-2'
 import { useSearchParams } from 'react-router-dom'
-import { useFormik } from 'formik'
 import Input from '../UI/Input'
 import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
@@ -34,10 +34,11 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
             phoneNumber: values.phoneNumber,
             email: values.email,
             password: values.password,
-            groupId: selectedGroupID.value,
+            groupId: String(selectedGroupID.value),
             formLearning: formLearning.value,
          }
          addNewData(newData)
+         onClose()
          refetchHandle()
       }
    }
