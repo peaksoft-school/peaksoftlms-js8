@@ -1,25 +1,27 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import styled from '@emotion/styled'
 import React, { useState } from 'react'
+// import { useNavigate } from 'react-router-dom'
 import IconButton from './IconButton'
 import { ReactComponent as Profile } from '../../assets/icons/profileAdmin.svg'
 import { ReactComponent as Vector } from '../../assets/icons/Vector (1).svg'
 import { ReactComponent as Vectore } from '../../assets/icons/Vector (2).svg'
 import { ReactComponent as Vectore3 } from '../../assets/icons/Vector (3).svg'
-
-import { removeItemFromStorage } from '../../utlis/helpers/storageHelper'
-
 import { JWT_TOKEN_KEY, USER_INFO } from '../../utlis/constants/commons'
 
 const Header = () => {
    const [showText, setShowText] = useState(false)
+
    const handleIconClick = () => {
       setShowText(!showText)
    }
+
    const handleLogout = () => {
-      removeItemFromStorage(JWT_TOKEN_KEY)
-      removeItemFromStorage(USER_INFO)
+      localStorage.removeItem(JWT_TOKEN_KEY)
+      localStorage.removeItem(USER_INFO)
       window.location.reload()
    }
+
    return (
       <HeaderStyled>
          <IconButton icon={<Vectore3 />} />
@@ -29,7 +31,7 @@ const Header = () => {
          {showText && (
             <StyledDropDown onClick={handleLogout}>
                <IconButton icon={<Vectore />} />
-               <button type="button">Выйти</button>
+               <span> Выйти</span>
             </StyledDropDown>
          )}
       </HeaderStyled>
