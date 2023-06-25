@@ -86,8 +86,9 @@ export const Courses = () => {
                   return (
                      <LessonCard>
                         <Cards
+                           date={date.createdAt}
                            image={date.image}
-                           content={date.title}
+                           content={date.description}
                            id={date.id}
                            title={date.name}
                            navigate={navigateToDetailPage}

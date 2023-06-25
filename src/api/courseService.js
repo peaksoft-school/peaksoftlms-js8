@@ -23,6 +23,9 @@ export const getStudentsRequest = (id) => {
 export const getTeacherDetail = () => {
    return axiosInstance.get('instructors?size=50&page=1')
 }
-export const postAsiign = () => {
-   return axiosInstance.post('courses/assign')
+export const postAsiign = (instructor, courseId) => {
+   return axiosInstance.post('/courses/assign', {
+      instructorIds: [instructor],
+      courseId,
+   })
 }

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import React, { useState } from 'react'
 import IconButton from '../../../components/UI/IconButton'
-import { ReactComponent as Profile } from '../../../assets/icons/profile.svg'
+import { ReactComponent as Profile } from '../../../assets/icons/courses.svg'
 import { ReactComponent as Vector } from '../../../assets/icons/Vector (1).svg'
 import { ReactComponent as Vectore } from '../../../assets/icons/Vector (2).svg'
 import { removeItemFromStorage } from '../../../utlis/helpers/storageHelper'

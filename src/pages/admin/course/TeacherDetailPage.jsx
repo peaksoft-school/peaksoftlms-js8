@@ -10,6 +10,31 @@ import { getTeacherDetail } from '../../../api/courseService'
 import CourseHeader from './CourseHeader'
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import Spinner from '../../../components/UI/Spinner'
+import { ModalCourses } from '../../../components/addModal/ModalCourses'
+import { ReactComponent as FixedIcon } from '../../../assets/icons/fixed.svg'
+
+const columns = [
+   {
+      header: 'ID',
+      key: 'id',
+   },
+   {
+      header: 'Имя Фамилия',
+      key: 'fullName',
+   },
+   {
+      header: 'Специализация',
+      key: 'special',
+   },
+   {
+      header: 'Номер телефона',
+      key: 'phoneNumber',
+   },
+   {
+      header: 'E-mail',
+      key: 'email',
+   },
+]
 
 const TeacherDetailPage = () => {
    const [teacherDetail, setTeacherDetail] = useState()
@@ -17,6 +42,7 @@ const TeacherDetailPage = () => {
    const { notify, Snackbar } = useSnackbar()
    const navigate = useNavigate()
    const { state } = useLocation()
+   const [openModal, setOpenModal] = useState(false)
 
    const navigateToCourse = () => {
       navigate('/admin/courses')
@@ -25,29 +51,13 @@ const TeacherDetailPage = () => {
    const handleClick = (event) => {
       event.preventDefault()
    }
-   const columns = [
-      {
-         header: 'ID',
-         key: 'id',
-      },
-      {
-         header: 'Имя Фамилия',
-         key: 'fullName',
-      },
-      {
-         header: 'Специализация',
-         key: 'special',
-      },
-      {
-         header: 'Номер телефона',
-         key: 'phoneNumber',
-      },
-      {
-         header: 'E-mail',
-         key: 'email',
-      },
-   ]
 
+   const openModalHandler = () => {
+      setOpenModal(true)
+   }
+   const closeModalHandler = () => {
+      setOpenModal(false)
+   }
    const getTeacher = async () => {
       try {
          setLoading(true)
@@ -67,7 +77,10 @@ const TeacherDetailPage = () => {
          <CourseHeaderStyled>
             <CourseHeader />
          </CourseHeaderStyled>
-         <StyledButton>Назначить учителя</StyledButton>
+         <StyledButton onClick={openModalHandler}>
+            <FixedIcon />
+            Назначить учителя
+         </StyledButton>
          <TableContainer role="presentation" onClick={handleClick}>
             <Breadcrumbs aria-label="breadcrumb">
                <Link
@@ -99,6 +112,13 @@ const TeacherDetailPage = () => {
             )}
          </TableContainer>
          {Snackbar}
+         {openModal && (
+            <ModalCourses
+               open={openModal}
+               onClose={closeModalHandler}
+               teacherDetail={teacherDetail}
+            />
+         )}
       </>
    )
 }
