@@ -27,7 +27,7 @@ const Header = () => {
          {showText && (
             <StyledDropDown onClick={handleLogout}>
                <IconButton icon={<Vectore />} />
-               <button type="button">Выйти</button>
+               <span>Выйти</span>
             </StyledDropDown>
          )}
       </HeaderStyled>
