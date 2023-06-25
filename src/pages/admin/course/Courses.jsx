@@ -8,10 +8,10 @@ import CourseHeader from './CourseHeader'
 import Button from '../../../components/UI/Button'
 import { PaginationRounded } from '../../../components/UI/PaginationRounded'
 import Input from '../../../components/UI/Input'
-import Cards from '../../../components/UI/Card'
 import { axiosInstance } from '../../../config/axiosInstance'
 import Spinner from '../../../components/UI/Spinner'
 import { asyncGetCourses } from '../../../redux/reducers/course/CourseThunk'
+import Cards from '../../../components/UI/Card'
 
 export const Courses = () => {
    const dispatch = useDispatch()

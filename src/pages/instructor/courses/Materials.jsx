@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import Button from '../../../components/UI/Button'
 import CardLesson from '../../../components/UI/CardLesson'
 import { ModalPresentation } from '../../../components/UI/modals.instructors/ModalPresentation'
+import InstructorHeader from '../InstructorHeader'
 // import { ModalMaterials } from '../../../components/addModal/ModalMaterials'
 // import { ModalLink } from '../../../components/UI/modals.instructors/ModalLink'
 
@@ -19,6 +20,7 @@ const Materials = () => {
 
    return (
       <div>
+         <InstructorHeader />
          <hr />
          <StyledButton>
             <Button onClick={() => setShowModal(true)}>+ Добавить урок</Button>
@@ -29,8 +31,6 @@ const Materials = () => {
             ))}
          </StyledContainer>
          <ModalPresentation open={showModal} onClose={closeModalHandler} />
-         {/* <ModalLink open={showModal} onClose={closeModalHandler} /> */}
-         {/* <ModalMaterials open={showModal} onClose={closeModalHandler} /> */}
       </div>
    )
 }

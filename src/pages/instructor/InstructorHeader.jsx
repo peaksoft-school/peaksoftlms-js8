@@ -1,15 +1,14 @@
 import styled from '@emotion/styled'
 import React, { useState } from 'react'
-import IconButton from '../../../components/UI/IconButton'
-import { ReactComponent as Profile } from '../../../assets/icons/profile.svg'
-import { ReactComponent as Vector } from '../../../assets/icons/Vector (1).svg'
-import { ReactComponent as Vectore } from '../../../assets/icons/Vector (2).svg'
-import { removeItemFromStorage } from '../../../utlis/helpers/storageHelper'
-import { JWT_TOKEN_KEY, USER_INFO } from '../../../utlis/constants/commons'
+import { ReactComponent as Profile } from '../../assets/icons/Profile (1).svg'
+import { ReactComponent as Vector } from '../../assets/icons/Vector (1).svg'
+import { ReactComponent as Vectore } from '../../assets/icons/Vector (2).svg'
+import IconButton from '../../components/UI/IconButton'
+import { removeItemFromStorage } from '../../utlis/helpers/storageHelper'
+import { JWT_TOKEN_KEY, USER_INFO } from '../../utlis/constants/commons'
 
-const CourseHeader = () => {
+const InstructorHeader = () => {
    const [showText, setShowText] = useState(false)
-
    const handleIconClick = () => {
       setShowText(!showText)
    }
@@ -21,7 +20,7 @@ const CourseHeader = () => {
    return (
       <MenuStyled>
          <IconButton icon={<Profile />} />
-         <p>Администратор</p>
+         <p>Инструктор</p>
          <IconButton icon={<Vector />} onClick={handleIconClick} />
          {showText && (
             <StyledDropDown onClick={handleLogout}>
@@ -32,22 +31,21 @@ const CourseHeader = () => {
       </MenuStyled>
    )
 }
-
-export default CourseHeader
-
+export default InstructorHeader
 const MenuStyled = styled('div')({
    display: 'flex',
    justifyContent: 'flex-end',
    '& p': {
       fontWeight: '400',
+      marginTop: '1.5rem',
    },
 })
 const StyledDropDown = styled('h3')({
    display: 'flex',
    zIndex: 1,
    position: 'absolute',
-   top: '35px',
-   right: '30px',
+   top: '70px',
+   right: '110px',
    width: '40px',
    height: '10px',
    background: '#DDE9F9',

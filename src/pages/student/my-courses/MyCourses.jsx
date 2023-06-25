@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import Cards from '../../../components/UI/Card'
 import { asyncGetCourses } from '../../../redux/reducers/course/CourseThunk'
 import Spinner from '../../../components/UI/Spinner'
 import { PaginationRounded } from '../../../components/UI/PaginationRounded'
 import Input from '../../../components/UI/Input'
 import Header from '../../../components/UI/Header'
+import Cards from '../../../components/UI/Card'
 
 export const MyCourses = () => {
    const dispatch = useDispatch()
