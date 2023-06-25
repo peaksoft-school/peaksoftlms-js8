@@ -11,12 +11,12 @@ import {
 } from '../../../api/studentService'
 import { useSnackbar } from '../../../hooks/useSnackbar'
 import InstructorHeader from '../InstructorHeader'
-import Tabs from '../../../components/UI/Tabs'
 import { ReactComponent as PeopleAltIcon } from '../../../assets/icons/peopleAltIcon.svg'
 import useGetAllGroup from '../../../hooks/getAllGroup'
 import ModalWindow from '../../../components/UI/Modal'
 import Button from '../../../components/UI/Button'
 import { groupPostAssignRequest } from '../../../api/groupService'
+import TabsMaterials from './TabsMaterial/TabsMaterial'
 
 const InstructorStudents = () => {
    const [openModal, setOpenModal] = useState(false)
@@ -102,7 +102,7 @@ const InstructorStudents = () => {
          {Snackbar}
          <StyledContainerContent>
             <StyledHeaderContainer>
-               <Tabs role="INSTRUCTOR" />
+               <TabsMaterials />
                <InstructorHeader />
             </StyledHeaderContainer>
             <StyledButtonContainer>

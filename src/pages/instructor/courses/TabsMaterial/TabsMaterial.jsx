@@ -4,8 +4,10 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import styled from '@emotion/styled'
+import { useParams } from 'react-router-dom'
 import Materials from '../Materials'
-import { Students } from '../../../admin/Students'
+import InstructorStudents from '../Students'
 
 function TabPanel(props) {
    const { children, value, index, ...other } = props
@@ -39,31 +41,40 @@ function a11yProps(index) {
    }
 }
 
-export default function TabsMaterial() {
+export default function TabsMaterials() {
    const [value, setValue] = React.useState(0)
+   const { courseId } = useParams()
 
    const handleChange = (event, newValue) => {
       setValue(newValue)
    }
 
    return (
-      <Box sx={{ width: '100%' }}>
+      <StyledBox sx={{ width: '100%' }}>
          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs
                value={value}
                onChange={handleChange}
                aria-label="basic tabs example"
             >
-               <Tab label="Item One" {...a11yProps(0)} />
-               <Tab label="Item Two" {...a11yProps(1)} />
-               <Tab label="Item Three" {...a11yProps(2)} />
+               <StyledTab label="Материалы" {...a11yProps(0)} />
+               <StyledTab label="Студенты" {...a11yProps(1)} />
             </Tabs>
          </Box>
-         <Materials value={value} index={0} Item One />
-         <Students value={value} index={1} Item Twod />
-         <TabPanel value={value} index={2}>
-            Item Three
+         <TabPanel value={value} index={0}>
+            <Materials id={courseId} />
          </TabPanel>
-      </Box>
+         <TabPanel value={value} index={1}>
+            <InstructorStudents id={courseId} />
+         </TabPanel>
+      </StyledBox>
    )
 }
+const StyledTab = styled(Tab)({
+   position: 'relative',
+   left: '46%',
+   fontWeight: '600',
+})
+const StyledBox = styled(Box)({
+   marginTop: '3px',
+})

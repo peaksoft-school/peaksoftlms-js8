@@ -24,7 +24,6 @@ const Materials = () => {
    const [isLoading, setIsLoading] = useState(false)
    // const navigate = useNavigate()
    const { state } = useLocation()
-   console.log(courseId, 'ffffff')
    const {
       register,
       handleSubmit,
@@ -158,7 +157,7 @@ const Materials = () => {
    )
 }
 const StyledContainer = styled.div`
-   margin-left: 275px;
+   /* margin-left: 275px auto; */
 `
 const StyledCard = styled.div`
    margin-top: -455px;
