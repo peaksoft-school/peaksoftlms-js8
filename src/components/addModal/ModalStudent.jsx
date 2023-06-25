@@ -35,10 +35,11 @@ export const ModalStudent = ({ addNewData, open, onClose, onSubmit }) => {
             phoneNumber: values.phoneNumber,
             email: values.email,
             password: values.password,
-            groupId: selectedGroupID.value,
+            groupId: String(selectedGroupID.value),
             formLearning: formLearning.value,
          }
          addNewData(newData)
+         onClose()
          refetchHandle()
       }
    }

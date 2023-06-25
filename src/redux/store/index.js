@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { configureStore } from '@reduxjs/toolkit'
 import { userSlice } from '../reducers/user/userSlice'
 import { CourseSlice } from '../reducers/course/CourseSlice'

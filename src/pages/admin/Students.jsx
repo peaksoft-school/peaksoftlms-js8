@@ -16,7 +16,7 @@ import ModalWindow from '../../components/UI/Modal'
 import { AppTable } from '../../utlis/constants/Table'
 import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg'
 import { ReactComponent as DeleteIcon } from '../../assets/icons/deleteIcon.svg'
-import { ReactComponent as AdminIcon } from '../../assets/icons/profile.svg'
+import { ReactComponent as AdminIcon } from '../../assets/icons/Profile.svg'
 import { ReactComponent as ArrowIcon } from '../../assets/icons/arrow.svg'
 import { ReactComponent as LogOut } from '../../assets/icons/logout.svg'
 import {
@@ -38,7 +38,8 @@ export const Students = () => {
    const [file, setFile] = useState(null)
    const [filterValue, setFilterValue] = useState('все')
    const [showLogoutIcon, setShowLogoutIcon] = useState(false)
-   const { groupOptions, selectedGroupID, handleGroupChange } = useGetAllGroup()
+   const { groupOptions, selectedGroupID, setSelectedGroupID } =
+      useGetAllGroup()
    const { notify, Snackbar } = useSnackbar()
    const fetchStudent = async () => {
       try {
@@ -58,12 +59,13 @@ export const Students = () => {
    const addStudent = async (data) => {
       try {
          const response = await studentPostRequests(data)
+
+         window.location.reload()
          notify('success', response.data.message)
       } catch (error) {
-         if (error.response) {
-            notify('error', error.response.data.message)
-         }
+         notify('error', error.response.data.message)
       }
+      setOpenModal(false)
    }
    const showModalHandler = (mode) => {
       searchParams.set('modal', mode)
@@ -93,6 +95,8 @@ export const Students = () => {
       formData.append('file', file)
       try {
          await fileUploadPostRequest(formData)
+         fetchStudent()
+         setOpenModal(false)
       } catch (error) {
          if (error.response) {
             notify('error', error.response.data.message)
@@ -102,6 +106,7 @@ export const Students = () => {
    const deleteStudent = async (id) => {
       try {
          await deleteStudentRequests(id)
+         fetchStudent()
       } catch (error) {
          if (error.response) {
             notify('error', error.response.data.message)
@@ -210,8 +215,10 @@ export const Students = () => {
                         <Select
                            options={groupOptions}
                            value={selectedGroupID}
-                           onChange={handleGroupChange}
                            placeholder="Группа"
+                           onChange={(selectedOption) => {
+                              setSelectedGroupID(selectedOption)
+                           }}
                         />
                         <FileUpload>
                            <input
