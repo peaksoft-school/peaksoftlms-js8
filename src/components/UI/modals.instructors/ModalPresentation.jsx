@@ -35,7 +35,7 @@ export const ModalPresentation = ({
       <ModalWindowStyled>
          <ModalWindow open={open} onClose={onClose} {...rest}>
             <Styledtext>
-               <h3>Добавить урок</h3>
+               <h3>Добавить презентацию</h3>
             </Styledtext>
             <InputStyled placeholder="Введите название презентации" />
             <InputStyled placeholder="Введите описание презентации" />
@@ -82,14 +82,14 @@ const Styledtext = styled.div`
 `
 const InputStyled = styled(Input)({
    margin: '16px 25px 20px 25px ',
-   width: '531px',
+   width: '561px',
    borderRadius: '10px',
    background: '#FFFFFF',
    border: '1 solid #D4D4D4',
 })
 const InputStyledFolder = styled(Input)({
    margin: '16px 25px 20px 25px ',
-   width: '591px',
+   width: '415px',
    borderRadius: '10px',
    background: '#FFFFFF',
    border: '1 solid #D4D4D4',
@@ -108,5 +108,10 @@ const StyledContent = styled.div`
    display: flex;
 `
 const StyledButton = styled(Button)({
-   margin: '10px, 24px, 10px, 24px',
+   marginTop: '18px',
+   padding: '15px 29px 15px 24px',
+   backgroundColor: '#bacefc',
+   border: '1px solid rgba(55,114,255,1)',
+   borderRadius: '8px',
+   height: '55px',
 })

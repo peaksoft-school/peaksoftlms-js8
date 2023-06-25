@@ -9,6 +9,7 @@ import { asyncGetCourses } from '../../../redux/reducers/course/CourseThunk'
 import { PaginationRounded } from '../../../components/UI/PaginationRounded'
 import { deleteCourseById } from '../../../api/courseService'
 import InstructorHeader from '../InstructorHeader'
+import TabsMaterial from './TabsMaterial/TabsMaterial'
 
 const arrayIcon = [
    {
@@ -133,6 +134,7 @@ export const Courses = () => {
                   />
                   <p>из {course.courseResponses?.length}</p>
                </InputContainers>
+               <TabsMaterial />
             </StyledFormPagination>
          </ContainerContent>
       </Container>

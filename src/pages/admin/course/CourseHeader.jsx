@@ -9,7 +9,6 @@ import { JWT_TOKEN_KEY, USER_INFO } from '../../../utlis/constants/commons'
 
 const CourseHeader = () => {
    const [showText, setShowText] = useState(false)
-
    const handleIconClick = () => {
       setShowText(!showText)
    }
