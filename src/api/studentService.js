@@ -44,3 +44,19 @@ export const getStudentByGroupId = (id) => {
       params: { groupId: `${id}` },
    })
 }
+export const getVideosRequest = (id) => {
+   return axiosInstance.get(`videos/findByLessonId?lessonId=${id}`)
+}
+export const getPresentationRequest = (id) => {
+   return axiosInstance.get(`presentations?lessonId=${id}`)
+}
+
+export const getLinkRequest = (id) => {
+   return axiosInstance.get(`link?lessonId=${id}`)
+}
+export const getTaskRequest = (id) => {
+   return axiosInstance.get(`task/getById?taskId=${id}`)
+}
+export const getTaskInnerRequest = (id) => {
+   return axiosInstance.get(`task/getById?taskId=${id}`)
+}

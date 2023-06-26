@@ -23,13 +23,12 @@ const MyCourseInnerPage = () => {
    const [isLoading, setIsLoading] = useState(false)
    const navigate = useNavigate()
    const { state } = useLocation()
+   const [, setName] = useState('')
    const {
       register,
       handleSubmit,
       formState: { errors },
    } = useForm()
-
-   console.log(state)
 
    const getCourses = async () => {
       try {
@@ -87,6 +86,18 @@ const MyCourseInnerPage = () => {
       navigate('/student/mycourses')
    }
 
+   const handleChange = (title) => {
+      setName(title)
+   }
+
+   // const a = cardName(name)
+
+   // const navigateHandler = () => {
+   //    navigate(`${a}`)
+   // }
+
+   // console.log(a)
+
    return (
       <>
          <Header />
@@ -119,7 +130,13 @@ const MyCourseInnerPage = () => {
                <StyledLesson>
                   {lessons?.lessonResponses?.map((card) => (
                      <CardLessonStyled>
-                        <CardLesson role="STUDENT" title={card.name} />
+                        <CardLesson
+                           role="STUDENT"
+                           title={card.name}
+                           id={card.id}
+                           setName={handleChange}
+                           navigate={navigate}
+                        />
                      </CardLessonStyled>
                   ))}
                </StyledLesson>
@@ -151,7 +168,7 @@ const MyCourseInnerPage = () => {
                         {...register('pageSize', {
                            required: true,
                            min: 1,
-                           max: course?.courseResponses.length,
+                           max: course?.courseResponses?.length,
                         })}
                         onChange={pageSizeChangeHandler}
                         value={pageSize}
