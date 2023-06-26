@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
 import ReactPlayer from 'react-player'
+import { useParams } from 'react-router'
 import { getLinkRequest } from '../../../api/studentService'
 
 const LessonLink = () => {

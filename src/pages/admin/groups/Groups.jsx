@@ -198,7 +198,7 @@ export const Groups = () => {
 }
 
 const StyledContainer = styled.div`
-   margin-left: 275px;
+   margin-left: 280px;
    background-color: #eff0f4;
 `
 const StyledContent = styled.div`

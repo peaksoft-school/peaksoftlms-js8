@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { Fragment, useEffect, useState } from 'react'
-import { useLocation, useParams } from 'react-router'
 import ReactPlayer from 'react-player'
+import { useLocation, useParams } from 'react-router'
 import styled from '@emotion/styled'
 import {
    getPresentationRequest,

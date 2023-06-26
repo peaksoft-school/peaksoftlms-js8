@@ -10,6 +10,7 @@ import { getLessonsCourseId } from '../../../api/materialsService'
 import Spinner from '../../../components/UI/Spinner'
 import Input from '../../../components/UI/Input'
 import { PaginationRounded } from '../../../components/UI/PaginationRounded'
+import InstructorHeader from '../InstructorHeader'
 
 const Materials = () => {
    const [showModal, setShowModal] = useState(false)
@@ -62,38 +63,30 @@ const Materials = () => {
       setCount(Math.ceil(lessons.lessonResponses.length / selectedPageSize))
    }
 
-   const submitSearchParams = () => {
-      // setSearchParams((prevSearchParams) => {
-      //    const updatedSearchParams = new URLSearchParams(prevSearchParams)
-      //    updatedSearchParams.set('pagination', String(pagination))
-      //    updatedSearchParams.set('page', String(page))
-      //    updatedSearchParams.set('pageSize', String(pageSize))
-      //    return updatedSearchParams
-      // })
-   }
-   useEffect(() => {
-      // searchParams.set('pagination', pagination)
-      // setSearchParams(searchParams)
-   }, [pagination])
+   const submitSearchParams = () => {}
+   useEffect(() => {}, [pagination])
 
    const handleKeyPress = (e) => {
       if (e.key === 'Enter') {
          submitSearchParams(e)
       }
    }
-   // const handleClick = (event) => {
-   //    event.preventDefault()
-   // }
-   // const navigateToCourse = () => {
-   //    navigate('/student/mycourses')
-   // }
 
    return (
       <StyledContainer>
-         {/* <StyledBorder /> */}
+         <div
+            style={{
+               position: 'absolute',
+               left: '82%',
+               top: '0.4rem',
+            }}
+         >
+            <InstructorHeader />
+         </div>
          <StyledButton>
             <Button onClick={modalHandler}>+ Добавить урок</Button>
          </StyledButton>
+
          <ModalMaterials open={showModal} onClose={closeModalHandler} />
          {isLoading ? (
             <Spinner />
@@ -103,8 +96,8 @@ const Materials = () => {
                   <MaterialsCardLesson
                      role="ADMIN"
                      title={card.name}
-                     // showModal={showModal}
-                     // onClose={modalHandler}
+                     key={card.id}
+                     lessonId={card.id}
                   />
                ))}
             </StyledCard>
@@ -151,29 +144,28 @@ const Materials = () => {
    )
 }
 const StyledContainer = styled.div`
-   /* width: 100%; */
-   /* margin: 0 auto; */
    margin-left: 275px;
+   .css-1ok4peq-MuiTypography-root {
+      .css-wub0y {
+         height: 0;
+         width: 0;
+         display: none;
+      }
+   }
 `
 const StyledCard = styled.div`
-   margin-top: -455px;
+   margin-top: -465px;
    display: flex;
    flex-wrap: wrap;
    gap: 10px;
 `
 const StyledButton = styled.div`
    display: flex;
-   margin-left: 88%;
+   margin-left: 80%;
    width: 14%;
    height: 35px;
-   /* background-color: red; */
-   /* justify-content: flex-end; */
 `
-// const StyledBorder = styled.hr`
-//    margin-top: 10px;
-//    border-bottom: 1px solid #c4c4c4;
-//    width: 100%;
-// `
+
 const PaginationRoundedStyled = styled('div')({
    marginLeft: '140px',
 })
