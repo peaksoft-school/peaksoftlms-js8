@@ -55,7 +55,7 @@ export const getLinkRequest = (id) => {
    return axiosInstance.get(`link?lessonId=${id}`)
 }
 export const getTaskRequest = (id) => {
-   return axiosInstance.get(`task/getById?taskId=${id}`)
+   return axiosInstance.get(`tasks/getLessonById?lessonId=${id}`)
 }
 export const getTaskInnerRequest = (id) => {
    return axiosInstance.get(`task/getById?taskId=${id}`)
