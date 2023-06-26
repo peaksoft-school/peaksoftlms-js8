@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import Button from '../../../components/UI/Button'
-import InstructorHeader from '../InstructorHeader'
+// import InstructorHeader from '../InstructorHeader'
 import MaterialsCardLesson from '../../../components/UI/Materials.CardLesson'
 import { ModalMaterials } from '../../../components/addModal/ModalMaterials'
 import { getLessonsCourseId } from '../../../api/materialsService'
@@ -23,14 +23,14 @@ const Materials = () => {
    const [lessons, setLessons] = useState([])
    const [isLoading, setIsLoading] = useState(false)
    // const navigate = useNavigate()
-   const { state } = useLocation()
+   // const { state } = useLocation()
    const {
       register,
       handleSubmit,
       formState: { errors },
    } = useForm()
 
-   console.log(state)
+   // console.log(state)
 
    const closeModalHandler = () => {
       setShowModal(false)
@@ -95,8 +95,8 @@ const Materials = () => {
 
    return (
       <StyledContainer>
-         <InstructorHeader />
-         <StyledBorder />
+         {/* <InstructorHeader /> */}
+         {/* <StyledBorder /> */}
          <StyledButton>
             <Button onClick={modalHandler}>+ Добавить урок</Button>
          </StyledButton>
@@ -157,23 +157,21 @@ const Materials = () => {
    )
 }
 const StyledContainer = styled.div`
-   /* margin-left: 275px auto; */
+   margin-left: 275px;
 `
 const StyledCard = styled.div`
-   margin-top: -455px;
+   margin-top: -465px;
    display: flex;
    flex-wrap: wrap;
-   gap: 10px;
+   gap: 20px;
 `
 const StyledButton = styled.div`
    display: flex;
-   justify-content: flex-end;
+   margin-left: 85%;
+   width: 14%;
+   height: 35px;
 `
-const StyledBorder = styled.hr`
-   margin-top: 10px;
-   border-bottom: 1px solid #c4c4c4;
-   width: 1240px;
-`
+
 const PaginationRoundedStyled = styled('div')({
    marginLeft: '140px',
 })
@@ -204,6 +202,7 @@ const StyledFormPagination = styled('form')({
    display: 'flex',
    justifyContent: 'space-around',
    marginTop: '40px',
+   marginLeft: '-260px',
    alignItems: 'center',
    '& p': {
       fontWeight: '350',

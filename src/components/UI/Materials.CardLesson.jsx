@@ -7,7 +7,7 @@ import VideoIcon from '../../assets/icons/videoIcon.svg'
 import PresentationIcon from '../../assets/icons/presentationIcon.svg'
 import TaskIcon from '../../assets/icons/taskIcon.svg'
 import LinkIcon from '../../assets/icons/linkIcon.svg'
-import SelectInput from './SelectInput'
+// import SelectInput from './SelectInput'
 import { ModalLink } from './modals.instructors/ModalLink'
 import { ModalPresentation } from './modals.instructors/ModalPresentation'
 import { ModalTask } from './modals.instructors/ModalTask'
@@ -18,7 +18,7 @@ const MaterialsCardLesson = ({ title, role = 'ADMIN' }) => {
    const [modal, setModal] = useState(false)
    const [showModal, setShowModal] = useState(false)
    const [onOpenmodal, setOnOpenModal] = useState(false)
-   const [val, setVal] = useState('')
+   // const [val, setVal] = useState('')
    const handleVideoLessonClick = () => {
       setOpenModal((prevState) => !prevState)
    }
@@ -55,26 +55,22 @@ const MaterialsCardLesson = ({ title, role = 'ADMIN' }) => {
       },
    ]
 
-   const changeHandler = (e) => {
-      setVal(e.target.value)
-      lessonTitle.map((item) => {
-         if (val === item.title) {
-            item.onClick()
-         }
-         return item
-      })
-   }
+   // const changeHandler = (e) => {
+   //    setVal(e.target.value)
+   //    lessonTitle.map((item) => {
+   //       if (val === item.title) {
+   //          item.onClick()
+   //       }
+   //       return item
+   //    })
+   // }
    return (
       <Container>
          {role === 'ADMIN' || role === 'INSTRUCTOR' ? (
             <StyledHeader>
                <StyledEditIcon />
                <h2>{title}</h2>
-               {/* <div> */}
-               <div style={{ marginTop: '190px' }}>
-                  <SelectInput onChange={changeHandler} value={val} />
-               </div>
-               {/* </div> */}
+
                <StyledDeleteIcon />
             </StyledHeader>
          ) : (
@@ -119,12 +115,11 @@ const StyledHeader = styled.div`
    h2 {
       width: 300px;
       margin-left: 20px;
-      /* padding-right: 6.7rem; */
    }
 `
 const StyledDeleteIcon = styled(DeleteIcon)`
    padding: 8px;
-   /* margin-top: 15px; */
+   margin-left: 80px;
 `
 const StyledEditIcon = styled(EditIcon)`
    background-color: #ebebeb;

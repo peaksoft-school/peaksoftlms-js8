@@ -10,13 +10,13 @@ import {
    getStudentByCourseId,
 } from '../../../api/studentService'
 import { useSnackbar } from '../../../hooks/useSnackbar'
-import InstructorHeader from '../InstructorHeader'
+// import InstructorHeader from '../InstructorHeader'
 import { ReactComponent as PeopleAltIcon } from '../../../assets/icons/peopleAltIcon.svg'
 import useGetAllGroup from '../../../hooks/getAllGroup'
 import ModalWindow from '../../../components/UI/Modal'
 import Button from '../../../components/UI/Button'
 import { groupPostAssignRequest } from '../../../api/groupService'
-import TabsMaterials from './TabsMaterial/TabsMaterial'
+// import TabsMaterials from './TabsMaterial/TabsMaterial'
 
 const InstructorStudents = () => {
    const [openModal, setOpenModal] = useState(false)
@@ -101,10 +101,9 @@ const InstructorStudents = () => {
       <Grid display="flex">
          {Snackbar}
          <StyledContainerContent>
-            <StyledHeaderContainer>
+            {/* <StyledHeaderContainer>
                <TabsMaterials />
-               <InstructorHeader />
-            </StyledHeaderContainer>
+            </StyledHeaderContainer> */}
             <StyledButtonContainer>
                <IconButton icon={<PeopleAltIcon />} />
                <StyledButtonText onClick={btnHandler}>
@@ -158,18 +157,18 @@ const StyledContainerContent = styled(Grid)`
       width: 1140px;
    }
 `
-const StyledHeaderContainer = styled('div')`
-   display: flex;
-   justify-content: flex-start;
-   margin-top: 23px;
-   border-bottom: 2px solid #c4c4c4;
-   .css-1wlx3d8 {
-      margin-left: 20rem;
-   }
-   .css-8ydgtm {
-      margin-left: 20rem;
-   }
-`
+// const StyledHeaderContainer = styled('div')`
+//    display: flex;
+//    justify-content: flex-start;
+//    margin-top: 23px;
+//    border-bottom: 2px solid #c4c4c4;
+//    .css-1wlx3d8 {
+//       margin-left: 20rem;
+//    }
+//    .css-8ydgtm {
+//       margin-left: 20rem;
+//    }
+// `
 const StyledButtonContainer = styled('div')`
    display: flex;
    background: #3772ff;

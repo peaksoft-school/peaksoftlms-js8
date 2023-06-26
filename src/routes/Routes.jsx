@@ -14,13 +14,13 @@ import BasicTabs from '../pages/admin/course/Tabs'
 import SignInSide from '../containers/SignIn'
 import StudentLayout from '../layout/StudentLayout'
 import { AuthManagementRoute } from './AuthManagementRoute'
-import InstructorStudents from '../pages/instructor/courses/Students'
 import { Groups } from '../pages/admin/groups/Groups'
 import GroupsInnerPage from '../pages/admin/groups/GroupsInnerPage'
 import { CoursesInstructor } from '../pages/admin/CoursesInstructor'
 import CreatePassword from '../containers/CreatePassword'
 import MyCourseInnerPage from '../pages/student/my-courses/MyCourseInnerPage'
 import Materials from '../pages/instructor/courses/Materials'
+import TabsMaterials from '../pages/instructor/courses/TabsMaterial/TabsMaterial'
 
 export const AppRoutes = () => {
    const role = useSelector((state) => state.auth.role)
@@ -93,7 +93,7 @@ export const AppRoutes = () => {
             />
             <Route
                path={CURRENT_PATH.instructor.COURSES_DETAIL}
-               element={<InstructorStudents />}
+               element={<TabsMaterials />}
             />
          </Route>
          <Route
