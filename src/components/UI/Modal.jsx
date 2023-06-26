@@ -9,6 +9,7 @@ const ModalWindow = ({ children, onClose, open, ...rest }) => {
    )
 }
 const StyledBox = styled('div')({
+   paddingBottom: '2rem',
    position: 'absolute',
    top: '50%',
    zIndex: '10',

@@ -225,7 +225,8 @@ const StyledHeader = styled.div`
 const StyledBorder = styled.hr`
    margin-top: 10px;
    border-bottom: 1px solid #c4c4c4;
-   width: 1240px;
+   width: 1220px;
+   margin-right: 130px;
 `
 const StyledFormPagination = styled('form')({
    display: 'flex',
