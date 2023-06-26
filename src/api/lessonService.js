@@ -6,9 +6,12 @@ export const getLessonByCourseId = ({ page, size, courseId }) => {
    )
 }
 export const postLessonRequest = (courseId, data) => {
-   console.log(courseId)
    return axiosInstance.post('lessons', {
       courseId,
       name: data.lessonName,
    })
+}
+
+export const deleteLessonReq = (lessonId) => {
+   return axiosInstance.delete(`lessons/${lessonId}`)
 }

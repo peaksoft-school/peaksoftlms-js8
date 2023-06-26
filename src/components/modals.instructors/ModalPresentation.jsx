@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import styled from '@emotion/styled'
-import ModalWindow from '../Modal'
-import Button from '../Button'
-import Input from '../Input'
+import ModalWindow from '../UI/Modal'
+import Button from '../UI/Button'
+import Input from '../UI/Input'
+import { postPresentationReq } from '../../api/presentationServise'
 
 export const ModalPresentation = ({
    title,
@@ -10,26 +11,35 @@ export const ModalPresentation = ({
    open,
    onClose,
    placeholder,
+   lessonId,
    ...rest
 }) => {
-   const [file, setFile] = useState(null)
+   const [formatPPT, setFile] = useState('')
+   const [name, setName] = useState('')
+   const [description, setDescription] = useState('')
    const handleFileChange = (event) => {
-      setFile(event.target.files[0])
+      const file = event.target.files[0]
+      const fileLink = URL.createObjectURL(file)
+      setFile(fileLink)
+   }
+   const handleName = (e) => {
+      setName(e.target.value)
+   }
+   const handleDescription = (e) => {
+      setDescription(e.target.value)
    }
    const handleButtonClick = () => {
       document.getElementById('file-input').click()
    }
    const handleSubmit = async (event) => {
       event.preventDefault()
-      // const formData = new FormData()
-      // formData.append('file', file)
-      // try {
-      //    await fileUploadPostRequest(formData)
-      // } catch (error) {
-      //    if (error.response) {
-      //       notify('error', error.response.data.message)
-      //    }
-      // }
+      const formData = new FormData()
+      formData.append('file', formatPPT)
+      try {
+         await postPresentationReq({ name, description, formatPPT, lessonId })
+      } catch (error) {
+         console.error(error)
+      }
    }
    return (
       <ModalWindowStyled>
@@ -37,8 +47,16 @@ export const ModalPresentation = ({
             <Styledtext>
                <h3>Добавить презентацию</h3>
             </Styledtext>
-            <InputStyled placeholder="Введите название презентации" />
-            <InputStyled placeholder="Введите описание презентации" />
+            <InputStyled
+               placeholder="Введите название презентации"
+               value={name}
+               onChange={handleName}
+            />
+            <InputStyled
+               placeholder="Введите описание презентации"
+               value={description}
+               onChange={handleDescription}
+            />
             <StyledContent>
                <InputStyledFolder
                   id="file-input"
@@ -49,7 +67,7 @@ export const ModalPresentation = ({
                />
                <InputStyledFolder
                   type="text"
-                  value={file ? file.name : ''}
+                  value={formatPPT}
                   placeholder="Выберите файл в формате ppt"
                   readOnly
                />
@@ -82,14 +100,14 @@ const Styledtext = styled.div`
 `
 const InputStyled = styled(Input)({
    margin: '16px 25px 20px 25px ',
-   width: '531px',
+   width: '561px',
    borderRadius: '10px',
    background: '#FFFFFF',
    border: '1 solid #D4D4D4',
 })
 const InputStyledFolder = styled(Input)({
    margin: '16px 25px 20px 25px ',
-   width: '591px',
+   width: '415px',
    borderRadius: '10px',
    background: '#FFFFFF',
    border: '1 solid #D4D4D4',
@@ -108,5 +126,10 @@ const StyledContent = styled.div`
    display: flex;
 `
 const StyledButton = styled(Button)({
-   margin: '10px, 24px, 10px, 24px',
+   marginTop: '18px',
+   padding: '15px 29px 15px 24px',
+   backgroundColor: '#bacefc',
+   border: '1px solid rgba(55,114,255,1)',
+   borderRadius: '8px',
+   height: '55px',
 })

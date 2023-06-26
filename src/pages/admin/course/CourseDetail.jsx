@@ -84,7 +84,11 @@ const CourseDetail = ({ id }) => {
                </Link>
                <Typography color="text.primary">Студенты</Typography>
             </Breadcrumbs>
-            <AppTable columns={columns} rows={students} />
+            <AppTable
+               columns={columns}
+               rows={students}
+               getUniqueId={(val) => val.id}
+            />
          </TableContainer>
       </Container>
    )

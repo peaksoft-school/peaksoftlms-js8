@@ -19,6 +19,7 @@ import { Groups } from '../pages/admin/groups/Groups'
 import GroupsInnerPage from '../pages/admin/groups/GroupsInnerPage'
 import { CoursesInstructor } from '../pages/admin/CoursesInstructor'
 import CreatePassword from '../containers/CreatePassword'
+import MyCourseInnerPage from '../pages/student/my-courses/MyCourseInnerPage'
 import Materials from '../pages/instructor/courses/Materials'
 
 export const AppRoutes = () => {
@@ -119,6 +120,10 @@ export const AppRoutes = () => {
             <Route
                path={CURRENT_PATH.student.COURSES}
                element={<MyCourses />}
+            />
+            <Route
+               path={CURRENT_PATH.student.COURSES_DETAIL}
+               element={<MyCourseInnerPage />}
             />
          </Route>
       </Routes>

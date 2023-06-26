@@ -8,16 +8,18 @@ import PresentationIcon from '../../assets/icons/presentationIcon.svg'
 import TaskIcon from '../../assets/icons/taskIcon.svg'
 import LinkIcon from '../../assets/icons/linkIcon.svg'
 import SelectInput from './SelectInput'
-import { ModalLink } from './modals.instructors/ModalLink'
-import { ModalPresentation } from './modals.instructors/ModalPresentation'
-import { ModalTask } from './modals.instructors/ModalTask'
-import { ModalVideo } from './modals.instructors/ModalVideoLesson'
+import { ModalLink } from '../modals.instructors/ModalLink'
+import { ModalPresentation } from '../modals.instructors/ModalPresentation'
+import { ModalTask } from '../modals.instructors/ModalTask'
+import { ModalVideo } from '../modals.instructors/ModalVideoLesson'
+import { deleteLessonReq } from '../../api/lessonService'
 
-const MaterialsCardLesson = ({ title, role = 'ADMIN' }) => {
+const MaterialsCardLesson = ({ title, role = 'ADMIN', lessonId }) => {
    const [openModal, setOpenModal] = useState(false)
    const [modal, setModal] = useState(false)
    const [showModal, setShowModal] = useState(false)
    const [onOpenmodal, setOnOpenModal] = useState(false)
+   const [val, setVal] = useState('')
    const handleVideoLessonClick = () => {
       setOpenModal((prevState) => !prevState)
    }
@@ -53,14 +55,33 @@ const MaterialsCardLesson = ({ title, role = 'ADMIN' }) => {
          onClick: handleLinkClick,
       },
    ]
+
+   const changeHandler = (e) => {
+      setVal(e.target.value)
+      lessonTitle.map((item) => {
+         if (val === item.title) {
+            item.onClick()
+         }
+         return item
+      })
+   }
+   const deleteLesson = async () => {
+      try {
+         await deleteLessonReq(lessonId)
+      } catch (error) {
+         console.error(error)
+      }
+   }
    return (
       <Container>
          {role === 'ADMIN' || role === 'INSTRUCTOR' ? (
             <StyledHeader>
                <StyledEditIcon />
                <h2>{title}</h2>
-               <SelectInput />
-               <StyledDeleteIcon />
+               <div style={{ marginTop: '190px' }}>
+                  <SelectInput onChange={changeHandler} value={val} />
+               </div>
+               <StyledDeleteIcon onClick={deleteLesson} />
             </StyledHeader>
          ) : (
             <StyledHeader>
@@ -73,10 +94,26 @@ const MaterialsCardLesson = ({ title, role = 'ADMIN' }) => {
                {item.title}
             </StyledMenuItem>
          ))}
-         <ModalLink open={onOpenmodal} onClose={handleLinkClick} />
-         <ModalPresentation open={modal} onClose={handlePresentationClick} />
-         <ModalTask open={showModal} onClose={handleTasksClick} />
-         <ModalVideo open={openModal} onClose={handleVideoLessonClick} />
+         <ModalLink
+            open={onOpenmodal}
+            onClose={handleLinkClick}
+            lessonId={lessonId}
+         />
+         <ModalPresentation
+            open={modal}
+            onClose={handlePresentationClick}
+            lessonId={lessonId}
+         />
+         <ModalTask
+            open={showModal}
+            onClose={handleTasksClick}
+            lessonId={lessonId}
+         />
+         <ModalVideo
+            open={openModal}
+            onClose={handleVideoLessonClick}
+            lessonId={lessonId}
+         />
       </Container>
    )
 }
@@ -89,8 +126,8 @@ const StyledMenuItem = styled(MenuItem)(() => ({
 }))
 const Container = styled.div`
    background-color: #ffffff;
-   width: 440px;
-   height: 306px;
+   width: 520px;
+   height: 246px;
    border: 1px solid #d4d4d4;
    border-radius: 10px;
 `
@@ -98,20 +135,22 @@ const StyledHeader = styled.div`
    bottom: 25px;
    padding-left: 20px;
    display: flex;
-   /* justify-content: space-between; */
+   align-items: center;
    height: 80px;
    border-bottom: 0.5px solid #bfc4ce;
    h2 {
-      padding-right: 6.7rem;
+      width: 300px;
+      margin-left: 20px;
+      /* padding-right: 6.7rem; */
    }
 `
 const StyledDeleteIcon = styled(DeleteIcon)`
    padding: 8px;
-   margin-top: 15px;
+   /* margin-top: 15px; */
 `
 const StyledEditIcon = styled(EditIcon)`
    background-color: #ebebeb;
    border-radius: 5px;
-   margin-top: 16px;
+   /* margin-top: 16px; */
    padding: 5px;
 `

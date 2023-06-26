@@ -6,7 +6,6 @@ import VideoIcon from '../../assets/icons/videoIcon.svg'
 import PresentationIcon from '../../assets/icons/presentationIcon.svg'
 import TaskIcon from '../../assets/icons/taskIcon.svg'
 import LinkIcon from '../../assets/icons/linkIcon.svg'
-import TestIcon from '../../assets/icons/testIcon.svg'
 import SelectInput from './SelectInput'
 
 const lessonTitle = [
@@ -26,10 +25,6 @@ const lessonTitle = [
    {
       icon: LinkIcon,
       title: 'Ссылка',
-   },
-   {
-      icon: TestIcon,
-      title: 'Тест',
    },
 ]
 const CardLesson = ({ title, role = 'ADMIN' }) => {
@@ -70,6 +65,7 @@ const Container = styled.div`
    height: 306px;
    border: 1px solid #d4d4d4;
    border-radius: 10px;
+   padding: 12px;
 `
 const StyledHeader = styled.div`
    bottom: 25px;

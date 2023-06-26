@@ -17,6 +17,5 @@ const StyledBox = styled('div')({
    left: '50%',
    transform: 'translate(-50%, -50%)',
    borderRadius: '10px',
-   padding: '0 0 25px',
 })
 export default ModalWindow

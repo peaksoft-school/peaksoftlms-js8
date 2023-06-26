@@ -3,15 +3,30 @@ import { useState } from 'react'
 import Input from './Input'
 import Button from './Button'
 import ModalWindow from './Modal'
+import { forgotPassword } from '../../api/authService'
 
-const ForgotPassword = () => {
-   const [open, setOpen] = useState(true)
+const ForgotPassword = ({ open, onClose }) => {
+   const [email, setEmail] = useState()
 
-   const resetpassword = () => {
-      setOpen(false)
+   const resetPasswordhandler = async () => {
+      const data = {
+         link: 'http://localhost:3000/login',
+         email,
+      }
+
+      try {
+         await forgotPassword(data)
+      } catch (error) {
+         console.log(error)
+      }
    }
+
+   const changeEmail = (e) => {
+      setEmail(e.target.value)
+   }
+
    return (
-      <ModalWindow open={open} onClose={() => setOpen(false)}>
+      <ModalWindow open={open} onClose={onClose}>
          <Container>
             <Header>
                <p>Забыли пароль</p>
@@ -19,9 +34,15 @@ const ForgotPassword = () => {
             <div>
                <StyleP>Вам будет отправлена ссылка для сброса пароля</StyleP>
                <div>
-                  <InputStyle placeholder="Введите ваш Email" />
+                  <InputStyle
+                     value={email}
+                     onChange={changeEmail}
+                     placeholder="Введите ваш Email"
+                  />
                </div>
-               <ButtonStyle onClick={resetpassword}>Отправить</ButtonStyle>
+               <ButtonStyle onClick={resetPasswordhandler}>
+                  Отправить
+               </ButtonStyle>
             </div>
          </Container>
       </ModalWindow>

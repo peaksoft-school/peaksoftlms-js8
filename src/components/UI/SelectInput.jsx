@@ -3,7 +3,7 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import styled from '@emotion/styled'
 
-const data = ['Видеоурок', 'Презентация', 'Задание', 'Ссылка', 'Тест']
+const data = ['Видеоурок', 'Презентация', 'Задание', 'Ссылка']
 
 const SelectInput = ({ onChange, value, ...restProps }) => {
    return (

@@ -1,9 +1,9 @@
 import styled from '@emotion/styled'
 import { useState } from 'react'
-import Button from '../Button'
-import ModalWindow from '../Modal'
-import Input from '../Input'
-import { postVideoLesson } from '../../../api/videoLesson'
+import Button from '../UI/Button'
+import ModalWindow from '../UI/Modal'
+import Input from '../UI/Input'
+import { postVideoLesson } from '../../api/videoLesson'
 
 export const ModalVideo = ({
    title,
@@ -14,10 +14,9 @@ export const ModalVideo = ({
    lessonId,
    ...rest
 }) => {
-   const [videoName, setVideoName] = useState('')
+   const [name, setVideoName] = useState('')
    const [description, setDescription] = useState('')
-   const [link, setLink] = useState('')
-   console.log(lessonId, 'lesson')
+   const [videoLink, setLink] = useState('')
    const handleVideoName = (e) => {
       setVideoName(e.target.value)
    }
@@ -29,7 +28,7 @@ export const ModalVideo = ({
    }
    const postVideoRequest = async () => {
       try {
-         await postVideoLesson(lessonId, { videoName, description, link })
+         await postVideoLesson(lessonId, { name, description, videoLink })
       } catch (error) {
          console.error(error)
       }
@@ -42,7 +41,7 @@ export const ModalVideo = ({
             </Styledtext>
             <InputStyled
                placeholder="Введите название видеоурока"
-               value={videoName}
+               value={name}
                onChange={handleVideoName}
             />
             <InputStyled
@@ -52,7 +51,7 @@ export const ModalVideo = ({
             />
             <InputStyled
                placeholder="Вставьте ссылку на видеоурок"
-               value={link}
+               value={videoLink}
                onChange={handleVideoLink}
             />
             <StyledBtns>
