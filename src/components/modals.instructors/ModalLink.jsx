@@ -1,7 +1,9 @@
 import styled from '@emotion/styled'
-import Button from '../Button'
-import ModalWindow from '../Modal'
-import Input from '../Input'
+import { useState } from 'react'
+import Button from '../UI/Button'
+import ModalWindow from '../UI/Modal'
+import Input from '../UI/Input'
+import { postLinkReq } from '../../api/linkServise'
 
 export const ModalLink = ({
    title,
@@ -9,21 +11,46 @@ export const ModalLink = ({
    open,
    onClose,
    placeholder,
+   lessonId,
    ...rest
 }) => {
+   const [displayText, setDisplayText] = useState('')
+   const [link, setLink] = useState('')
+
+   const handleDisplayTextChange = (e) => {
+      setDisplayText(e.target.value)
+   }
+   const handleLinkChange = (e) => {
+      setLink(e.target.value)
+   }
+   const handleSubmite = async () => {
+      try {
+         await postLinkReq({ displayText, link, lessonId })
+      } catch (error) {
+         console.error(error)
+      }
+   }
    return (
       <ModalWindowStyled>
          <ModalWindow open={open} onClose={onClose} {...rest}>
             <Styledtext>
                <h3>Добавить ссылку</h3>
             </Styledtext>
-            <InputStyled placeholder="Отображаемый текст" />
-            <InputStyled placeholder="Вставьте ссылку" />
+            <InputStyled
+               placeholder="Отображаемый текст"
+               value={displayText}
+               onChange={handleDisplayTextChange}
+            />
+            <InputStyled
+               placeholder="Вставьте ссылку"
+               value={link}
+               onChange={handleLinkChange}
+            />
             <StyledBtns>
                <Button variant="outlined" onClick={onClose}>
                   Отмена
                </Button>
-               <Button variant="contained" type="submit">
+               <Button variant="contained" onClick={handleSubmite}>
                   Добавить
                </Button>
             </StyledBtns>

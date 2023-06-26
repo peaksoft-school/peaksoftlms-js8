@@ -157,21 +157,29 @@ const Materials = () => {
    )
 }
 const StyledContainer = styled.div`
-   margin-left: 275px;
+   /* width: 100%; */
+   /* margin: 0 auto; */
+   /* margin-left: 275px; */
 `
 const StyledCard = styled.div`
-   margin-top: -465px;
+   margin-top: -455px;
    display: flex;
    flex-wrap: wrap;
-   gap: 20px;
+   gap: 10px;
 `
 const StyledButton = styled.div`
    display: flex;
-   margin-left: 85%;
+   margin-left: 88%;
    width: 14%;
    height: 35px;
+   /* background-color: red; */
+   /* justify-content: flex-end; */
 `
-
+// const StyledBorder = styled.hr`
+//    margin-top: 10px;
+//    border-bottom: 1px solid #c4c4c4;
+//    width: 100%;
+// `
 const PaginationRoundedStyled = styled('div')({
    marginLeft: '140px',
 })

@@ -1,7 +1,10 @@
 import styled from '@emotion/styled'
+import { useParams } from 'react-router-dom'
+import { useState } from 'react'
 import Button from '../UI/Button'
 import Input from '../UI/Input'
 import ModalWindow from '../UI/Modal'
+import { postLessonRequest } from '../../api/lessonService'
 
 export const ModalMaterials = ({
    title,
@@ -11,18 +14,34 @@ export const ModalMaterials = ({
    placeholder,
    ...rest
 }) => {
+   const { courseId } = useParams()
+   const [lessonName, setLessonName] = useState('')
+   const handleLessonNameChange = (event) => {
+      setLessonName(event.target.value)
+   }
+   const postLesson = async () => {
+      try {
+         await postLessonRequest(courseId, { lessonName })
+      } catch (error) {
+         console.error(error)
+      }
+   }
    return (
       <ModalWindowStyled>
          <ModalWindow open={open} onClose={onClose} {...rest}>
             <Styledtext>
                <h3>Добавить урок</h3>
             </Styledtext>
-            <InputStyled placeholder="Название урока" />
+            <InputStyled
+               placeholder="Название урока"
+               value={lessonName}
+               onChange={handleLessonNameChange}
+            />
             <StyledBtns>
                <Button variant="outlined" onClick={onClose}>
                   Отмена
                </Button>
-               <Button variant="contained" type="submit">
+               <Button variant="contained" onClick={postLesson}>
                   Добавить
                </Button>
             </StyledBtns>
