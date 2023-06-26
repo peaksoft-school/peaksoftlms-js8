@@ -2,6 +2,7 @@ import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Courses } from '../pages/admin/course/Courses'
+import { Courses as InstructorCourses } from '../pages/instructor/courses/Courses'
 import { Instructors } from '../pages/admin/Instructors'
 import { Students } from '../pages/admin/Students'
 import { AdminLayout } from '../layout/AdminLayout'
@@ -13,12 +14,12 @@ import BasicTabs from '../pages/admin/course/Tabs'
 import SignInSide from '../containers/SignIn'
 import StudentLayout from '../layout/StudentLayout'
 import { AuthManagementRoute } from './AuthManagementRoute'
-import InstructorStudents from '../pages/instructor/courses/Students'
 import { Groups } from '../pages/admin/groups/Groups'
 import GroupsInnerPage from '../pages/admin/groups/GroupsInnerPage'
 import { CoursesInstructor } from '../pages/admin/CoursesInstructor'
 import CreatePassword from '../containers/CreatePassword'
 import MyCourseInnerPage from '../pages/student/my-courses/MyCourseInnerPage'
+import TabsMaterials from '../pages/instructor/courses/TabsMaterial/TabsMaterial'
 import Videos from '../pages/student/my-courses/Videos'
 import LessonLink from '../pages/student/my-courses/Link'
 import Tasks from '../pages/student/my-courses/Tasks'
@@ -31,7 +32,6 @@ export const AppRoutes = () => {
 
       return rolesValues.includes(role)
    }
-
    return (
       <Routes>
          <Route path="/" element={<Navigate to="/login" />} />
@@ -83,11 +83,23 @@ export const AppRoutes = () => {
          >
             <Route
                path={CURRENT_PATH.instructor.COURSES}
-               element={<CoursesInstructor />}
+               element={<InstructorCourses />}
             />
             <Route
+               path={CURRENT_PATH.instructor.COURSES}
+               element={<CoursesInstructor />}
+            />
+            {/* <Route
+               path={CURRENT_PATH.instructor.MATERIALS}
+               element={<Materials />}
+            />{' '} */}
+            {/* <Route
                path={CURRENT_PATH.instructor.COURSES_DETAIL}
                element={<InstructorStudents />}
+            /> */}
+            <Route
+               path={CURRENT_PATH.instructor.MATERIALS}
+               element={<TabsMaterials />}
             />
          </Route>
          <Route

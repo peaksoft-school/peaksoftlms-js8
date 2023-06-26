@@ -14,8 +14,8 @@ const Tabs = ({ role = 'ADMIN' }) => {
                </>
             ) : (
                <>
-                  <StyledLink to="/">Материалы</StyledLink>
-                  <StyledLink to="/">Студенты</StyledLink>
+                  <StyledLink to="/materials">Материалы</StyledLink>
+                  <StyledLink to="/students">Студенты</StyledLink>
                </>
             )}
          </Container>

@@ -43,7 +43,6 @@ export const Courses = () => {
    }, [])
    const navigateToDetailPage = ({ id, title }) => {
       navigate(`${id}`, { state: { title }, replace: true })
-      // navigate(`/instructor-students?courseId=${id}`, { replace: true })
    }
    const pageChangeHandler = (e) => {
       setPage(+e.target.value)
@@ -80,6 +79,7 @@ export const Courses = () => {
       <Container>
          <ContainerContent>
             <InstructorHeader />
+            <hr />
             <CardContainer>
                {course.courseResponses?.map((date) => {
                   return (

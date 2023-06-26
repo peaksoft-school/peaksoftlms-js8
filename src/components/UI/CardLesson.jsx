@@ -70,7 +70,8 @@ const StyledMenuItem = styled(MenuItem)(() => ({
 }))
 const Container = styled.div`
    background-color: #ffffff;
-   width: 20vw;
+   width: 440px;
+   height: 306px;
    border: 1px solid #d4d4d4;
    border-radius: 10px;
 `
@@ -78,7 +79,7 @@ const StyledHeader = styled.div`
    bottom: 25px;
    padding-left: 20px;
    display: flex;
-   justify-content: space-between;
+   /* justify-content: space-between; */
    height: 80px;
    border-bottom: 0.5px solid #bfc4ce;
    h2 {

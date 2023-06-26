@@ -33,19 +33,20 @@ const InstructorHeader = () => {
 }
 export default InstructorHeader
 const MenuStyled = styled('div')({
+   // width: '100%',
    display: 'flex',
    justifyContent: 'flex-end',
-   '& p': {
-      fontWeight: '400',
-      marginTop: '1.5rem',
-   },
+   // '& p': {
+   //    fontWeight: '400',
+   //    marginTop: '1.5rem',
+   // },
 })
 const StyledDropDown = styled('h3')({
    display: 'flex',
    zIndex: 1,
    position: 'absolute',
-   top: '70px',
-   right: '110px',
+   top: '120px',
+   right: '10px',
    width: '40px',
    height: '10px',
    background: '#DDE9F9',
