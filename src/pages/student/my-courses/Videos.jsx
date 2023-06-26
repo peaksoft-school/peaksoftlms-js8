@@ -40,7 +40,7 @@ const Videos = () => {
    }, [])
 
    return (
-      <div style={{ marginTop: '40px', marginLeft: '280px' }}>
+      <Container style={{ marginTop: '40px', marginLeft: '280px' }}>
          {state.map((item) => {
             return (
                <Fragment key={item.name}>
@@ -58,19 +58,28 @@ const Videos = () => {
                         controls
                         width={800}
                         height={400}
+                        style={{ padding: '40px 40px' }}
                      />
                   )}
                   <NameStyled>{item.name}</NameStyled>
-                  <p>{item.description}</p>
+                  <p style={{ marginLeft: '40px' }}>{item.description}</p>
                </Fragment>
             )
          })}
-      </div>
+      </Container>
    )
 }
 
 export default Videos
 
-const NameStyled = styled.div`
-   font-size: 2rem;
-`
+const NameStyled = styled('div')({
+   fontSize: '2rem',
+   marginTop: '-20px',
+   marginLeft: '40px',
+})
+const Container = styled('div')({
+   width: '70%',
+   height: '560px',
+   backgroundColor: 'white',
+   borderRadius: '20px',
+})
