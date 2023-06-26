@@ -1,5 +1,8 @@
 import { axiosInstance } from '../config/axiosInstance'
 
-export const postTaskReq = (data) => {
-   return axiosInstance.post('/task', data)
+export const postTaskReq = (lessonId, data) => {
+   return axiosInstance.post('/task', {
+      lessonId,
+      ...data,
+   })
 }

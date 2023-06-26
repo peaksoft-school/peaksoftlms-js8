@@ -19,9 +19,7 @@ import GroupsInnerPage from '../pages/admin/groups/GroupsInnerPage'
 import { CoursesInstructor } from '../pages/admin/CoursesInstructor'
 import CreatePassword from '../containers/CreatePassword'
 import MyCourseInnerPage from '../pages/student/my-courses/MyCourseInnerPage'
-import Materials from '../pages/instructor/courses/Materials'
 import TabsMaterials from '../pages/instructor/courses/TabsMaterial/TabsMaterial'
-import InstructorStudents from '../pages/instructor/courses/Students'
 
 export const AppRoutes = () => {
    const role = useSelector((state) => state.auth.role)
@@ -88,15 +86,18 @@ export const AppRoutes = () => {
                path={CURRENT_PATH.instructor.COURSES}
                element={<CoursesInstructor />}
             />
-            <Route
+            {/* <Route
                path={CURRENT_PATH.instructor.MATERIALS}
                element={<Materials />}
-            />{' '}
-            <Route
+            />{' '} */}
+            {/* <Route
                path={CURRENT_PATH.instructor.COURSES_DETAIL}
                element={<InstructorStudents />}
+            /> */}
+            <Route
+               path={CURRENT_PATH.instructor.MATERIALS}
+               element={<TabsMaterials />}
             />
-            <Route path="courses/:courseId" element={<TabsMaterials />} />
          </Route>
          <Route
             path={CURRENT_PATH.admin.INSTRUCTOR}

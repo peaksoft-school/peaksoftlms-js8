@@ -101,9 +101,9 @@ const InstructorStudents = () => {
       <Grid display="flex">
          {Snackbar}
          <StyledContainerContent>
-            {/* <StyledHeaderContainer>
-               <TabsMaterials />
-            </StyledHeaderContainer> */}
+            {/* <StyledHeaderContainer> */}
+            {/* <TabsMaterials /> */}
+            {/* </StyledHeaderContainer> */}
             <StyledButtonContainer>
                <IconButton icon={<PeopleAltIcon />} />
                <StyledButtonText onClick={btnHandler}>

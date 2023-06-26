@@ -4,7 +4,6 @@ import styled from '@emotion/styled'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import Button from '../../../components/UI/Button'
-// import InstructorHeader from '../InstructorHeader'
 import MaterialsCardLesson from '../../../components/UI/Materials.CardLesson'
 import { ModalMaterials } from '../../../components/addModal/ModalMaterials'
 import { getLessonsCourseId } from '../../../api/materialsService'
@@ -22,15 +21,11 @@ const Materials = () => {
    const { courseId } = useParams()
    const [lessons, setLessons] = useState([])
    const [isLoading, setIsLoading] = useState(false)
-   // const navigate = useNavigate()
-   // const { state } = useLocation()
    const {
       register,
       handleSubmit,
       formState: { errors },
    } = useForm()
-
-   // console.log(state)
 
    const closeModalHandler = () => {
       setShowModal(false)
@@ -95,7 +90,6 @@ const Materials = () => {
 
    return (
       <StyledContainer>
-         {/* <InstructorHeader /> */}
          {/* <StyledBorder /> */}
          <StyledButton>
             <Button onClick={modalHandler}>+ Добавить урок</Button>
@@ -159,7 +153,7 @@ const Materials = () => {
 const StyledContainer = styled.div`
    /* width: 100%; */
    /* margin: 0 auto; */
-   /* margin-left: 275px; */
+   margin-left: 275px;
 `
 const StyledCard = styled.div`
    margin-top: -455px;

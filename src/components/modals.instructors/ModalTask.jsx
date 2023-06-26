@@ -17,28 +17,28 @@ export const ModalTask = ({
 }) => {
    const [name, setName] = useState('')
    const [description, setDescription] = useState('')
-   const [file, setFile] = useState('')
-   const [deadline, setDeadline] = useState('')
+   const [date, setDeadline] = useState('')
    const handleName = (e) => {
       setName(e.target.value)
    }
    const handleDescription = (e) => {
       setDescription(e.target.value)
    }
-   const handleFile = (e) => {
-      setFile(e.target.value)
-   }
+
    const dateChangeHandler = (date) => {
       setDeadline(date)
    }
 
-   if (deadline && isValid(new Date(deadline))) {
-      format(new Date(deadline), 'yyyy-MM-dd')
+   let deadline
+
+   if (date && isValid(new Date(date))) {
+      deadline = format(new Date(date), 'yyyy-MM-dd')
    }
    const postTask = async () => {
       try {
-         await postTaskReq({ name, description, file, deadline, lessonId })
+         await postTaskReq(lessonId, { name, description, deadline })
       } catch (error) {
+         console.log(error, 'error')
          console.error(error)
       }
    }
@@ -58,13 +58,8 @@ export const ModalTask = ({
                value={description}
                onChange={handleDescription}
             />
-            <InputStyled
-               placeholder="Файл"
-               value={file}
-               onChange={handleFile}
-            />
             <StyledDataPicker>
-               <MyDatePickers value={deadline} onChange={dateChangeHandler} />
+               <MyDatePickers value={date} onChange={dateChangeHandler} />
             </StyledDataPicker>
             <StyledBtns>
                <Button variant="outlined" onClick={onClose}>
