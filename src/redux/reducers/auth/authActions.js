@@ -39,7 +39,9 @@ export const asyncSignIn = createAsyncThunk(
 
          return serverData
       } catch (error) {
-         notify('error', 'Ошибка, попробуйте еще')
+         if (error.response) {
+            notify('error', error.response.data.message)
+         }
          return thunkMethods.rejectWithValue(error)
       }
    }

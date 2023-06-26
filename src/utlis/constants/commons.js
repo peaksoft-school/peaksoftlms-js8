@@ -19,8 +19,8 @@ export const CURRENT_PATH = {
    instructor: {
       INSTRUCTOR: 'instructor',
       COURSES: 'courses',
-      COURSES_DETAIL: 'courses/:courseId/students',
-      MATERIALS: 'courses/:courseId/materials',
+      COURSES_DETAIL: 'courses/:courseId',
+      MATERIALS: 'courses/:courseId',
    },
    student: {
       STUDENT: 'student',
