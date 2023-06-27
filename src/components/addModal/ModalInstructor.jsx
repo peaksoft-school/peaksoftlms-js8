@@ -175,12 +175,6 @@ const Container = styled.form`
    margin-right: 25px;
    margin-top: 16px;
    margin-bottom: 16px;
-   .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
-      margin-bottom: 1px;
-   }
-   .css-1qaaf9z-MuiFormControl-root-MuiTextField-root fieldset {
-      margin-bottom: 12px;
-   }
    .css-13cymwt-control {
       display: flex;
       padding: 0.5rem;
@@ -191,9 +185,6 @@ const Container = styled.form`
       width: 491px;
       margin-bottom: 12px !important;
       height: 42px;
-   }
-   Input {
-      margin-bottom: 1px;
    }
    .form-control {
       width: 491px;

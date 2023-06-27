@@ -10,7 +10,8 @@ export const deleteCourseById = (id) => {
    return axiosInstance.delete(`courses/${id}`)
 }
 export const putCourses = (data) => {
-   return axiosInstance.put(`courses`, data)
+   console.log(data)
+   return axiosInstance.put(`courses?courseId=${data.courseId}`, data)
 }
 
 export const imagePostService = (payload) => {

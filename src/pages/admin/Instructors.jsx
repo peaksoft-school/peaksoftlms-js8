@@ -36,7 +36,10 @@ export const Instructors = () => {
          return notify('error', error.response.data.message)
       }
    }
-
+   const closeModalHandler = () => {
+      searchParams.delete('modal')
+      setSearchParams(searchParams)
+   }
    useEffect(() => {
       getData(page)
    }, [page])
@@ -56,8 +59,9 @@ export const Instructors = () => {
          const response = await instructorPost(data)
          setPage(1)
          await getData(1)
-         notify('success', response.data.message)
          getData()
+         closeModalHandler()
+         notify('success', response.data.message)
       } catch (error) {
          if (error.response) {
             notify('error', error.response.data.message)
@@ -69,10 +73,7 @@ export const Instructors = () => {
       searchParams.set('modal', mode)
       setSearchParams(searchParams)
    }
-   const closeModalHandler = () => {
-      searchParams.delete('modal')
-      setSearchParams(searchParams)
-   }
+
    const editHadler = (id) => {
       showModalHandler('edit')
       searchParams.set('instuctorId', id)
@@ -134,38 +135,41 @@ export const Instructors = () => {
    }
    const isModalOpen = !!searchParams.get('modal')
    return (
-      <Container>
+      <>
          {Snackbar}
-         <Header>
-            <AdminIconSpan>
-               <AdminIcon />
-            </AdminIconSpan>
-            <AdminSpan>Администратор</AdminSpan>
-            <div>
-               <ArrowIcon onClick={handleArrowIconClick} />
-            </div>
-         </Header>
-         {showLogoutIcon && <LogOutStyled onClick={handleLogout} />}
-         <hr style={{ width: '78%', marginLeft: '20% ' }} />
-         <ButtonDiv onClick={() => showModalHandler('add')}>
-            <StyleIcon />
-            Добавить учителя
-         </ButtonDiv>
-         <AppTableDiv>
-            <AppTable
-               columns={columns}
-               rows={instructors}
-               page={page}
-               onChangePage={(newPage) => setPage(newPage)}
+         <Container>
+            {/* <CoursesInstructor /> */}
+            <Header>
+               <AdminIconSpan>
+                  <AdminIcon />
+               </AdminIconSpan>
+               <AdminSpan>Администратор</AdminSpan>
+               <div>
+                  <ArrowIcon onClick={handleArrowIconClick} />
+               </div>
+            </Header>
+            {showLogoutIcon && <LogOutStyled onClick={handleLogout} />}
+            <hr style={{ width: '78%', marginLeft: '20% ' }} />
+            <ButtonDiv onClick={() => showModalHandler('add')}>
+               <StyleIcon />
+               Добавить учителя
+            </ButtonDiv>
+            <AppTableDiv>
+               <AppTable
+                  columns={columns}
+                  rows={instructors}
+                  page={page}
+                  onChangePage={(newPage) => setPage(newPage)}
+               />
+            </AppTableDiv>
+            <ModalInstructor
+               open={isModalOpen}
+               onClose={closeModalHandler}
+               addNewData={addInstructor}
+               onSubmit={saveHandler}
             />
-         </AppTableDiv>
-         <ModalInstructor
-            open={isModalOpen}
-            onClose={closeModalHandler}
-            addNewData={addInstructor}
-            onSubmit={saveHandler}
-         />
-      </Container>
+         </Container>
+      </>
    )
 }
 

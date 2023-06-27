@@ -38,7 +38,7 @@ const MenuStyled = styled('div')({
 })
 const StyledDropDown = styled('h3')({
    display: 'flex',
-   zIndex: 1,
+   zIndex: 11,
    position: 'absolute',
    top: '50px',
    right: '40px',

@@ -15,7 +15,7 @@ import { ReactComponent as Pluz } from '../../assets/icons/pluz.svg'
 import ModalWindow from '../../components/UI/Modal'
 import { AppTable } from '../../utlis/constants/Table'
 import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg'
-import { ReactComponent as DeleteIcon } from '../../assets/icons/delete.svg'
+import { ReactComponent as DeleteIcon } from '../../assets/icons/trash.svg'
 import { ReactComponent as AdminIcon } from '../../assets/icons/profileAdmin.svg'
 import { ReactComponent as ArrowIcon } from '../../assets/icons/arrow.svg'
 import { ReactComponent as LogOut } from '../../assets/icons/logout.svg'
@@ -88,13 +88,11 @@ export const Students = () => {
    const handleButtonClick = () => {
       document.getElementById('file-input').click()
    }
-   const handleSubmit = async (event) => {
-      event.preventDefault()
+   const handleSubmit = async () => {
       const formData = new FormData()
       formData.append('file', file)
       try {
          await fileUploadPostRequest(formData)
-         fetchStudent()
          setOpenModal(false)
       } catch (error) {
          if (error.response) {
@@ -161,8 +159,15 @@ export const Students = () => {
    const handleArrowIconClick = () => {
       setShowLogoutIcon(!showLogoutIcon)
    }
-   const saveHandler = (id, values) => {
-      updateStudents(id, values)
+   const saveHandler = async (id, values) => {
+      try {
+         await updateStudents(id, values)
+         fetchStudent()
+      } catch (error) {
+         if (error.response) {
+            notify('error', error.response.data.message)
+         }
+      }
    }
    const isModalOpen = !!searchParams.get('modal')
    const handleLogout = () => {
@@ -358,11 +363,13 @@ const ModalStyled = styled(ModalWindow)`
    }
 `
 const LogOutStyled = styled(LogOut)`
-   margin-left: 77rem;
+   position: absolute;
+   margin-left: 80rem;
    width: 200px;
    height: 100px;
-   margin-top: -1rem;
+   top: 56px;
    margin-bottom: -1rem;
+   z-index: 1;
 `
 const FileUpload = styled.div`
    input {

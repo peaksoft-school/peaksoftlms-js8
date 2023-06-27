@@ -48,10 +48,9 @@ export default function TabsMaterials() {
    const handleChange = (event, newValue) => {
       setValue(newValue)
    }
-
    return (
       <StyledBox sx={{ width: '100%' }}>
-         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+         <Box sx={{ borderColor: 'divider' }}>
             <Tabs
                value={value}
                onChange={handleChange}
@@ -60,6 +59,7 @@ export default function TabsMaterials() {
                <StyledTab label="Материалы" {...a11yProps(0)} />
                <StyledTab label="Студенты" {...a11yProps(1)} />
             </Tabs>
+            <hr style={{ width: '76%', marginLeft: '16rem' }} />
          </Box>
          <TabPanel value={value} index={0}>
             <Materials id={courseId} />
@@ -73,7 +73,7 @@ export default function TabsMaterials() {
 
 const StyledTab = styled(Tab)({
    position: 'relative',
-   left: '46%',
+   left: '47%',
    fontWeight: '600',
 })
 const StyledBox = styled(Box)({

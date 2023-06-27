@@ -36,7 +36,7 @@ export default CourseHeader
 
 const MenuStyled = styled('div')({
    display: 'flex',
-   justifyContent: 'flex-end',
+   marginLeft: '82%',
    '& p': {
       fontWeight: '400',
    },

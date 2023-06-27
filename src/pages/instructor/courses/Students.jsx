@@ -10,13 +10,11 @@ import {
    getStudentByCourseId,
 } from '../../../api/studentService'
 import { useSnackbar } from '../../../hooks/useSnackbar'
-// import InstructorHeader from '../InstructorHeader'
 import { ReactComponent as PeopleAltIcon } from '../../../assets/icons/peopleAltIcon.svg'
 import useGetAllGroup from '../../../hooks/getAllGroup'
 import ModalWindow from '../../../components/UI/Modal'
 import Button from '../../../components/UI/Button'
 import { groupPostAssignRequest } from '../../../api/groupService'
-// import TabsMaterials from './TabsMaterial/TabsMaterial'
 
 const InstructorStudents = () => {
    const [openModal, setOpenModal] = useState(false)
@@ -111,31 +109,29 @@ const InstructorStudents = () => {
                </StyledButtonText>
             </StyledButtonContainer>
             {openModal && (
-               <div>
-                  <ModalStyled open={openModal} onClose={btnHandler}>
-                     <ContentH3>
-                        <h3>Добавить студентов группы в курс</h3>
-                     </ContentH3>
-                     <form>
-                        <Select
-                           options={groupOptions}
-                           value={selectedGroupID}
-                           placeholder="Группа"
-                           onChange={(selectedOption) => {
-                              setSelectedGroupID(selectedOption)
-                           }}
-                        />
-                        <ContainerBtn>
-                           <Button variant="outlined" onClick={btnHandler}>
-                              Отмена
-                           </Button>
-                           <Button variant="contained" onClick={handleSubmite}>
-                              Добавить
-                           </Button>
-                        </ContainerBtn>
-                     </form>
-                  </ModalStyled>
-               </div>
+               <ModalStyled open={openModal} onClose={btnHandler}>
+                  <ContentH3>
+                     <h3>Добавить студентов группы в курс</h3>
+                  </ContentH3>
+                  <form>
+                     <Select
+                        options={groupOptions}
+                        value={selectedGroupID}
+                        placeholder="Группа"
+                        onChange={(selectedOption) => {
+                           setSelectedGroupID(selectedOption)
+                        }}
+                     />
+                     <ContainerBtn>
+                        <Button variant="outlined" onClick={btnHandler}>
+                           Отмена
+                        </Button>
+                        <Button variant="contained" onClick={handleSubmite}>
+                           Добавить
+                        </Button>
+                     </ContainerBtn>
+                  </form>
+               </ModalStyled>
             )}
             <AppTable
                columns={columns}
