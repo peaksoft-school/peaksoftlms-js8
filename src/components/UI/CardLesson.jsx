@@ -7,6 +7,7 @@ import PresentationIcon from '../../assets/icons/presentationIcon.svg'
 import TaskIcon from '../../assets/icons/taskIcon.svg'
 import LinkIcon from '../../assets/icons/linkIcon.svg'
 import SelectInput from './SelectInput'
+import { cardName } from '../../utlis/helpers/cardName'
 
 const lessonTitle = [
    {
@@ -27,7 +28,12 @@ const lessonTitle = [
       title: 'Ссылка',
    },
 ]
-const CardLesson = ({ title, role = 'ADMIN' }) => {
+const CardLesson = ({ title, role = 'ADMIN', navigate, id }) => {
+   // const navigateHandler = (title) => {
+   //    setName(title)
+   //    navigate()
+   // }
+
    return (
       <Container>
          {role === 'ADMIN' || role === 'INSTRUCTOR' ? (
@@ -43,7 +49,10 @@ const CardLesson = ({ title, role = 'ADMIN' }) => {
             </StyledHeader>
          )}
          {lessonTitle.map((item) => (
-            <StyledMenuItem key={item.title}>
+            <StyledMenuItem
+               key={item.title}
+               onClick={() => navigate(`${id}/${cardName(item.title)}`)}
+            >
                <img src={item.icon} alt="" />
                {item.title}
             </StyledMenuItem>
@@ -65,7 +74,6 @@ const Container = styled.div`
    height: 306px;
    border: 1px solid #d4d4d4;
    border-radius: 10px;
-   padding: 12px;
 `
 const StyledHeader = styled.div`
    bottom: 25px;

@@ -20,6 +20,9 @@ import { CoursesInstructor } from '../pages/admin/CoursesInstructor'
 import CreatePassword from '../containers/CreatePassword'
 import MyCourseInnerPage from '../pages/student/my-courses/MyCourseInnerPage'
 import TabsMaterials from '../pages/instructor/courses/TabsMaterial/TabsMaterial'
+import Videos from '../pages/student/my-courses/Videos'
+import LessonLink from '../pages/student/my-courses/Link'
+import Tasks from '../pages/student/my-courses/Tasks'
 
 export const AppRoutes = () => {
    const role = useSelector((state) => state.auth.role)
@@ -128,6 +131,13 @@ export const AppRoutes = () => {
                path={CURRENT_PATH.student.COURSES_DETAIL}
                element={<MyCourseInnerPage />}
             />
+            <Route path={CURRENT_PATH.student.VIDEOS} element={<Videos />} />
+            <Route
+               path={CURRENT_PATH.student.PRESENTATION}
+               element={<Videos />}
+            />
+            <Route path={CURRENT_PATH.student.LINK} element={<LessonLink />} />
+            <Route path={CURRENT_PATH.student.TASK} element={<Tasks />} />
          </Route>
       </Routes>
    )

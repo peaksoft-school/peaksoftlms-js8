@@ -26,6 +26,10 @@ export const CURRENT_PATH = {
       STUDENT: 'student',
       COURSES: 'mycourses',
       COURSES_DETAIL: 'mycourses/:coursesId',
+      VIDEOS: 'mycourses/:coursesId/:lessonId/video-lesson',
+      PRESENTATION: 'mycourses/:coursesId/:lessonId/presentation',
+      LINK: 'mycourses/:coursesId/:lessonId/link',
+      TASK: 'mycourses/:coursesId/:lessonId/task',
    },
    auth: {
       FORGOT_PASSWORD: 'forgot_password',
