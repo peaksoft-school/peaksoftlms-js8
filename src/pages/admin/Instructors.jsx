@@ -177,6 +177,9 @@ const Container = styled.div`
    background-color: #eff0f4;
    width: 100%;
    height: 100vh;
+   .css-1mftfee-MuiPaper-root-MuiTableContainer-root {
+      width: 100%;
+   }
 `
 
 const Header = styled.div`
@@ -199,7 +202,7 @@ const AdminSpan = styled.div`
    padding-bottom: 6px;
 `
 const ButtonDiv = styled(Button)`
-   margin-left: 82%;
+   margin-left: 85%;
    border-radius: 8px;
    width: 199px;
    height: 40px;

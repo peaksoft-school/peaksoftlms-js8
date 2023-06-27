@@ -175,7 +175,6 @@ const Container = styled.form`
    margin-right: 25px;
    margin-top: 16px;
    margin-bottom: 16px;
-
    .css-13cymwt-control {
       display: flex;
       padding: 0.5rem;
@@ -187,7 +186,6 @@ const Container = styled.form`
       margin-bottom: 12px !important;
       height: 42px;
    }
-
    .form-control {
       width: 491px;
       margin-bottom: 12px !important;
@@ -203,6 +201,9 @@ const Container = styled.form`
    }
    .flag-dropdown {
       border: none;
+   }
+   .css-eiqg5k .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+      margin-bottom: 1px;
    }
 `
 const BtnContainer = styled.div`

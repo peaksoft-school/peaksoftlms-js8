@@ -6,6 +6,7 @@ import ModalWindow from '../UI/Modal'
 import Input from '../UI/Input'
 import MyDatePickers from '../UI/MyDatePickers'
 import { postTaskReq } from '../../api/taskServise'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
 export const ModalTask = ({
    title,
@@ -18,6 +19,7 @@ export const ModalTask = ({
    const [name, setName] = useState('')
    const [description, setDescription] = useState('')
    const [date, setDeadline] = useState('')
+   const { notify, Snackbar } = useSnackbar()
    const handleName = (e) => {
       setName(e.target.value)
    }
@@ -36,10 +38,16 @@ export const ModalTask = ({
    }
    const postTask = async () => {
       try {
-         await postTaskReq(lessonId, { name, description, deadline })
+         const response = await postTaskReq(lessonId, {
+            name,
+            description,
+            deadline,
+            file: 'empty',
+         })
+         onClose()
+         notify('success', response.data.message)
       } catch (error) {
-         console.log(error, 'error')
-         console.error(error)
+         notify('error', error.response.data.message)
       }
    }
    return (
@@ -70,6 +78,7 @@ export const ModalTask = ({
                </Button>
             </StyledBtns>
          </ModalWindow>
+         {Snackbar}
       </ModalWindowStyled>
    )
 }

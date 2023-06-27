@@ -94,9 +94,9 @@ const Materials = () => {
             <StyledCard>
                {lessons.lessonResponses?.map((card) => (
                   <MaterialsCardLesson
+                     key={card.id}
                      role="ADMIN"
                      title={card.name}
-                     key={card.id}
                      lessonId={card.id}
                   />
                ))}

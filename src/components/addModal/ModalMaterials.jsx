@@ -5,6 +5,7 @@ import Button from '../UI/Button'
 import Input from '../UI/Input'
 import ModalWindow from '../UI/Modal'
 import { postLessonRequest } from '../../api/lessonService'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
 export const ModalMaterials = ({
    title,
@@ -16,18 +17,22 @@ export const ModalMaterials = ({
 }) => {
    const { courseId } = useParams()
    const [lessonName, setLessonName] = useState('')
+   const { notify, Snackbar } = useSnackbar()
    const handleLessonNameChange = (event) => {
       setLessonName(event.target.value)
    }
    const postLesson = async () => {
       try {
-         await postLessonRequest(courseId, { lessonName })
+         const response = await postLessonRequest(courseId, { lessonName })
+         notify('success', response.data.message)
+         onClose()
       } catch (error) {
-         console.error(error)
+         notify('error', error.response.data.message)
       }
    }
    return (
       <ModalWindowStyled>
+         {Snackbar}
          <ModalWindow open={open} onClose={onClose} {...rest}>
             <Styledtext>
                <h3>Добавить урок</h3>

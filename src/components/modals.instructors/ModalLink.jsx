@@ -4,6 +4,7 @@ import Button from '../UI/Button'
 import ModalWindow from '../UI/Modal'
 import Input from '../UI/Input'
 import { postLinkReq } from '../../api/linkServise'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
 export const ModalLink = ({
    title,
@@ -16,6 +17,7 @@ export const ModalLink = ({
 }) => {
    const [displayText, setDisplayText] = useState('')
    const [link, setLink] = useState('')
+   const { notify, Snackbar } = useSnackbar()
 
    const handleDisplayTextChange = (e) => {
       setDisplayText(e.target.value)
@@ -25,13 +27,16 @@ export const ModalLink = ({
    }
    const handleSubmite = async () => {
       try {
-         await postLinkReq({ displayText, link, lessonId })
+         const response = await postLinkReq({ displayText, link, lessonId })
+         notify('success', response.data.message)
+         onClose()
       } catch (error) {
-         console.error(error)
+         notify('error', error.response.data.message)
       }
    }
    return (
       <ModalWindowStyled>
+         {Snackbar}
          <ModalWindow open={open} onClose={onClose} {...rest}>
             <Styledtext>
                <h3>Добавить ссылку</h3>

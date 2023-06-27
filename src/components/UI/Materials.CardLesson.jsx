@@ -11,13 +11,16 @@ import { ModalLink } from '../modals.instructors/ModalLink'
 import { ModalPresentation } from '../modals.instructors/ModalPresentation'
 import { ModalTask } from '../modals.instructors/ModalTask'
 import { ModalVideo } from '../modals.instructors/ModalVideoLesson'
+import { deleteLessonReq } from '../../api/lessonService'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
 const MaterialsCardLesson = ({ title, role = 'ADMIN', lessonId }) => {
    const [openModal, setOpenModal] = useState(false)
    const [modal, setModal] = useState(false)
    const [showModal, setShowModal] = useState(false)
    const [onOpenmodal, setOnOpenModal] = useState(false)
-   // const [val, setVal] = useState('')
+   const [val, setVal] = useState('')
+   const { notify, Snackbar } = useSnackbar()
    const handleVideoLessonClick = () => {
       setOpenModal((prevState) => !prevState)
    }
@@ -53,15 +56,34 @@ const MaterialsCardLesson = ({ title, role = 'ADMIN', lessonId }) => {
          onClick: handleLinkClick,
       },
    ]
-
+   const changeHandler = (e) => {
+      setVal(e.target.value)
+      lessonTitle.map((item) => {
+         if (val === item.title) {
+            item.onClick()
+         }
+         return item
+      })
+   }
+   const deleteLesson = async () => {
+      try {
+         const response = await deleteLessonReq(lessonId)
+         notify('success', response.data.message)
+      } catch (error) {
+         notify('error', error.response.data.message)
+      }
+   }
    return (
       <Container>
+         {Snackbar}
          {role === 'ADMIN' || role === 'INSTRUCTOR' ? (
             <StyledHeader>
                <StyledEditIcon />
                <h2>{title}</h2>
-
-               <StyledDeleteIcon />
+               <div style={{ marginTop: '190px' }}>
+                  <SelectInput onChange={changeHandler} value={val} />
+               </div>
+               <StyledDeleteIcon onClick={deleteLesson} />
             </StyledHeader>
          ) : (
             <StyledHeader>

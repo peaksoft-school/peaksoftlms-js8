@@ -59,8 +59,7 @@ export const Students = () => {
    const addStudent = async (data) => {
       try {
          const response = await studentPostRequests(data)
-
-         window.location.reload()
+         fetchStudent()
          notify('success', response.data.message)
       } catch (error) {
          notify('error', error.response.data.message)
