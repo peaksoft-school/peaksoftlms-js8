@@ -4,6 +4,7 @@ import Button from '../UI/Button'
 import ModalWindow from '../UI/Modal'
 import Input from '../UI/Input'
 import { postVideoLesson } from '../../api/videoLesson'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
 export const ModalVideo = ({
    title,
@@ -17,6 +18,7 @@ export const ModalVideo = ({
    const [name, setVideoName] = useState('')
    const [description, setDescription] = useState('')
    const [videoLink, setLink] = useState('')
+   const { notify, Snackbar } = useSnackbar()
    const handleVideoName = (e) => {
       setVideoName(e.target.value)
    }
@@ -28,13 +30,20 @@ export const ModalVideo = ({
    }
    const postVideoRequest = async () => {
       try {
-         await postVideoLesson(lessonId, { name, description, videoLink })
+         const response = await postVideoLesson(lessonId, {
+            name,
+            description,
+            videoLink,
+         })
+         notify('success', response.data.message)
+         onClose()
       } catch (error) {
-         console.error(error)
+         notify('error', error.response.data.message)
       }
    }
    return (
       <ModalWindowStyled>
+         {Snackbar}
          <ModalWindow open={open} onClose={onClose} {...rest}>
             <Styledtext>
                <h3>Добавить видеоурок</h3>

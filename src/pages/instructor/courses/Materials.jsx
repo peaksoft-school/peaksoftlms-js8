@@ -101,10 +101,10 @@ const Materials = () => {
             <StyledCard>
                {lessons.lessonResponses?.map((card) => (
                   <MaterialsCardLesson
+                     key={card.id}
                      role="ADMIN"
                      title={card.name}
-                     // showModal={showModal}
-                     // onClose={modalHandler}
+                     lessonId={card.id}
                   />
                ))}
             </StyledCard>

@@ -15,7 +15,7 @@ import { ReactComponent as Pluz } from '../../assets/icons/pluz.svg'
 import ModalWindow from '../../components/UI/Modal'
 import { AppTable } from '../../utlis/constants/Table'
 import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg'
-import { ReactComponent as DeleteIcon } from '../../assets/icons/deleteIcon.svg'
+import { ReactComponent as DeleteIcon } from '../../assets/icons/delete.svg'
 import { ReactComponent as AdminIcon } from '../../assets/icons/profileAdmin.svg'
 import { ReactComponent as ArrowIcon } from '../../assets/icons/arrow.svg'
 import { ReactComponent as LogOut } from '../../assets/icons/logout.svg'
@@ -59,8 +59,7 @@ export const Students = () => {
    const addStudent = async (data) => {
       try {
          const response = await studentPostRequests(data)
-
-         window.location.reload()
+         fetchStudent()
          notify('success', response.data.message)
       } catch (error) {
          notify('error', error.response.data.message)

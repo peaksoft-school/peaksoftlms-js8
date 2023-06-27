@@ -8,7 +8,6 @@ import styled from '@emotion/styled'
 import { useParams } from 'react-router-dom'
 import Materials from '../Materials'
 import InstructorStudents from '../Students'
-import InstructorHeader from '../../InstructorHeader'
 
 function TabPanel(props) {
    const { children, value, index, ...other } = props
@@ -60,9 +59,6 @@ export default function TabsMaterials() {
             >
                <StyledTab label="Материалы" {...a11yProps(0)} />
                <StyledTab label="Студенты" {...a11yProps(1)} />
-               <div style={{ marginLeft: '68%' }}>
-                  <InstructorHeader />
-               </div>
             </Tabs>
          </Box>
          <TabPanel value={value} index={0}>

@@ -12,13 +12,16 @@ import { ModalLink } from '../modals.instructors/ModalLink'
 import { ModalPresentation } from '../modals.instructors/ModalPresentation'
 import { ModalTask } from '../modals.instructors/ModalTask'
 import { ModalVideo } from '../modals.instructors/ModalVideoLesson'
+import { deleteLessonReq } from '../../api/lessonService'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
-const MaterialsCardLesson = ({ title, role = 'ADMIN' }) => {
+const MaterialsCardLesson = ({ title, role = 'ADMIN', lessonId }) => {
    const [openModal, setOpenModal] = useState(false)
    const [modal, setModal] = useState(false)
    const [showModal, setShowModal] = useState(false)
    const [onOpenmodal, setOnOpenModal] = useState(false)
    const [val, setVal] = useState('')
+   const { notify, Snackbar } = useSnackbar()
    const handleVideoLessonClick = () => {
       setOpenModal((prevState) => !prevState)
    }
@@ -64,18 +67,25 @@ const MaterialsCardLesson = ({ title, role = 'ADMIN' }) => {
          return item
       })
    }
+   const deleteLesson = async () => {
+      try {
+         const response = await deleteLessonReq(lessonId)
+         notify('success', response.data.message)
+      } catch (error) {
+         notify('error', error.response.data.message)
+      }
+   }
    return (
       <Container>
+         {Snackbar}
          {role === 'ADMIN' || role === 'INSTRUCTOR' ? (
             <StyledHeader>
                <StyledEditIcon />
                <h2>{title}</h2>
-               {/* <div> */}
                <div style={{ marginTop: '190px' }}>
                   <SelectInput onChange={changeHandler} value={val} />
                </div>
-               {/* </div> */}
-               <StyledDeleteIcon />
+               <StyledDeleteIcon onClick={deleteLesson} />
             </StyledHeader>
          ) : (
             <StyledHeader>
@@ -88,10 +98,34 @@ const MaterialsCardLesson = ({ title, role = 'ADMIN' }) => {
                {item.title}
             </StyledMenuItem>
          ))}
-         <ModalLink open={onOpenmodal} onClose={handleLinkClick} />
-         <ModalPresentation open={modal} onClose={handlePresentationClick} />
-         <ModalTask open={showModal} onClose={handleTasksClick} />
-         <ModalVideo open={openModal} onClose={handleVideoLessonClick} />
+         {onOpenmodal && (
+            <ModalLink
+               open={onOpenmodal}
+               onClose={handleLinkClick}
+               lessonId={lessonId}
+            />
+         )}
+         {modal && (
+            <ModalPresentation
+               open={modal}
+               onClose={handlePresentationClick}
+               lessonId={lessonId}
+            />
+         )}
+         {showModal && (
+            <ModalTask
+               open={showModal}
+               onClose={handleTasksClick}
+               lessonId={lessonId}
+            />
+         )}
+         {openModal && (
+            <ModalVideo
+               open={openModal}
+               onClose={handleVideoLessonClick}
+               lessonId={lessonId}
+            />
+         )}
       </Container>
    )
 }

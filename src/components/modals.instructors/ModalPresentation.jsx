@@ -4,6 +4,7 @@ import ModalWindow from '../UI/Modal'
 import Button from '../UI/Button'
 import Input from '../UI/Input'
 import { postPresentationReq } from '../../api/presentationServise'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
 export const ModalPresentation = ({
    title,
@@ -17,6 +18,7 @@ export const ModalPresentation = ({
    const [formatPPT, setFile] = useState('')
    const [name, setName] = useState('')
    const [description, setDescription] = useState('')
+   const { notify, Snackbar } = useSnackbar()
    const handleFileChange = (event) => {
       const file = event.target.files[0]
       const fileLink = URL.createObjectURL(file)
@@ -36,13 +38,21 @@ export const ModalPresentation = ({
       const formData = new FormData()
       formData.append('file', formatPPT)
       try {
-         await postPresentationReq({ name, description, formatPPT, lessonId })
+         const response = await postPresentationReq({
+            name,
+            description,
+            formatPPT,
+            lessonId,
+         })
+         notify('success', response.data.message)
+         onClose()
       } catch (error) {
-         console.error(error)
+         notify('error', error.response.data.message)
       }
    }
    return (
       <ModalWindowStyled>
+         {Snackbar}
          <ModalWindow open={open} onClose={onClose} {...rest}>
             <Styledtext>
                <h3>Добавить презентацию</h3>

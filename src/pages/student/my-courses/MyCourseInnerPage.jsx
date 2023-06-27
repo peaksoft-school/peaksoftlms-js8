@@ -151,7 +151,7 @@ const MyCourseInnerPage = () => {
                         {...register('pageSize', {
                            required: true,
                            min: 1,
-                           max: course?.courseResponses.length,
+                           max: course?.courseResponses?.length,
                         })}
                         onChange={pageSizeChangeHandler}
                         value={pageSize}
