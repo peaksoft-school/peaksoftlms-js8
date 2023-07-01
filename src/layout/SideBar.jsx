@@ -1,5 +1,6 @@
 import styled from '@emotion/styled'
 import { NavLink } from 'react-router-dom'
+import EditCalendarIcon from '@mui/icons-material/EditCalendar'
 import { ReactComponent as PeaksoftIcon } from '../assets/icons/PEAKSOFT.svg'
 import { ReactComponent as Groups } from '../assets/icons/groups.svg'
 import { ReactComponent as Students } from '../assets/icons/students.svg'
@@ -56,6 +57,10 @@ export const SideBar = ({ role = 'STUDENT' }) => {
                         <InstructorCourses />
                      </span>
                      Мои курсы
+                  </ALink>
+                  <ALink to="schedule">
+                     <EditCalendarIcon />
+                     Расписание
                   </ALink>
                </InfoBox>
             </>

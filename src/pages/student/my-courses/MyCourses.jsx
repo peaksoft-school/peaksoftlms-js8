@@ -79,6 +79,7 @@ export const MyCourses = () => {
             </StyledSpinner>
          ) : (
             <>
+               <h1>Мои курсы</h1>
                <StyledContainer>
                   {course.courseResponses?.map((item) => (
                      <Cards
