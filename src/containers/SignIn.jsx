@@ -86,14 +86,13 @@ const SignInSide = () => {
                            })}
                         />
                      </Box>
+                     <Box>
+                        <ButtonStyle type="submit">Войти</ButtonStyle>
+                     </Box>
 
                      <ButtonStyle onClick={openModal}>
                         Забыли пароль?
                      </ButtonStyle>
-
-                     <Box>
-                        <ButtonStyle type="submit">Войти</ButtonStyle>
-                     </Box>
                   </Box>
                </Box>
             </GridStyle2>

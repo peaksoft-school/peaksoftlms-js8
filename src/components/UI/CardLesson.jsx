@@ -29,11 +29,6 @@ const lessonTitle = [
    },
 ]
 const CardLesson = ({ title, role = 'ADMIN', navigate, id }) => {
-   // const navigateHandler = (title) => {
-   //    setName(title)
-   //    navigate()
-   // }
-
    return (
       <Container>
          {role === 'ADMIN' || role === 'INSTRUCTOR' ? (
@@ -79,7 +74,6 @@ const StyledHeader = styled.div`
    bottom: 25px;
    padding-left: 20px;
    display: flex;
-   /* justify-content: space-between; */
    height: 80px;
    border-bottom: 0.5px solid #bfc4ce;
    h2 {
