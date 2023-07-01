@@ -22,6 +22,7 @@ import MyCourseInnerPage from '../pages/student/my-courses/MyCourseInnerPage'
 import Videos from '../pages/student/my-courses/Videos'
 import LessonLink from '../pages/student/my-courses/Link'
 import Tasks from '../pages/student/my-courses/Tasks'
+import Calendar from '../pages/student/my-courses/Calendar'
 
 export const AppRoutes = () => {
    const role = useSelector((state) => state.auth.role)
@@ -114,6 +115,10 @@ export const AppRoutes = () => {
             <Route
                path={CURRENT_PATH.student.COURSES}
                element={<MyCourses />}
+            />
+            <Route
+               path={CURRENT_PATH.student.CALENDAR}
+               element={<Calendar />}
             />
             <Route
                path={CURRENT_PATH.student.COURSES_DETAIL}

@@ -29,6 +29,7 @@ export const CURRENT_PATH = {
       PRESENTATION: 'mycourses/:coursesId/:lessonId/presentation',
       LINK: 'mycourses/:coursesId/:lessonId/link',
       TASK: 'mycourses/:coursesId/:lessonId/task',
+      CALENDAR: 'schedule',
    },
    auth: {
       FORGOT_PASSWORD: 'forgot_password',

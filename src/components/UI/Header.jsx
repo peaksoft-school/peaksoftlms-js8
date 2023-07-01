@@ -1,7 +1,5 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
 import styled from '@emotion/styled'
 import React, { useState } from 'react'
-// import { useNavigate } from 'react-router-dom'
 import IconButton from './IconButton'
 import { ReactComponent as Profile } from '../../assets/icons/profileAdmin.svg'
 import { ReactComponent as Vector } from '../../assets/icons/Vector (1).svg'
